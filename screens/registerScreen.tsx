@@ -108,7 +108,7 @@ function RegisterScreen() {
         enabled
         behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
         style={styles.flexOne}>
-        <ScrollView contentContainerStyle={{paddingTop: 100}}>
+        <ScrollView contentContainerStyle={styles.containerStyle}>
           <Animated.View style={styles.container} exiting={SlideOutUp}>
             <Liner />
             <View style={styles.textInputContainer}>
@@ -116,7 +116,7 @@ function RegisterScreen() {
                 style={
                   !nameErrMsg ? styles.textInputTop : styles.textInputTopError
                 }>
-                Name
+                {'Name'}
               </Text>
               <TextInput
                 style={!nameErrMsg ? styles.textInput : styles.invalidTextInput}
@@ -133,7 +133,7 @@ function RegisterScreen() {
                 style={
                   !emailErrMsg ? styles.textInputTop : styles.textInputTopError
                 }>
-                Email
+                {'Email'}
               </Text>
               <TextInput
                 style={
@@ -157,7 +157,7 @@ function RegisterScreen() {
                     ? styles.textInputTop
                     : styles.textInputTopError
                 }>
-                Password
+                {'Password'}
               </Text>
               <TextInput
                 style={
@@ -182,7 +182,7 @@ function RegisterScreen() {
                     ? styles.textInputTop
                     : styles.textInputTopError
                 }>
-                Repeat Password
+                {'Repeat Password'}
               </Text>
               <TextInput
                 style={
@@ -308,7 +308,12 @@ const styles = StyleSheet.create({
   liner: {height: 20},
   alertText: {color: '#900', paddingTop: 2, paddingHorizontal: 7},
 
-  welcomeText: {color: 'grey', fontSize: 20, paddingBottom: 20},
+  welcomeText: {
+    color: 'grey',
+    fontSize: 20,
+    paddingBottom: 20,
+    paddingHorizontal: 10,
+  },
   doneButton: {
     backgroundColor: '#03A9F4',
     paddingVertical: 11,
@@ -333,6 +338,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: '#F7F7F7',
   },
+  containerStyle: {paddingTop: 100},
 });
 
 export default RegisterScreen;

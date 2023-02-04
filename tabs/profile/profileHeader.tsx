@@ -6,7 +6,8 @@ import MIcon from 'react-native-vector-icons/MaterialCommunityIcons';
 import {TextInput, TouchableOpacity} from 'react-native-gesture-handler';
 
 import LinearGradient from 'react-native-linear-gradient';
-import {useCallback, useState} from 'react';
+import {useCallback, useEffect, useRef, useState} from 'react';
+import Animated, {FadeIn, FadeOut} from 'react-native-reanimated';
 
 const DEFAULT_IMAGE = {
   uri: 'https://www.vigcenter.com/public/all/images/default-image.jpg',
@@ -48,25 +49,48 @@ const ProfileHeader = ({
   const isAdmin = useCurrentWorld(state => state.currentWorld?.isAdmin);
   const [editMode, setEditMode] = useState<boolean>(false);
   const [textInput, setTextInput] = useState<string>(name);
+  const textInputRef = useRef<TextInput>(null);
 
-  const setNewName = useCallback((newName: string) => {}, []);
+  const setNewName = useCallback(
+    (newName: string) => {
+      if (newName.length >= 3) {
+        ref.update({name: newName});
+      }
+    },
+    [ref],
+  );
+
+  useEffect(() => {
+    if (editMode) {
+      const timeout = setTimeout(() => {
+        textInputRef.current?.focus();
+        clearTimeout(timeout);
+      }, 100);
+    } else {
+      textInputRef.current?.blur();
+    }
+  }, [editMode]);
+
   return (
-    <View style={userStyle.container}>
+    <Animated.View
+      entering={FadeIn}
+      exiting={FadeOut}
+      style={userStyle.container}>
       <Image
         style={userStyle.image}
         source={image !== undefined ? image : DEFAULT_IMAGE}
       />
       <View style={userStyle.userInfo}>
         <View style={userStyle.section}>
-          <Text style={userStyle.text}>
+          <View style={userStyle.text}>
             <Text style={userStyle.key}>{'Name: '}</Text>
             {editMode ? (
               <TextInput
+                ref={textInputRef}
                 style={userStyle.textInput}
                 value={textInput}
-                onChangeText={value => {
-                  setTextInput(value);
-                }}
+                autoCorrect={false}
+                onChangeText={setTextInput}
               />
             ) : (
               <>
@@ -80,7 +104,7 @@ const ProfileHeader = ({
                 )}
               </>
             )}
-          </Text>
+          </View>
 
           <TouchableOpacity
             onPress={() => {
@@ -120,7 +144,7 @@ const ProfileHeader = ({
           </LinearGradient>
         </TouchableOpacity>
       )}
-    </View>
+    </Animated.View>
   );
 };
 
@@ -148,7 +172,6 @@ const userStyle = StyleSheet.create({
   liner: {margin: 10, height: 1, backgroundColor: 'grey'},
   icon: {},
   button: {
-    backgroundColor: 'red',
     borderRadius: 15,
     padding: 10,
     justifyContent: 'center',
@@ -158,7 +181,7 @@ const userStyle = StyleSheet.create({
   },
   arrowIcon: {paddingHorizontal: 5},
   buttonText: {textAlign: 'center', color: 'white', fontWeight: 'bold'},
-  text: {flex: 1, padding: 5},
+  text: {flex: 1, padding: 5, flexDirection: 'row'},
   section: {flexDirection: 'row', alignItems: 'center'},
-  textInput: {color: 'black'},
+  textInput: {color: 'black', flex: 1},
 });

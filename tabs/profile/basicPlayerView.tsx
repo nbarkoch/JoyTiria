@@ -1,7 +1,13 @@
-import React, {Image, StyleSheet, Text, View} from 'react-native';
+import React, {Image, StyleSheet, Text} from 'react-native';
 import {useQuery} from 'react-query';
 import {Player, User} from '../../utils/store';
 import Icon from 'react-native-vector-icons/MaterialIcons';
+import Animated, {
+  interpolateColor,
+  useAnimatedStyle,
+  useDerivedValue,
+  withTiming,
+} from 'react-native-reanimated';
 
 const DEFAULT_IMAGE = {
   uri: 'https://www.vigcenter.com/public/all/images/default-image.jpg',
@@ -11,7 +17,8 @@ const BasicPlayerView = ({
   docRef,
   isUser,
   score,
-}: Player & {isUser: boolean}): JSX.Element => {
+  highlight,
+}: Player & {isUser: boolean; highlight: boolean}): JSX.Element => {
   const {data: user} = useQuery<User | undefined, Error>(
     ['USER', {id: docRef.id}],
     async () => {
@@ -19,17 +26,31 @@ const BasicPlayerView = ({
       return response.data() as User | undefined;
     },
   );
+
+  const animatedValue = useDerivedValue(
+    () => withTiming(highlight ? 1 : 0),
+    [highlight],
+  );
+
+  const animatedStyle = useAnimatedStyle(() => {
+    const backgroundColor = interpolateColor(
+      animatedValue.value,
+      [0, 1],
+      ['white', '#afe8ff'],
+    );
+    return {backgroundColor};
+  });
+
   if (user === undefined) {
     return <></>;
   }
 
   return (
-    <View style={playerStyle.container}>
+    <Animated.View style={[playerStyle.container, animatedStyle]}>
       <Image
         style={playerStyle.image}
         source={user.image !== undefined ? user.image : DEFAULT_IMAGE}
       />
-
       <Text style={playerStyle.name}>
         <Text>{user.name}</Text>
         {isUser && <Text>{' (You)'}</Text>}
@@ -37,7 +58,7 @@ const BasicPlayerView = ({
 
       <Text style={playerStyle.score}>{score}</Text>
       <Icon name={'star'} size={25} style={playerStyle.icon} color="#FFDE52" />
-    </View>
+    </Animated.View>
   );
 };
 

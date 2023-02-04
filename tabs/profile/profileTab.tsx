@@ -1,7 +1,7 @@
 import {isUndefined} from 'lodash';
 import React, {FlatList, StyleSheet, View} from 'react-native';
 import {Player, useCurrentUser, useCurrentWorld} from '../../utils/store';
-import {useCallback, useRef} from 'react';
+import {useCallback, useRef, useState} from 'react';
 import BasicPlayerView from './basicPlayerView';
 import ProfileHeader from './profileHeader';
 
@@ -18,6 +18,11 @@ function ProfileTab() {
     }
   });
 
+  const [highlightedPlayer, setHighlightedPlayer] = useState<
+    string | undefined
+  >(undefined);
+  const numHighlighted = useRef<number>(0);
+
   const userPlayer = isUndefined(user)
     ? undefined
     : players?.find(p => p.docRef.id === user.ref.id);
@@ -27,6 +32,19 @@ function ProfileTab() {
   const scrollToPlayer = useCallback(() => {
     if (!isUndefined(scrollRef.current) && !isUndefined(userPlayer)) {
       scrollRef.current?.scrollToItem({item: userPlayer, animated: true});
+      numHighlighted.current = 0;
+      const interval = setInterval(() => {
+        setHighlightedPlayer(
+          numHighlighted.current % 2 === 1 ? undefined : userPlayer.docRef.id,
+        );
+        if (numHighlighted.current > 3) {
+          clearInterval(interval);
+          setHighlightedPlayer(undefined);
+          numHighlighted.current = 0;
+        } else {
+          numHighlighted.current++;
+        }
+      }, 300);
     }
   }, [userPlayer]);
 
@@ -45,6 +63,7 @@ function ProfileTab() {
               <BasicPlayerView
                 isUser={user.ref.id === item.docRef.id}
                 {...item}
+                highlight={highlightedPlayer === item.docRef.id}
               />
             </View>
           );
