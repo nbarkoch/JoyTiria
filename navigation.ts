@@ -1,9 +1,8 @@
 import type {NativeStackNavigationProp} from '@react-navigation/native-stack';
-import {Announcement, Group, Player} from './utils/store';
+import {Announcement, Group} from './utils/store';
 
 export type RootStackParamList = {
   Home: {email: string};
-  Profile: undefined;
   Register: undefined;
   Login: undefined;
 };
@@ -11,7 +10,7 @@ export type RootStackParamList = {
 export type TabsStackParamList = {
   Announcements: {announcements: Announcement[]};
   Groups: {groups: Group[]};
-  Profile: {players: Player[]};
+  Profile: {userId: string};
 };
 
 export type GroupStackParamList = {

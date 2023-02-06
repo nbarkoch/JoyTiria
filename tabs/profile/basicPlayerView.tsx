@@ -8,6 +8,7 @@ import Animated, {
   useDerivedValue,
   withTiming,
 } from 'react-native-reanimated';
+import {TouchableOpacity} from 'react-native-gesture-handler';
 
 const DEFAULT_IMAGE = {
   uri: 'https://www.vigcenter.com/public/all/images/default-image.jpg',
@@ -18,7 +19,12 @@ const BasicPlayerView = ({
   isUser,
   score,
   highlight,
-}: Player & {isUser: boolean; highlight: boolean}): JSX.Element => {
+  onPress,
+}: Player & {
+  isUser: boolean;
+  highlight: boolean;
+  onPress: () => void;
+}): JSX.Element => {
   const {data: user} = useQuery<User | undefined, Error>(
     ['USER', {id: docRef.id}],
     async () => {
@@ -28,7 +34,7 @@ const BasicPlayerView = ({
   );
 
   const animatedValue = useDerivedValue(
-    () => withTiming(highlight ? 1 : 0),
+    () => withTiming(highlight ? 1 : 0, {duration: 270}),
     [highlight],
   );
 
@@ -46,19 +52,25 @@ const BasicPlayerView = ({
   }
 
   return (
-    <Animated.View style={[playerStyle.container, animatedStyle]}>
-      <Image
-        style={playerStyle.image}
-        source={user.image !== undefined ? user.image : DEFAULT_IMAGE}
-      />
-      <Text style={playerStyle.name}>
-        <Text>{user.name}</Text>
-        {isUser && <Text>{' (You)'}</Text>}
-      </Text>
-
-      <Text style={playerStyle.score}>{score}</Text>
-      <Icon name={'star'} size={25} style={playerStyle.icon} color="#FFDE52" />
-    </Animated.View>
+    <TouchableOpacity onPress={onPress}>
+      <Animated.View style={[playerStyle.container, animatedStyle]}>
+        <Image
+          style={playerStyle.image}
+          source={user.image !== undefined ? user.image : DEFAULT_IMAGE}
+        />
+        <Text style={playerStyle.name}>
+          <Text>{user.name}</Text>
+          {isUser && <Text>{' (You)'}</Text>}
+        </Text>
+        <Text style={playerStyle.score}>{score}</Text>
+        <Icon
+          name={'star'}
+          size={25}
+          style={playerStyle.icon}
+          color="#FFDE52"
+        />
+      </Animated.View>
+    </TouchableOpacity>
   );
 };
 

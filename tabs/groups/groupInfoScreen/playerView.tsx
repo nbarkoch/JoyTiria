@@ -6,6 +6,8 @@ import {Player, User, useSelectionPlayerProgress} from '../../../utils/store';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import IonIcon from 'react-native-vector-icons/Ionicons';
 import LinearGradient from 'react-native-linear-gradient';
+import {useNavigation} from '@react-navigation/native';
+import {TabsNavigationProp} from '../../../navigation';
 
 const DEFAULT_IMAGE = {
   uri: 'https://www.vigcenter.com/public/all/images/default-image.jpg',
@@ -48,6 +50,8 @@ const PlayerView = ({
   const removeSelection = useSelectionPlayerProgress(
     state => state.removeSelection,
   );
+  const navigation = useNavigation<TabsNavigationProp>();
+
   const isSelected =
     useSelectionPlayerProgress(state => state.selectedPlayer) === docRef.id;
 
@@ -95,8 +99,18 @@ const PlayerView = ({
   const styleInnerPlaces = size > 4 && place < 4 ? stylesInner[keyPlace] : {};
   const selectedStyle = {backgroundColor: '#dddd'};
   const pressEvents = {
-    onLongPress: () => setSelectedPlayer(docRef.id),
-    onPress: removeSelection,
+    onLongPress: () => {
+      if (editPlayerPermission) {
+        setSelectedPlayer(docRef.id);
+      }
+    },
+    onPress: () => {
+      if (editPlayerPermission && isSelected) {
+        removeSelection();
+      } else {
+        navigation.navigate('Profile', {userId: docRef.id});
+      }
+    },
   };
 
   const incrementScore = async () => {
@@ -116,7 +130,7 @@ const PlayerView = ({
   };
 
   return (
-    <TouchableOpacity {...(editPlayerPermission ? pressEvents : {})}>
+    <TouchableOpacity {...pressEvents}>
       <LinearGradient
         style={[styles.player, borderScale]}
         colors={borderColors}
@@ -153,7 +167,7 @@ const PlayerView = ({
           )}
 
           <Text style={styles.playerName} numberOfLines={2}>
-            {user.name + (isLeader ? ' (Leader)' : '')}
+            {`${user.name}${isLeader ? ' (Leader)' : ''}`}
           </Text>
 
           <View style={styles.playerScoreView}>

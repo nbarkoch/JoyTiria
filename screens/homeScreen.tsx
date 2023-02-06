@@ -283,7 +283,11 @@ function HomeScreen() {
             headerTitle: groupName ?? 'Groups',
           }}
         />
-        <Tab.Screen name="Profile" component={ProfileTab} />
+        <Tab.Screen
+          name="Profile"
+          component={ProfileTab}
+          initialParams={{userId: currentUser.ref.id}}
+        />
       </Tab.Navigator>
       <Header
         worlds={worlds}

@@ -1,22 +1,63 @@
 import {isUndefined} from 'lodash';
 import React, {FlatList, StyleSheet, View} from 'react-native';
-import {Player, useCurrentUser, useCurrentWorld} from '../../utils/store';
-import {useCallback, useRef, useState} from 'react';
+import {Player, useCurrentUser, useCurrentWorld, User} from '../../utils/store';
+import {useCallback, useEffect, useRef, useState} from 'react';
 import BasicPlayerView from './basicPlayerView';
 import ProfileHeader from './profileHeader';
+import {RouteProp, useRoute} from '@react-navigation/native';
+import {TabsStackParamList} from '../../navigation';
+import fb from '@react-native-firebase/firestore';
 
 function ProfileTab() {
-  const user = useCurrentUser(state => state.user);
+  const curUserId = useCurrentUser(state => state.user?.ref.id);
+  const userId =
+    useRoute<RouteProp<TabsStackParamList, 'Profile'>>().params.userId;
 
   const players = useCurrentWorld(state => {
     if (state.currentWorld !== undefined) {
-      const $players = state.currentWorld?.groups.map(g => g.players).flat();
+      let $players = state.currentWorld?.groups.map(g => g.players).flat();
+      if (state.currentWorld.admins !== undefined) {
+        $players = $players.concat(
+          state.currentWorld.admins.map(admin => ({
+            docRef: admin,
+            score: 0,
+            pendingScore: undefined,
+          })),
+        );
+      }
       if (state.currentWorld.pendingUsers !== undefined) {
-        $players.concat(state.currentWorld.pendingUsers);
+        $players = $players.concat(state.currentWorld.pendingUsers);
       }
       return $players;
     }
   });
+  const [id, setId] = useState<string>(userId);
+  const [user, setUser] = useState<User | undefined>(undefined);
+
+  useEffect(() => {
+    const subscriber = fb()
+      .collection('Users')
+      .doc(id)
+      .onSnapshot(async userDoc => {
+        const usr = userDoc.data();
+        if (!isUndefined(usr)) {
+          setUser({
+            ref: userDoc.ref,
+            name: usr.name as string,
+            worlds: [],
+            currentWorldRef: undefined,
+          });
+        } else {
+          setUser(undefined);
+        }
+      });
+    // Stop listening for updates when no longer required
+    return () => {
+      if (subscriber !== undefined) {
+        subscriber();
+      }
+    };
+  }, [id]);
 
   const [highlightedPlayer, setHighlightedPlayer] = useState<
     string | undefined
@@ -44,9 +85,20 @@ function ProfileTab() {
         } else {
           numHighlighted.current++;
         }
-      }, 300);
+      }, 270);
     }
   }, [userPlayer]);
+
+  const setUserId = useCallback(($id: string | undefined) => {
+    if (!isUndefined($id)) {
+      setId($id);
+      scrollRef.current?.scrollToOffset({offset: 0, animated: true});
+    }
+  }, []);
+
+  useEffect(() => {
+    setUserId(userId);
+  }, [setUserId, userId]);
 
   if (players === undefined || user === undefined) {
     return <></>;
@@ -61,9 +113,12 @@ function ProfileTab() {
           return (
             <View style={styles.item}>
               <BasicPlayerView
-                isUser={user.ref.id === item.docRef.id}
+                isUser={curUserId === item.docRef.id}
                 {...item}
                 highlight={highlightedPlayer === item.docRef.id}
+                onPress={() => {
+                  setUserId(item.docRef.id);
+                }}
               />
             </View>
           );
@@ -74,6 +129,10 @@ function ProfileTab() {
               user={user}
               player={userPlayer}
               jumpToPlayer={scrollToPlayer}
+              setCurrentUser={() => {
+                setUserId(curUserId);
+              }}
+              isCurrentUser={curUserId === id}
             />
           </View>
         )}

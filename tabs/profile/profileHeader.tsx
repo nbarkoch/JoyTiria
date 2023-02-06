@@ -1,13 +1,19 @@
 import {isNil, isUndefined} from 'lodash';
-import React, {Image, StyleSheet, Text, View} from 'react-native';
+import React, {
+  Image,
+  StyleSheet,
+  Text,
+  View,
+  TextInput,
+  TouchableOpacity,
+} from 'react-native';
 import {Player, useCurrentWorld, User} from '../../utils/store';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import MIcon from 'react-native-vector-icons/MaterialCommunityIcons';
-import {TextInput, TouchableOpacity} from 'react-native-gesture-handler';
 
 import LinearGradient from 'react-native-linear-gradient';
 import {useCallback, useEffect, useRef, useState} from 'react';
-import Animated, {FadeIn, FadeOut} from 'react-native-reanimated';
+import Animated from 'react-native-reanimated';
 
 const DEFAULT_IMAGE = {
   uri: 'https://www.vigcenter.com/public/all/images/default-image.jpg',
@@ -21,6 +27,8 @@ interface ProfileHeaderProps {
   user: User;
   player?: Player;
   jumpToPlayer: () => void;
+  setCurrentUser: () => void;
+  isCurrentUser: boolean;
 }
 
 interface TextSectionProps {
@@ -41,12 +49,25 @@ const ProfileHeader = ({
   user,
   player,
   jumpToPlayer,
+  setCurrentUser,
+  isCurrentUser = false,
 }: ProfileHeaderProps): JSX.Element => {
   const {name, ref, image} = user;
   const [score, pendingScore] = player
     ? [player.score, player.pendingScoreGroup]
     : [0];
-  const isAdmin = useCurrentWorld(state => state.currentWorld?.isAdmin);
+  const isAdmin = useCurrentWorld(state =>
+    state.currentWorld?.admins.find(admin => admin.id === user.ref.id),
+  );
+  const isLeader = useCurrentWorld(
+    state =>
+      !isUndefined(
+        state.currentWorld?.groups.find(
+          g => g.leader?.docRef.id === user.ref.id,
+        ),
+      ),
+  );
+
   const [editMode, setEditMode] = useState<boolean>(false);
   const [textInput, setTextInput] = useState<string>(name);
   const textInputRef = useRef<TextInput>(null);
@@ -61,7 +82,7 @@ const ProfileHeader = ({
   );
 
   useEffect(() => {
-    if (editMode) {
+    if (isCurrentUser && editMode) {
       const timeout = setTimeout(() => {
         textInputRef.current?.focus();
         clearTimeout(timeout);
@@ -69,13 +90,10 @@ const ProfileHeader = ({
     } else {
       textInputRef.current?.blur();
     }
-  }, [editMode]);
+  }, [isCurrentUser, editMode]);
 
   return (
-    <Animated.View
-      entering={FadeIn}
-      exiting={FadeOut}
-      style={userStyle.container}>
+    <Animated.View style={userStyle.container}>
       <Image
         style={userStyle.image}
         source={image !== undefined ? image : DEFAULT_IMAGE}
@@ -102,23 +120,30 @@ const ProfileHeader = ({
                     <Text>{' Admin)'}</Text>
                   </Text>
                 )}
+                {isLeader && (
+                  <Text style={userStyle.admin}>
+                    <Text>{' ('}</Text>
+                    <MIcon name={'flag'} size={16} color="red" />
+                    <Text>{' Leader)'}</Text>
+                  </Text>
+                )}
               </>
             )}
           </View>
-
-          <TouchableOpacity
-            onPress={() => {
-              if (editMode) {
-                setNewName(textInput);
-              } else {
-                setTextInput(name);
-              }
-              setEditMode(!editMode);
-            }}>
-            <Icon name={editMode ? 'done' : 'edit'} size={20} color="grey" />
-          </TouchableOpacity>
+          {isCurrentUser && (
+            <TouchableOpacity
+              onPress={() => {
+                if (editMode) {
+                  setNewName(textInput);
+                } else {
+                  setTextInput(name);
+                }
+                setEditMode(!editMode);
+              }}>
+              <Icon name={editMode ? 'done' : 'edit'} size={20} color="grey" />
+            </TouchableOpacity>
+          )}
         </View>
-
         <Liner />
         <TextSection title={'Email: '} value={ref.id} />
         <Liner />
@@ -129,21 +154,42 @@ const ProfileHeader = ({
           value={!isNil(pendingScore) ? pendingScore.score : 0}
         />
       </View>
-      {!isUndefined(player) && (
-        <TouchableOpacity onPress={jumpToPlayer}>
-          <LinearGradient
-            style={userStyle.button}
-            colors={['#1273de', '#6292e1']}>
-            <Icon
-              name={'arrow-downward'}
-              size={25}
-              style={userStyle.arrowIcon}
-              color="white"
-            />
-            <Text style={userStyle.buttonText}>{'See Player Status'}</Text>
-          </LinearGradient>
-        </TouchableOpacity>
-      )}
+      <View style={userStyle.buttonsContainer}>
+        {!isUndefined(player) && (
+          <TouchableOpacity
+            style={userStyle.buttonContainer}
+            onPress={jumpToPlayer}>
+            <LinearGradient
+              style={[userStyle.button]}
+              colors={['#1273de', '#6292e1']}>
+              <Icon
+                name={'arrow-downward'}
+                size={25}
+                style={userStyle.arrowIcon}
+                color="white"
+              />
+              <Text style={userStyle.buttonText}>{'See Player Status'}</Text>
+            </LinearGradient>
+          </TouchableOpacity>
+        )}
+        {!isCurrentUser && (
+          <TouchableOpacity
+            style={userStyle.buttonContainer}
+            onPress={setCurrentUser}>
+            <LinearGradient
+              style={[userStyle.button]}
+              colors={['#de3456', '#d04598']}>
+              <Icon
+                name={'cancel'}
+                size={25}
+                style={userStyle.arrowIcon}
+                color="white"
+              />
+              <Text style={userStyle.buttonText}>{'See Your Status'}</Text>
+            </LinearGradient>
+          </TouchableOpacity>
+        )}
+      </View>
     </Animated.View>
   );
 };
@@ -161,6 +207,7 @@ const userStyle = StyleSheet.create({
     alignSelf: 'center',
     borderRadius: 10,
     margin: 20,
+    zIndex: -1,
   },
   userInfo: {
     borderColor: 'grey',
@@ -176,7 +223,7 @@ const userStyle = StyleSheet.create({
     padding: 10,
     justifyContent: 'center',
     alignItems: 'center',
-    margin: 5,
+    margin: 3,
     flexDirection: 'row',
   },
   arrowIcon: {paddingHorizontal: 5},
@@ -184,4 +231,19 @@ const userStyle = StyleSheet.create({
   text: {flex: 1, padding: 5, flexDirection: 'row'},
   section: {flexDirection: 'row', alignItems: 'center'},
   textInput: {color: 'black', flex: 1},
+  toMyProfile: {
+    borderRadius: 25,
+    padding: 10,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginTop: 3,
+    flexDirection: 'row',
+  },
+  buttonContainer: {flex: 1},
+  buttonsContainer: {
+    flexDirection: 'row',
+    flex: 1,
+    backgroundColor: '#0253aa',
+    borderRadius: 20,
+  },
 });
