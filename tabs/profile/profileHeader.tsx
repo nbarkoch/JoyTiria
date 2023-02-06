@@ -185,7 +185,7 @@ const ProfileHeader = ({
                 style={userStyle.arrowIcon}
                 color="white"
               />
-              <Text style={userStyle.buttonText}>{'See Your Status'}</Text>
+              <Text style={userStyle.buttonText}>{'See Your Profile'}</Text>
             </LinearGradient>
           </TouchableOpacity>
         )}
@@ -228,7 +228,7 @@ const userStyle = StyleSheet.create({
   },
   arrowIcon: {paddingHorizontal: 5},
   buttonText: {textAlign: 'center', color: 'white', fontWeight: 'bold'},
-  text: {flex: 1, padding: 5, flexDirection: 'row'},
+  text: {flex: 1, padding: 5, flexDirection: 'row', flexWrap: 'wrap'},
   section: {flexDirection: 'row', alignItems: 'center'},
   textInput: {color: 'black', flex: 1},
   toMyProfile: {
