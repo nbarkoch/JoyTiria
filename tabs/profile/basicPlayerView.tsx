@@ -1,4 +1,4 @@
-import React, {Image, StyleSheet, Text} from 'react-native';
+import React, {Image, StyleSheet, Text, TouchableOpacity} from 'react-native';
 import {useQuery} from 'react-query';
 import {Player, User} from '../../utils/store';
 import Icon from 'react-native-vector-icons/MaterialIcons';
@@ -8,7 +8,6 @@ import Animated, {
   useDerivedValue,
   withTiming,
 } from 'react-native-reanimated';
-import {TouchableOpacity} from 'react-native-gesture-handler';
 
 const DEFAULT_IMAGE = {
   uri: 'https://www.vigcenter.com/public/all/images/default-image.jpg',
