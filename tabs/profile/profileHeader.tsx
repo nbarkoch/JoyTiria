@@ -244,6 +244,6 @@ const userStyle = StyleSheet.create({
     flexDirection: 'row',
     flex: 1,
     backgroundColor: '#0253aa',
-    borderRadius: 20,
+    borderRadius: 17.5,
   },
 });

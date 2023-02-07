@@ -30,6 +30,7 @@ function ProfileTab() {
       }
       return $players;
     }
+    return [];
   });
   const [id, setId] = useState<string>(userId);
   const [user, setUser] = useState<User | undefined>(undefined);
@@ -66,7 +67,7 @@ function ProfileTab() {
 
   const userPlayer = isUndefined(user)
     ? undefined
-    : players?.find(p => p.docRef.id === user.ref.id);
+    : players.find(p => p.docRef.id === user.ref.id);
 
   const scrollRef = useRef<FlatList>(null);
 
@@ -100,7 +101,7 @@ function ProfileTab() {
     setUserId(userId);
   }, [setUserId, userId]);
 
-  if (players === undefined || user === undefined) {
+  if (user === undefined) {
     return <></>;
   }
 
