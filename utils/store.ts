@@ -168,7 +168,21 @@ interface DialogState {
 
 export const useDialog = create<DialogState>(set => ({
   dialog: undefined,
-  setDialog: dialog => set(() => ({dialog: dialog})),
+  setDialog: dialog => set(() => ({dialog})),
+}));
+
+export type Snackbar = {
+  text?: string;
+  progress?: number;
+};
+interface SnackbarState {
+  snackbar?: Snackbar;
+  setSnackbar: (snackbar?: Snackbar) => void;
+}
+
+export const useSnackbar = create<SnackbarState>(set => ({
+  snackbar: undefined,
+  setSnackbar: snackbar => set(() => ({snackbar})),
 }));
 
 interface PendingUsersLayout {
@@ -194,6 +208,20 @@ export const useGroupInfo = create<GroupInfoState>(set => ({
   setGroupId: groupId => set(() => ({groupId: groupId})),
   setGroupName: name => set(() => ({groupName: name})),
   removeGroupId: () => set(() => ({groupId: undefined, groupName: undefined})),
+}));
+
+interface ProfileState {
+  user?: User;
+  player?: Player;
+  setUser: (user?: User) => void;
+  setPlayer: (player?: Player) => void;
+}
+
+const useProfile = create<ProfileState>(set => ({
+  user: undefined,
+  player: undefined,
+  setUser: user => set(() => ({user})),
+  setPlayer: player => set(() => ({player})),
 }));
 
 interface KeyboardState {

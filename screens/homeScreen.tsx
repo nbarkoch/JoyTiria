@@ -23,6 +23,7 @@ import {
   World,
   WorldHeader,
 } from '../utils/store';
+import Snackbar from '../dialogs/snackbar';
 
 interface HeaderProps {
   worlds: WorldHeader[];
@@ -294,6 +295,7 @@ function HomeScreen() {
         onCreateWorld={createNewWorld}
         onDeleteWorld={onDeleteWorld}
       />
+      <Snackbar />
     </View>
   );
 }

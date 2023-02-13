@@ -1,6 +1,12 @@
 import {isUndefined} from 'lodash';
 import React, {FlatList, StyleSheet, View} from 'react-native';
-import {Player, useCurrentUser, useCurrentWorld, User} from '../../utils/store';
+import {
+  ImageType,
+  Player,
+  useCurrentUser,
+  useCurrentWorld,
+  User,
+} from '../../utils/store';
 import {useCallback, useEffect, useRef, useState} from 'react';
 import BasicPlayerView from './basicPlayerView';
 import ProfileHeader from './profileHeader';
@@ -47,6 +53,7 @@ function ProfileTab() {
             name: usr.name as string,
             worlds: [],
             currentWorldRef: undefined,
+            image: usr.image as ImageType,
           });
         } else {
           setUser(undefined);
