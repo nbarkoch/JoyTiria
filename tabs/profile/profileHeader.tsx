@@ -1,6 +1,5 @@
 import {isNil, isUndefined} from 'lodash';
 import React, {
-  Image,
   StyleSheet,
   Text,
   View,
@@ -15,12 +14,9 @@ import LinearGradient from 'react-native-linear-gradient';
 import {useCallback, useEffect, useRef, useState} from 'react';
 import Animated from 'react-native-reanimated';
 import storage from '@react-native-firebase/storage';
+import QueriedImage from '../../utils/components/queriedImage';
 
 const IMAGE_PROFILE_PATH = 'image_profiles';
-
-const DEFAULT_IMAGE = {
-  uri: 'https://www.vigcenter.com/public/all/images/default-image.jpg',
-};
 
 const Liner = () => {
   return <View style={userStyle.liner} />;
@@ -178,10 +174,7 @@ const ProfileHeader = ({
   return (
     <Animated.View style={userStyle.container}>
       <View style={userStyle.imageContainer}>
-        <Image
-          style={userStyle.image}
-          source={image !== undefined ? image : DEFAULT_IMAGE}
-        />
+        <QueriedImage style={userStyle.image} source={image} />
         <TouchableOpacity
           onPress={handleImagePicker}
           style={userStyle.addImageButton}>

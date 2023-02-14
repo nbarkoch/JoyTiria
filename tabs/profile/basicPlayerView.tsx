@@ -1,4 +1,4 @@
-import React, {Image, StyleSheet, Text, TouchableOpacity} from 'react-native';
+import React, {StyleSheet, Text, TouchableOpacity} from 'react-native';
 import {useQuery} from 'react-query';
 import {Player, User} from '../../utils/store';
 import Icon from 'react-native-vector-icons/MaterialIcons';
@@ -8,10 +8,7 @@ import Animated, {
   useDerivedValue,
   withTiming,
 } from 'react-native-reanimated';
-
-const DEFAULT_IMAGE = {
-  uri: 'https://www.vigcenter.com/public/all/images/default-image.jpg',
-};
+import QueriedImage from '../../utils/components/queriedImage';
 
 const BasicPlayerView = ({
   docRef,
@@ -53,10 +50,7 @@ const BasicPlayerView = ({
   return (
     <TouchableOpacity onPress={onPress}>
       <Animated.View style={[playerStyle.container, animatedStyle]}>
-        <Image
-          style={playerStyle.image}
-          source={user.image !== undefined ? user.image : DEFAULT_IMAGE}
-        />
+        <QueriedImage style={playerStyle.image} source={user.image} />
         <Text style={playerStyle.name}>
           <Text>{user.name}</Text>
           {isUser && <Text>{' (You)'}</Text>}

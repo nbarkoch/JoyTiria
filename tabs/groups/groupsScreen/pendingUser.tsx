@@ -1,5 +1,5 @@
 import React, {useState, useRef, useEffect} from 'react';
-import {Text, Image, StyleSheet} from 'react-native';
+import {Text, StyleSheet} from 'react-native';
 import {Gesture, GestureDetector} from 'react-native-gesture-handler';
 import Animated, {
   withSpring,
@@ -9,12 +9,9 @@ import Animated, {
   runOnJS,
 } from 'react-native-reanimated';
 import {useQuery} from 'react-query';
+import QueriedImage from '../../../utils/components/queriedImage';
 import {Group, Player, User} from '../../../utils/store';
 import {LayoutProps} from '../types';
-
-const DEFAULT_IMAGE = {
-  uri: 'https://www.vigcenter.com/public/all/images/default-image.jpg',
-};
 
 const PendingUser = ({
   player,
@@ -166,14 +163,7 @@ const PendingUser = ({
         </Text>
 
         {/* <Text>{userRef.id}</Text> */}
-        <Image
-          style={styles.PendingUserImage}
-          source={
-            user !== undefined && user.image !== undefined
-              ? user.image
-              : DEFAULT_IMAGE
-          }
-        />
+        <QueriedImage style={styles.PendingUserImage} source={user.image} />
       </Animated.View>
     </GestureDetector>
   );

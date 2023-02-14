@@ -1350,7 +1350,7 @@
 
 "@react-native-firebase/app@^17.1.0":
   version "17.1.0"
-  resolved "https://registry.yarnpkg.com/@react-native-firebase/app/-/app-17.1.0.tgz#c295b058fad0a21b5448929ffd10925a34355155"
+  resolved "https://registry.npmjs.org/@react-native-firebase/app/-/app-17.1.0.tgz"
   integrity sha512-Q9uC2uO8kJd9vxs5PEAG/Ks9xPwvNA+eqF0iSlB4tLcdFhnB/tKE0cNuUDw0OmFnJpAkC2P/ir0e1nVGKwuPbw==
   dependencies:
     "@expo/config-plugins" "^5.0.4"
@@ -1359,7 +1359,7 @@
 
 "@react-native-firebase/auth@^17.1.0":
   version "17.1.0"
-  resolved "https://registry.yarnpkg.com/@react-native-firebase/auth/-/auth-17.1.0.tgz#766d9b7a7bdff12ffbe3ae47646ac24d1083bece"
+  resolved "https://registry.npmjs.org/@react-native-firebase/auth/-/auth-17.1.0.tgz"
   integrity sha512-dKMZfW/qA0DvhMhbJyar58VoFxBuA0ZWYOwWyJKCYxbEyiYjq1fvrbCvN0Y1vzmFepTXnmnXnU/ArM1l36YbeA==
   dependencies:
     "@expo/config-plugins" "^5.0.4"
@@ -1367,12 +1367,12 @@
 
 "@react-native-firebase/firestore@^17.1.0":
   version "17.1.0"
-  resolved "https://registry.yarnpkg.com/@react-native-firebase/firestore/-/firestore-17.1.0.tgz#4bf836ecef482ee1a422109a35cabe653f4f0b34"
+  resolved "https://registry.npmjs.org/@react-native-firebase/firestore/-/firestore-17.1.0.tgz"
   integrity sha512-RSTjRevPkXaepuyJgwsAxMcTEDLu/8DnjL8qkNEBj/TeNY4Fkl1Dk722IiggxDrJdTC4WsA3U1C+9iV5WaaD9g==
 
 "@react-native-firebase/storage@^17.1.0":
   version "17.1.0"
-  resolved "https://registry.yarnpkg.com/@react-native-firebase/storage/-/storage-17.1.0.tgz#ec259e145242b6d73cbdcdcdc9e28e9b92630170"
+  resolved "https://registry.npmjs.org/@react-native-firebase/storage/-/storage-17.1.0.tgz"
   integrity sha512-aj16L1rhIUed5ZEgp1bi7yB9Bh5v5P35YYELGG7vDePtciWm6L5ss574wYgjCgMV0hrAwm8o2DvpJ6rMlO47Kg==
 
 "@react-native/assets@1.0.0":
@@ -6098,9 +6098,9 @@ react-native-gradle-plugin@^0.70.3:
   integrity sha512-oOanj84fJEXUg9FoEAQomA8ISG+DVIrTZ3qF7m69VQUJyOGYyDZmPqKcjvRku4KXlEH6hWO9i4ACLzNBh8gC0A==
 
 react-native-image-picker@^5.0.1:
-  version "5.0.1"
-  resolved "https://registry.yarnpkg.com/react-native-image-picker/-/react-native-image-picker-5.0.1.tgz#c9e99217396bc82a977785e39e14afb4819e8448"
-  integrity sha512-+poQTHOnEGrbxJnut591XA9006svFOyfPg/i5bv+fLuwoSHh5HW0E/PVhvT8lbX0Z5C108vh3DAsnrfFFnPBGw==
+  version "5.0.2"
+  resolved "https://registry.npmjs.org/react-native-image-picker/-/react-native-image-picker-5.0.2.tgz"
+  integrity sha512-kl5g22TEiOkHcwKFh+BjdBYb+7LTq0yKXZCjgXCPoHbq7QwckgR4mFASPPoX2RUKGFy6cYqJGc0IX+xpqcSX5w==
 
 react-native-linear-gradient@^2.6.2:
   version "2.6.2"

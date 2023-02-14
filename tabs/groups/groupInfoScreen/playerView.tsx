@@ -1,5 +1,5 @@
 import React, {useEffect, useRef, useState} from 'react';
-import {Image, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import {TextInput} from 'react-native-gesture-handler';
 import {useQuery} from 'react-query';
 import {Player, User, useSelectionPlayerProgress} from '../../../utils/store';
@@ -8,10 +8,7 @@ import IonIcon from 'react-native-vector-icons/Ionicons';
 import LinearGradient from 'react-native-linear-gradient';
 import {useNavigation} from '@react-navigation/native';
 import {TabsNavigationProp} from '../../../navigation';
-
-const DEFAULT_IMAGE = {
-  uri: 'https://www.vigcenter.com/public/all/images/default-image.jpg',
-};
+import QueriedImage from '../../../utils/components/queriedImage';
 
 type PlayerViewProps = {
   place: number;
@@ -144,7 +141,7 @@ const PlayerView = ({
           ]}>
           <Text style={styles.place}>{place}</Text>
 
-          <Image
+          <QueriedImage
             style={[
               styles.playerImage,
               {
@@ -156,11 +153,7 @@ const PlayerView = ({
                   : {}),
               },
             ]}
-            source={
-              user !== undefined && user.image !== undefined
-                ? user.image
-                : DEFAULT_IMAGE
-            }
+            source={user.image}
           />
           {isLeader && (
             <IonIcon name={'flag'} size={20} style={styles.icon} color="red" />

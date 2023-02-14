@@ -13,6 +13,7 @@ import {
 } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 import {WorldHeader} from '../store';
+import QueriedImage from './queriedImage';
 
 interface Props {
   label?: string;
@@ -148,10 +149,7 @@ const WorldItem: FC<WorldItemProps> = ({
       onPress={() => onItemPress(item)}
       onLongPress={() => setSelected(true)}>
       <Text style={styles.selectedTextStyle}>{item.name}</Text>
-      <Image
-        style={styles.imageStyle}
-        source={item.image === undefined ? DEFAULT_IMAGE : item.image}
-      />
+      <QueriedImage style={styles.imageStyle} source={item.image} />
     </TouchableOpacity>
   );
 };
