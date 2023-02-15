@@ -175,11 +175,13 @@ const ProfileHeader = ({
     <Animated.View style={userStyle.container}>
       <View style={userStyle.imageContainer}>
         <QueriedImage style={userStyle.image} source={image} />
-        <TouchableOpacity
-          onPress={handleImagePicker}
-          style={userStyle.addImageButton}>
-          <Icon name={'add'} size={30} color="grey" />
-        </TouchableOpacity>
+        {isCurrentUser && (
+          <TouchableOpacity
+            onPress={handleImagePicker}
+            style={userStyle.addImageButton}>
+            <Icon name={'add'} size={30} color="grey" />
+          </TouchableOpacity>
+        )}
       </View>
 
       <View style={userStyle.userInfo}>
