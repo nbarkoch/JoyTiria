@@ -1,5 +1,5 @@
 import React from 'react';
-import {View} from 'react-native';
+import {StyleSheet, View} from 'react-native';
 import Animated, {FadeIn} from 'react-native-reanimated';
 import {useQuery, QueryClient} from 'react-query';
 import {ImageType} from '../store';
@@ -29,24 +29,32 @@ const QueriedImage = ({
 
   const {uri} = source;
 
-  const {data, isLoading} = useQuery<Blob, Error>(uri, async () => {
-    const response = await fetch(uri);
-    const imageData = await response.blob();
-    queryClient.setQueryData([uri, 'data'], imageData);
-    return imageData;
-  });
+  const {data, isLoading} = useQuery<Blob, Error>(
+    [uri],
+    async () => {
+      const response = await fetch(uri);
+      const imageData = await response.blob();
+      queryClient.setQueryData([uri, 'data'], imageData);
+      return imageData;
+    },
+    {enabled: uri !== undefined},
+  );
 
-  if (isLoading || source === undefined) {
-    return <View style={style} />;
+  if (isLoading || data === undefined) {
+    return <View style={[styles.loadingStyle, style]} />;
   }
 
   return (
     <Animated.Image
       entering={FadeIn}
       style={style}
-      source={data ? {uri: URL.createObjectURL(data)} : DEFAULT_IMAGE}
+      source={{uri: URL.createObjectURL(data)}}
     />
   );
 };
+
+const styles = StyleSheet.create({
+  loadingStyle: {backgroundColor: '#dddddd'},
+});
 
 export default QueriedImage;

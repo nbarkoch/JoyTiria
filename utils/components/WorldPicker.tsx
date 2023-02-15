@@ -1,7 +1,6 @@
 import React, {FC, ReactElement, useCallback, useRef, useState} from 'react';
 import {
   FlatList,
-  Image,
   Modal,
   StyleProp,
   StyleSheet,
@@ -22,10 +21,6 @@ interface Props {
   onCreateNewWorld?: (name: string) => Promise<boolean>;
   onDeleteWorld?: (item: WorldHeader) => Promise<boolean>;
 }
-
-const DEFAULT_IMAGE = {
-  uri: 'https://www.vigcenter.com/public/all/images/default-image.jpg',
-};
 
 const Separator = () => (
   <View style={styles.separatorContainer}>
@@ -257,12 +252,7 @@ function WorldPicker({
         },
       ]}>
       <Text style={styles.selectedTextStyle}>{selectedItem.name}</Text>
-      <Image
-        style={styles.imageStyle}
-        source={
-          selectedItem.image === undefined ? DEFAULT_IMAGE : selectedItem.image
-        }
-      />
+      <QueriedImage style={styles.imageStyle} source={selectedItem.image} />
       {visible && renderDropdown()}
     </TouchableOpacity>
   );
