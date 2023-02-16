@@ -206,7 +206,7 @@ const styles = StyleSheet.create({
   groupsContainer: {
     flexDirection: 'row',
     flexWrap: 'wrap',
-    width: 320,
+    width: 380,
     alignSelf: 'center',
     justifyContent: 'center',
   },

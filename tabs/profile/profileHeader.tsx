@@ -123,6 +123,9 @@ const ProfileHeader = ({
         },
         error => {
           console.error(error as Error);
+          setSnackbar({
+            text: 'An error occurred while uploading..',
+          });
         },
       );
 
@@ -157,6 +160,9 @@ const ProfileHeader = ({
       }
     } catch (error) {
       console.error(error as Error);
+      setSnackbar({
+        text: 'An error occurred while taking the photo..',
+      });
     }
   };
 

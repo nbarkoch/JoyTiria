@@ -2,7 +2,6 @@ import {isNull, isUndefined} from 'lodash';
 import React, {useCallback, useEffect, useRef} from 'react';
 import {StyleSheet, Text, TouchableWithoutFeedback, View} from 'react-native';
 import Animated, {SlideInDown, SlideOutDown} from 'react-native-reanimated';
-// import Icon from 'react-native-vector-icons/Ionicons';
 import {useSnackbar} from '../utils/store';
 
 const SNACKBAR_TIMEOUT = 5000;

@@ -7,6 +7,7 @@ import React, {
   useState,
 } from 'react';
 import {TouchableOpacity, Text, StyleSheet} from 'react-native';
+import LinearGradient from 'react-native-linear-gradient';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import {useQuery} from 'react-query';
 import {Group, User} from '../../../utils/store';
@@ -70,16 +71,22 @@ const GroupView = forwardRef<GroupViewRef, GroupViewProps>(
         onPress={onPress}
         onLongPress={onLongPress}
         onLayout={measure}>
-        <Text numberOfLines={1} style={styles.groupName}>
-          {name}
-        </Text>
-        <Icon name="group" size={45} color="#555555" style={styles.icon} />
-        <Text style={styles.numPlayers}>
-          {(players?.length.toString() ?? '0') + ' Players'}
-        </Text>
-        <Text style={styles.groupLeader}>
-          {'Leader: ' + (!isUndefined(leader) ? leaderUser?.name : 'None')}
-        </Text>
+        <LinearGradient
+          colors={['#E3E2E6', '#ccd4dd', 'white']}
+          start={{x: 0, y: 0}}
+          end={{x: 1, y: 1.5}}
+          style={styles.innerGroupContainer}>
+          <Text numberOfLines={1} style={styles.groupName}>
+            {name}
+          </Text>
+          <Icon name="group" size={45} color="#555555" style={styles.icon} />
+          <Text style={styles.numPlayers}>
+            {(players?.length.toString() ?? '0') + ' Players'}
+          </Text>
+          <Text numberOfLines={1} style={styles.groupLeader}>
+            {'Leader: ' + (!isUndefined(leader) ? leaderUser?.name : 'None')}
+          </Text>
+        </LinearGradient>
       </TouchableOpacity>
     );
   },
@@ -87,20 +94,26 @@ const GroupView = forwardRef<GroupViewRef, GroupViewProps>(
 
 const styles = StyleSheet.create({
   group: {
-    height: 140,
+    height: 150,
     aspectRatio: 1,
     backgroundColor: 'white',
     borderRadius: 30,
-    justifyContent: 'center',
-    alignItems: 'center',
-    borderColor: '#adf',
+    borderColor: '#7ccedb',
     borderWidth: 1,
     margin: 10,
-    shadowColor: '#adf',
+    shadowColor: '#202338',
     shadowOffset: {width: 0, height: 1},
     shadowOpacity: 0.5,
     shadowRadius: 2,
     elevation: 5,
+    padding: 5,
+  },
+  innerGroupContainer: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    flex: 1,
+    borderRadius: 25,
+    padding: 5,
   },
   groupName: {
     textAlign: 'center',

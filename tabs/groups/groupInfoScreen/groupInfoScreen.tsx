@@ -8,6 +8,7 @@ import {
   Player,
   useCurrentUser,
   useCurrentWorld,
+  useKeyboard,
 } from '../../../utils/store';
 import BottomScoresContainer from './bottomScoresContainer';
 import PlayerView from './playerView';
@@ -23,6 +24,8 @@ const GroupInfoScreen = ({players, leader, scoreInBank, id}: Group) => {
   );
   const isUserAdmin =
     useCurrentWorld(state => state.currentWorld?.isAdmin) ?? false;
+
+  const keyboardActive = useKeyboard(state => !isUndefined(state.height));
 
   useEffect(() => {
     if (
@@ -269,19 +272,21 @@ const GroupInfoScreen = ({players, leader, scoreInBank, id}: Group) => {
         renderItem={renderItem}
         keyboardShouldPersistTaps="always"
       />
-      <BottomScoresContainer
-        scoreInBank={scoreInBank ?? undefined}
-        totalScore={players.reduce(
-          (accumulator, curValue) => accumulator + curValue.score,
-          0,
-        )}
-        setScoreInBank={setScoreInBank}
-        turnAsLeader={turnAsLeader}
-        removeLeader={removeLeader}
-        removeFromGroup={removeFromGroup}
-        currentLeaderId={leader?.docRef.id}
-        setBankScoreToPlayers={setBankScoreToPlayers}
-      />
+      {!keyboardActive && (
+        <BottomScoresContainer
+          scoreInBank={scoreInBank ?? undefined}
+          totalScore={players.reduce(
+            (accumulator, curValue) => accumulator + curValue.score,
+            0,
+          )}
+          setScoreInBank={setScoreInBank}
+          turnAsLeader={turnAsLeader}
+          removeLeader={removeLeader}
+          removeFromGroup={removeFromGroup}
+          currentLeaderId={leader?.docRef.id}
+          setBankScoreToPlayers={setBankScoreToPlayers}
+        />
+      )}
     </View>
   );
 };

@@ -14,6 +14,7 @@ import {
   useSelectionPlayerProgress,
 } from '../../../utils/store';
 import ScoreInBankContainer from './scoreInBankContainer';
+import LinearGradient from 'react-native-linear-gradient';
 
 //bottomScoresContainer
 interface BottomScoresContainerProps {
@@ -48,8 +49,6 @@ const BottomScoresContainer = ({
 
   return (
     <Animated.View
-      entering={SlideInDown.delay(100).duration(500)}
-      exiting={SlideOutDown.duration(500)}
       style={[
         styles.container,
         Platform.OS === 'ios' &&
@@ -102,18 +101,29 @@ const BottomScoresContainer = ({
         </View>
       )}
 
-      <View style={styles.bottomContainer}>
-        <View style={styles.scoreView}>
-          <Text style={styles.scoreInBank}>{'Total Score: ' + totalScore}</Text>
-          <Icon name={'star'} size={20} style={styles.icon} color="#FFDE52" />
-        </View>
-        <Line />
-        <ScoreInBankContainer
-          scoreInBank={scoreInBank}
-          setScoreInBank={setScoreInBank}
-          submitScoresToPlayers={setBankScoreToPlayers}
-        />
-      </View>
+      <Animated.View
+        entering={SlideInDown.delay(100).duration(500)}
+        exiting={SlideOutDown.duration(500)}
+        style={styles.bottomContainer}>
+        <LinearGradient
+          style={styles.bottomGradient}
+          colors={['white', '#5773a5', '#5773a5', '#b6a2a1']}
+          start={{x: 0, y: -1}}
+          end={{x: 1, y: 2}}>
+          <View style={styles.scoreView}>
+            <Text style={styles.scoreInBank}>
+              {'Total Score: ' + totalScore}
+            </Text>
+            <Icon name={'star'} size={20} style={styles.icon} color="#FFDE52" />
+          </View>
+          <Line />
+          <ScoreInBankContainer
+            scoreInBank={scoreInBank}
+            setScoreInBank={setScoreInBank}
+            submitScoresToPlayers={setBankScoreToPlayers}
+          />
+        </LinearGradient>
+      </Animated.View>
     </Animated.View>
   );
 };
@@ -124,17 +134,24 @@ const styles = StyleSheet.create({
   container: {position: 'absolute', width: '100%', bottom: 0},
   header: {justifyContent: 'space-between', flexDirection: 'row'},
   bottomContainer: {
-    backgroundColor: '#3369a5',
-    borderColor: 'lightgrey',
+    backgroundColor: 'white',
+
     borderTopLeftRadius: 30,
     borderTopRightRadius: 30,
-    padding: 15,
+
     shadowColor: '#222aff',
     shadowOffset: {width: 0, height: 1},
     shadowOpacity: 0.5,
     shadowRadius: 5,
+    paddingTop: 3,
+    paddingStart: 3,
+    paddingEnd: 3,
     elevation: 5,
-    borderWidth: 2,
+  },
+  bottomGradient: {
+    padding: 15,
+    borderTopLeftRadius: 28,
+    borderTopRightRadius: 28,
   },
   scoreInBank: {fontSize: 17, color: 'white', fontWeight: 'bold'},
   line: {margin: 3, padding: 0.5, marginBottom: 15, backgroundColor: '#ffff'},

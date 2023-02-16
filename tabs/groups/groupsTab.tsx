@@ -105,4 +105,17 @@ const styles = StyleSheet.create({
     width: '100%',
     position: 'absolute',
   },
+  gradientStyle: {
+    position: 'absolute',
+    height: '100%',
+    width: '100%',
+    zIndex: -2,
+  },
+  imageStyle: {
+    aspectRatio: 1,
+    width: '100%',
+    position: 'absolute',
+    bottom: 0,
+    alignSelf: 'center',
+  },
 });
