@@ -1,11 +1,13 @@
 import {isUndefined} from 'lodash';
-import React, {FlatList, StyleSheet, View} from 'react-native';
+import React, {FlatList, StyleSheet, Text, View} from 'react-native';
 import {
   ImageType,
   Player,
   useCurrentUser,
   useCurrentWorld,
-  User,
+  useProfile,
+  UserPreview,
+  WorldPreview,
 } from '../../utils/store';
 import {useCallback, useEffect, useRef, useState} from 'react';
 import BasicPlayerView from './basicPlayerView';
@@ -16,7 +18,7 @@ import fb from '@react-native-firebase/firestore';
 
 function ProfileTab() {
   const curUserId = useCurrentUser(state => state.user?.ref.id);
-  const userId =
+  const userIdFromParamRoute =
     useRoute<RouteProp<TabsStackParamList, 'Profile'>>().params.userId;
 
   const players = useCurrentWorld(state => {
@@ -38,26 +40,31 @@ function ProfileTab() {
     }
     return [];
   });
-  const [id, setId] = useState<string>(userId);
-  const [user, setUser] = useState<User | undefined>(undefined);
+
+  const userProfileId = useProfile(state => state.userProfileId);
+  const setUserProfileId = useProfile(state => state.setUserProfileId);
+
+  const [userPreview, setUserPreview] = useState<UserPreview | undefined>(
+    undefined,
+  );
 
   useEffect(() => {
     const subscriber = fb()
       .collection('Users')
-      .doc(id)
+      .doc(userProfileId)
       .onSnapshot(async userDoc => {
         const usr = userDoc.data();
         if (!isUndefined(usr)) {
-          setUser({
+          setUserPreview({
             ref: userDoc.ref,
             name: usr.name as string,
-            worlds: [],
-            currentWorldRef: undefined,
-            image: usr.image as ImageType,
+            worlds: usr.worlds as WorldPreview[] | undefined,
+            image: usr.image as ImageType | undefined,
           });
         } else {
-          setUser(undefined);
+          setUserPreview(undefined);
         }
+        scrollRef.current?.scrollToOffset({offset: 0, animated: true});
       });
     // Stop listening for updates when no longer required
     return () => {
@@ -65,16 +72,16 @@ function ProfileTab() {
         subscriber();
       }
     };
-  }, [id]);
+  }, [userProfileId]);
 
   const [highlightedPlayer, setHighlightedPlayer] = useState<
     string | undefined
   >(undefined);
   const numHighlighted = useRef<number>(0);
 
-  const userPlayer = isUndefined(user)
+  const userPlayer = isUndefined(userPreview)
     ? undefined
-    : players.find(p => p.docRef.id === user.ref.id);
+    : players.find(p => p.docRef.id === userPreview.ref.id);
 
   const scrollRef = useRef<FlatList>(null);
 
@@ -97,19 +104,16 @@ function ProfileTab() {
     }
   }, [userPlayer]);
 
-  const setUserId = useCallback(($id: string | undefined) => {
-    if (!isUndefined($id)) {
-      setId($id);
-      scrollRef.current?.scrollToOffset({offset: 0, animated: true});
-    }
-  }, []);
-
   useEffect(() => {
-    setUserId(userId);
-  }, [setUserId, userId]);
+    setUserProfileId(userIdFromParamRoute);
+  }, [setUserProfileId, userIdFromParamRoute]);
 
-  if (user === undefined) {
-    return <></>;
+  if (userPreview === undefined) {
+    return (
+      <View style={styles.notFound}>
+        <Text style={styles.textNotFound}>{'User not found'}</Text>
+      </View>
+    );
   }
 
   return (
@@ -125,7 +129,7 @@ function ProfileTab() {
                 {...item}
                 highlight={highlightedPlayer === item.docRef.id}
                 onPress={() => {
-                  setUserId(item.docRef.id);
+                  setUserProfileId(item.docRef.id);
                 }}
               />
             </View>
@@ -134,13 +138,13 @@ function ProfileTab() {
         ListHeaderComponent={() => (
           <View style={styles.header}>
             <ProfileHeader
-              user={user}
+              user={userPreview}
               player={userPlayer}
               jumpToPlayer={scrollToPlayer}
               setCurrentUser={() => {
-                setUserId(curUserId);
+                setUserProfileId(curUserId);
               }}
-              isCurrentUser={curUserId === id}
+              isCurrentUser={curUserId === userProfileId}
             />
           </View>
         )}
@@ -161,6 +165,14 @@ const styles = StyleSheet.create({
   header: {paddingBottom: 3, flex: 1},
   item: {paddingHorizontal: 3},
   footer: {height: 3},
+
+  notFound: {
+    backgroundColor: '#eeeeef',
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  textNotFound: {fontSize: 20, color: 'black'},
 });
 
 export default ProfileTab;

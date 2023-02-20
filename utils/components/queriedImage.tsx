@@ -1,6 +1,7 @@
 import React from 'react';
-import {StyleSheet, View} from 'react-native';
-import FastImage from 'react-native-fast-image';
+import {StyleProp} from 'react-native';
+// import {StyleSheet, View} from 'react-native';
+import FastImage, {ImageStyle} from 'react-native-fast-image';
 import {ImageType} from '../store';
 
 const DEFAULT_IMAGE = {
@@ -9,7 +10,7 @@ const DEFAULT_IMAGE = {
 
 interface QueriedImageProps {
   source?: ImageType;
-  style: any;
+  style?: StyleProp<ImageStyle> | undefined;
 }
 
 const QueriedImage = ({
@@ -18,20 +19,15 @@ const QueriedImage = ({
 }: QueriedImageProps): JSX.Element => {
   const {uri} = source;
 
-  if (uri === undefined) {
-    return <View style={styles.loadingStyle} />;
-  }
-
   return (
     <FastImage
       style={style}
-      source={{uri, priority: FastImage.priority.normal}}
+      source={{
+        uri: uri ?? DEFAULT_IMAGE.uri,
+        priority: FastImage.priority.normal,
+      }}
     />
   );
 };
-
-const styles = StyleSheet.create({
-  loadingStyle: {backgroundColor: '#dddddd'},
-});
 
 export default QueriedImage;

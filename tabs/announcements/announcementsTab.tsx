@@ -23,10 +23,15 @@ import NewMessage from './newMessage';
 import Message from './message';
 import {useNavigation} from '@react-navigation/native';
 import {TabsNavigationProp} from '../../navigation';
+import {isUndefined} from 'lodash';
 
 const ICON_SIZE = 35;
 
 const AnnouncementsTab: FC = ({}) => {
+  const worldExists = useCurrentWorld(
+    state => !isUndefined(state.currentWorld),
+  );
+
   const announcements = useCurrentWorld(
     state => state.currentWorld?.announcements,
   );
@@ -85,6 +90,10 @@ const AnnouncementsTab: FC = ({}) => {
     [announcements],
   );
 
+  if (!worldExists) {
+    return <View />;
+  }
+
   if (announcements === undefined) {
     return (
       <View style={styles.loadingState}>
@@ -139,7 +148,7 @@ const AnnouncementsTab: FC = ({}) => {
           height:
             (flatListHeight.current ?? 0) +
             ICON_SIZE +
-            (Platform.OS === 'ios' ? 50 : -50) -
+            (Platform.OS === 'ios' ? -20 : -50) -
             keyboardOffset,
           flexGrow: 0,
         }

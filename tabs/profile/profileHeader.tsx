@@ -6,7 +6,13 @@ import React, {
   TextInput,
   TouchableOpacity,
 } from 'react-native';
-import {Player, useCurrentWorld, User, useSnackbar} from '../../utils/store';
+import {
+  Player,
+  useCurrentWorld,
+  UserPreview,
+  useSnackbar,
+  WorldPreview,
+} from '../../utils/store';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import MIcon from 'react-native-vector-icons/MaterialCommunityIcons';
 import {launchImageLibrary, Asset} from 'react-native-image-picker';
@@ -15,6 +21,7 @@ import {useCallback, useEffect, useRef, useState} from 'react';
 import Animated from 'react-native-reanimated';
 import storage from '@react-native-firebase/storage';
 import QueriedImage from '../../utils/components/queriedImage';
+import WorldsCollapsible from './worldsCollapsed';
 
 const IMAGE_PROFILE_PATH = 'image_profiles';
 
@@ -23,11 +30,12 @@ const Liner = () => {
 };
 
 interface ProfileHeaderProps {
-  user: User;
+  user: UserPreview;
   player?: Player;
   jumpToPlayer: () => void;
   setCurrentUser: () => void;
   isCurrentUser: boolean;
+  worldsPreview?: WorldPreview[];
 }
 
 interface TextSectionProps {
@@ -51,7 +59,7 @@ const ProfileHeader = ({
   setCurrentUser,
   isCurrentUser = false,
 }: ProfileHeaderProps): JSX.Element => {
-  const {name, ref, image} = user;
+  const {name, ref, image, worlds: worldsPreview} = user;
   const [score, pendingScore] = player
     ? [player.score, player.pendingScoreGroup]
     : [0];
@@ -246,6 +254,8 @@ const ProfileHeader = ({
           value={!isNil(pendingScore) ? pendingScore.score : 0}
         />
       </View>
+
+      <WorldsCollapsible id={ref.id} worldsPreview={worldsPreview ?? []} />
       <View style={userStyle.buttonsContainer}>
         {!isUndefined(player) && (
           <TouchableOpacity
@@ -311,7 +321,8 @@ const userStyle = StyleSheet.create({
     borderRadius: 5,
     borderWidth: 1,
     padding: 12,
-    margin: 10,
+    marginTop: 10,
+    marginHorizontal: 10,
   },
   liner: {margin: 10, height: 1, backgroundColor: 'grey'},
   icon: {},
@@ -342,6 +353,9 @@ const userStyle = StyleSheet.create({
     flex: 1,
     backgroundColor: '#0253aa',
     borderRadius: 17.5,
+    marginTop: 20,
+    marginBottom: 5,
+    marginHorizontal: 10,
   },
   addImageButton: {
     position: 'absolute',

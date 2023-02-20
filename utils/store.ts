@@ -64,6 +64,18 @@ export type User = {
   image?: ImageType;
 };
 
+export type UserPreview = {
+  ref: DocRef;
+  name: string;
+  worlds?: WorldPreview[];
+  image?: ImageType;
+};
+
+export type WorldPreview = {
+  smallData: DocRef;
+  bigData: DocRef;
+};
+
 interface UserState {
   user?: User;
   setNewUser: (user: User) => void;
@@ -211,17 +223,14 @@ export const useGroupInfo = create<GroupInfoState>(set => ({
 }));
 
 interface ProfileState {
-  user?: User;
-  player?: Player;
-  setUser: (user?: User) => void;
-  setPlayer: (player?: Player) => void;
+  userProfileId?: string;
+  setUserProfileId: (userId: string | undefined) => void;
 }
 
-const useProfile = create<ProfileState>(set => ({
-  user: undefined,
-  player: undefined,
-  setUser: user => set(() => ({user})),
-  setPlayer: player => set(() => ({player})),
+export const useProfile = create<ProfileState>(set => ({
+  userProfileId: undefined,
+  setUserProfileId: userId =>
+    set(state => ({userProfileId: userId ?? state.userProfileId})),
 }));
 
 interface KeyboardState {

@@ -24,6 +24,7 @@ import {
   WorldHeader,
 } from '../utils/store';
 import Snackbar from '../dialogs/snackbar';
+import ProfileTabHeader from '../tabs/profile/profileTabHeader';
 
 interface HeaderProps {
   worlds: WorldHeader[];
@@ -82,7 +83,7 @@ function HomeScreen() {
     async (name: string) => {
       try {
         if (
-          name.length > 0 &&
+          name.length > 2 &&
           currentUser !== undefined &&
           currentUser.worlds.find(
             world => world.name.toLowerCase() === name.toLowerCase(),
@@ -288,6 +289,7 @@ function HomeScreen() {
           name="Profile"
           component={ProfileTab}
           initialParams={{userId: currentUser.ref.id}}
+          options={ProfileTabHeader}
         />
       </Tab.Navigator>
       <Header
