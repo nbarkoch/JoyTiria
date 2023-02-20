@@ -51,6 +51,8 @@ const PlayerView = ({
 
   const isSelected =
     useSelectionPlayerProgress(state => state.selectedPlayer) === docRef.id;
+  const isAnyoneSelected =
+    useSelectionPlayerProgress(state => state.selectedPlayer) !== undefined;
 
   const [editScore, setEditScore] = useState<boolean>(false);
   const [editedScoreText, setEditedScoreText] = useState<string>(
@@ -102,7 +104,7 @@ const PlayerView = ({
       }
     },
     onPress: () => {
-      if (editPlayerPermission && isSelected) {
+      if (editPlayerPermission && isAnyoneSelected) {
         removeSelection();
       } else {
         navigation.navigate('Profile', {userId: docRef.id});

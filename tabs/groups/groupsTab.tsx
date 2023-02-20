@@ -18,12 +18,16 @@ function GroupsTab() {
     state.currentWorld?.groups.find(grp => grp.id === groupId),
   );
   const removeGroupId = useGroupInfo(state => state.removeGroupId);
+  const removeSelection = useSelectionPlayerProgress(
+    state => state.removeSelection,
+  );
 
   useEffect(() => {
     if (group === undefined) {
       removeGroupId();
+      removeSelection();
     }
-  }, [group, removeGroupId]);
+  }, [group, removeGroupId, removeSelection]);
 
   return (
     <View style={styles.container}>
@@ -81,14 +85,7 @@ export const GroupsTabHeaderLeft = () => {
 
   if (groupId !== undefined) {
     return (
-      <TouchableOpacity
-        onPress={() => {
-          if (selectedPlayerId !== undefined) {
-            removeSelection();
-          } else {
-            removeGroupId();
-          }
-        }}>
+      <TouchableOpacity onPress={handleBackButtonClick}>
         <Icon name={'chevron-back'} size={30} color={'grey'} />
       </TouchableOpacity>
     );

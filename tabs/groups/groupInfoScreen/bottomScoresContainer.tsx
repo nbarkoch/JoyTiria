@@ -16,7 +16,6 @@ import {
 import ScoreInBankContainer from './scoreInBankContainer';
 import LinearGradient from 'react-native-linear-gradient';
 
-//bottomScoresContainer
 interface BottomScoresContainerProps {
   totalScore: number;
   scoreInBank?: PendingScore;
