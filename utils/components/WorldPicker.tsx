@@ -1,4 +1,11 @@
-import React, {FC, ReactElement, useCallback, useRef, useState} from 'react';
+import React, {
+  FC,
+  ReactElement,
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+} from 'react';
 import {
   FlatList,
   Modal,
@@ -11,7 +18,7 @@ import {
   ViewStyle,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
-import {WorldHeader} from '../store';
+import {useCurrentUser, WorldHeader} from '../store';
 import QueriedImage from './queriedImage';
 
 interface Props {
@@ -159,33 +166,33 @@ function WorldPicker({
   const [dropdownTop, setDropdownTop] = useState(0);
   const [dropdownWidth, setDropdownWidth] = useState(0);
   const [dropdownX, setDropdownX] = useState(0);
-  const [selectedItem, setSelectedItem] = useState<WorldHeader>(data[0]);
+
+  const selectedItem =
+    useCurrentUser(state => state.selectedWorldHeader) ?? data[0];
+  const setSelectedItem = useCurrentUser(state => state.setSelectedWorldHeader);
+
   const [visible, setVisible] = useState(false);
 
-  const onItemPress = useCallback(
-    (item: WorldHeader): void => {
-      setSelectedItem(item);
-      onSelect(item);
-      setVisible(false);
-    },
-    [onSelect],
-  );
+  useEffect(() => {
+    onSelect(selectedItem);
+    setVisible(false);
+  }, [onSelect, selectedItem, data]);
 
   const onDeleteSelectedWorld = useCallback(
     async (world: WorldHeader) => {
       const success = await onDeleteWorld(world);
       if (success && world === selectedItem) {
-        onItemPress(data[0]);
+        setSelectedItem(data[0]);
       }
     },
-    [data, selectedItem, onDeleteWorld, onItemPress],
+    [data, selectedItem, onDeleteWorld, setSelectedItem],
   );
 
   const renderItem = ({item}: {item: WorldHeader}): ReactElement<any, any> => {
     return (
       <WorldItem
         item={item}
-        onItemPress={onItemPress}
+        onItemPress={setSelectedItem}
         onSubmitItem={onDeleteSelectedWorld}
       />
     );

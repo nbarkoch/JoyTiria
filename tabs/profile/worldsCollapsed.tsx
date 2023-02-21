@@ -2,12 +2,18 @@ import React, {useState} from 'react';
 import {View, TouchableOpacity, Text, StyleSheet} from 'react-native';
 import Animated from 'react-native-reanimated';
 import QueriedImage from '../../utils/components/queriedImage';
-import {WorldHeader, WorldPreview} from '../../utils/store';
+import {
+  DocRef,
+  useCurrentUser,
+  WorldHeader,
+  WorldPreview,
+} from '../../utils/store';
 import MIcon from 'react-native-vector-icons/MaterialCommunityIcons';
 import {useQuery} from 'react-query';
+import firestore from '@react-native-firebase/firestore';
 
 interface WorldsCollapsibleProps {
-  id: string;
+  userRef: DocRef;
   worldsPreview: WorldPreview[];
 }
 
@@ -37,11 +43,15 @@ const getWorlds = async (worldsPreview: WorldPreview[]) => {
   return worldsHeaders;
 };
 
-function WorldsCollapsible({id, worldsPreview}: WorldsCollapsibleProps) {
+function WorldsCollapsible({userRef, worldsPreview}: WorldsCollapsibleProps) {
   const [open, setOpen] = useState<boolean>(false);
-
+  const currentUserWorlds = useCurrentUser(state => state.user?.worlds);
+  const setWorldPickerSelect = useCurrentUser(
+    state => state.setSelectedWorldHeader,
+  );
+  const curUserRef = useCurrentUser(state => state.user?.ref);
   const {data: worlds} = useQuery<WorldHeader[], Error>(
-    ['WORLDS_FOR', {id}],
+    ['WORLDS_FOR', userRef.id],
     async () => {
       const response = await getWorlds(worldsPreview);
       return response;
@@ -51,6 +61,31 @@ function WorldsCollapsible({id, worldsPreview}: WorldsCollapsibleProps) {
   const dynamicHeaderStyle = {
     borderBottomStartRadius: open ? 0 : HEADER_RADIUS,
     borderBottomEndRadius: open ? 0 : HEADER_RADIUS,
+  };
+
+  const joinWorld = async (worldHeader: WorldHeader) => {
+    try {
+      if (curUserRef !== undefined) {
+        await curUserRef.update({
+          worlds: firestore.FieldValue.arrayUnion({
+            smallData: worldHeader.ref,
+            bigData: worldHeader.refData,
+          }),
+        });
+        await worldHeader.refData.update({
+          pendingUsers: firestore.FieldValue.arrayUnion({
+            docRef: curUserRef,
+            score: 0,
+          }),
+        });
+      }
+    } catch (error) {
+      console.error(error as Error);
+    }
+  };
+
+  const launchWorld = (worldHeader: WorldHeader) => {
+    setWorldPickerSelect(worldHeader);
   };
 
   return (
@@ -70,7 +105,9 @@ function WorldsCollapsible({id, worldsPreview}: WorldsCollapsibleProps) {
           {open && (
             <View style={styles.bodyContainer}>
               {worlds.map((item, index) => {
-                console.log(item);
+                const connected = currentUserWorlds?.find(
+                  w => w.ref.id === item.ref.id,
+                );
                 return (
                   <View key={item.ref.id}>
                     <View style={worldStyle.container}>
@@ -79,8 +116,14 @@ function WorldsCollapsible({id, worldsPreview}: WorldsCollapsibleProps) {
                         style={worldStyle.image}
                       />
                       <Text style={worldStyle.title}>{item.name}</Text>
-                      <TouchableOpacity style={{}}>
-                        <Text>{'Join'}</Text>
+                      <TouchableOpacity
+                        onPress={
+                          connected
+                            ? () => launchWorld(item)
+                            : () => joinWorld(item)
+                        }
+                        style={{}}>
+                        <Text>{connected ? 'Launch' : 'Join'}</Text>
                       </TouchableOpacity>
                     </View>
                     {worlds.length - 1 > index && (

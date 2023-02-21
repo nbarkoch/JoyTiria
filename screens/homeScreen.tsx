@@ -34,9 +34,12 @@ interface HeaderProps {
 
 const Header: FC<HeaderProps> = ({worlds, onCreateWorld, onDeleteWorld}) => {
   const setCurrentWorld = useCurrentUser(state => state.setWorldRef);
-  const onSelectWorldRef = (world: WorldHeader) => {
-    setCurrentWorld(world.refData);
-  };
+  const onSelectWorldRef = useCallback(
+    (world: WorldHeader) => {
+      setCurrentWorld(world.refData);
+    },
+    [setCurrentWorld],
+  );
 
   const navigation = useNavigation<ProfileScreenNavigationProp>();
   return (

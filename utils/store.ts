@@ -83,6 +83,8 @@ interface UserState {
   removeUser: () => void;
   setWorldRef: (worldRef: DocRef) => void;
   getCurrentWorldHeader: () => WorldHeader | undefined;
+  selectedWorldHeader?: WorldHeader;
+  setSelectedWorldHeader: (woldHeader: WorldHeader) => void;
 }
 
 export const useCurrentUser = create<UserState>((set, get) => ({
@@ -117,6 +119,23 @@ export const useCurrentUser = create<UserState>((set, get) => ({
     );
     return currentWorldHeader;
   },
+  selectedWorldHeader: undefined,
+  setSelectedWorldHeader: woldHeader =>
+    set(state => {
+      if (state.user !== undefined) {
+        if (
+          state.user.worlds.find(value => value.ref.id === woldHeader.ref.id)
+        ) {
+          return {
+            selectedWorldHeader: woldHeader,
+          };
+        }
+        return {
+          selectedWorldHeader: state.selectedWorldHeader,
+        };
+      }
+      return {selectedWorldHeader: undefined};
+    }),
 }));
 
 interface WorldState {

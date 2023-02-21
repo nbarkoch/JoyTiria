@@ -255,7 +255,7 @@ const ProfileHeader = ({
         />
       </View>
 
-      <WorldsCollapsible id={ref.id} worldsPreview={worldsPreview ?? []} />
+      <WorldsCollapsible userRef={ref} worldsPreview={worldsPreview ?? []} />
       <View style={userStyle.buttonsContainer}>
         {!isUndefined(player) && (
           <TouchableOpacity
