@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {memo, useState} from 'react';
 import {View, TouchableOpacity, Text, StyleSheet} from 'react-native';
 import Animated from 'react-native-reanimated';
 import QueriedImage from '../../utils/components/queriedImage';
@@ -46,11 +46,10 @@ const getWorlds = async (worldsPreview: WorldPreview[]) => {
 function WorldsCollapsible({userRef, worldsPreview}: WorldsCollapsibleProps) {
   const [open, setOpen] = useState<boolean>(false);
   const currentUserWorlds = useCurrentUser(state => state.user?.worlds);
-  const setWorldPickerSelect = useCurrentUser(
-    state => state.setSelectedWorldHeader,
-  );
+  const launchWorld = useCurrentUser(state => state.setSelectedWorldHeader);
   const curUserRef = useCurrentUser(state => state.user?.ref);
-  const {data: worlds} = useQuery<WorldHeader[], Error>(
+
+  const {data: worlds, isFetching} = useQuery<WorldHeader[], Error>(
     ['WORLDS_FOR', userRef.id],
     async () => {
       const response = await getWorlds(worldsPreview);
@@ -84,9 +83,15 @@ function WorldsCollapsible({userRef, worldsPreview}: WorldsCollapsibleProps) {
     }
   };
 
-  const launchWorld = (worldHeader: WorldHeader) => {
-    setWorldPickerSelect(worldHeader);
-  };
+  if (isFetching) {
+    return (
+      <View style={styles.container}>
+        <Text style={[styles.header, styles.textNoData]}>
+          {'Loading worlds for user..'}
+        </Text>
+      </View>
+    );
+  }
 
   return (
     <View style={styles.container}>
@@ -117,11 +122,10 @@ function WorldsCollapsible({userRef, worldsPreview}: WorldsCollapsibleProps) {
                       />
                       <Text style={worldStyle.title}>{item.name}</Text>
                       <TouchableOpacity
-                        onPress={
-                          connected
-                            ? () => launchWorld(item)
-                            : () => joinWorld(item)
-                        }
+                        onPress={() => {
+                          connected ? launchWorld(item) : joinWorld(item);
+                          setOpen(false);
+                        }}
                         style={{}}>
                         <Text>{connected ? 'Launch' : 'Join'}</Text>
                       </TouchableOpacity>
@@ -144,7 +148,7 @@ function WorldsCollapsible({userRef, worldsPreview}: WorldsCollapsibleProps) {
   );
 }
 
-export default WorldsCollapsible;
+export default memo(WorldsCollapsible);
 
 const styles = StyleSheet.create({
   container: {

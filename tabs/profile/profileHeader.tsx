@@ -254,7 +254,6 @@ const ProfileHeader = ({
           value={!isNil(pendingScore) ? pendingScore.score : 0}
         />
       </View>
-
       <WorldsCollapsible userRef={ref} worldsPreview={worldsPreview ?? []} />
       <View style={userStyle.buttonsContainer}>
         {!isUndefined(player) && (

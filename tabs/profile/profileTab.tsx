@@ -9,44 +9,78 @@ import {
   UserPreview,
   WorldPreview,
 } from '../../utils/store';
-import {useCallback, useEffect, useRef, useState} from 'react';
+import {useCallback, useEffect, useMemo, useRef, useState} from 'react';
 import BasicPlayerView from './basicPlayerView';
 import ProfileHeader from './profileHeader';
 import {RouteProp, useRoute} from '@react-navigation/native';
 import {TabsStackParamList} from '../../navigation';
 import fb from '@react-native-firebase/firestore';
 
+const Header = ({
+  userPreview,
+  userPlayer,
+  scrollToPlayer,
+  setCurrentUser,
+  isCurrentUser,
+}: {
+  userPreview: UserPreview;
+  userPlayer: Player | undefined;
+  scrollToPlayer: () => void;
+  setCurrentUser: () => void;
+  isCurrentUser: boolean;
+}) => (
+  <View style={styles.header}>
+    <ProfileHeader
+      user={userPreview}
+      player={userPlayer}
+      jumpToPlayer={scrollToPlayer}
+      setCurrentUser={setCurrentUser}
+      isCurrentUser={isCurrentUser}
+    />
+  </View>
+);
+
 function ProfileTab() {
   const curUserId = useCurrentUser(state => state.user?.ref.id);
   const userIdFromParamRoute =
     useRoute<RouteProp<TabsStackParamList, 'Profile'>>().params.userId;
-
-  const players = useCurrentWorld(state => {
-    if (state.currentWorld !== undefined) {
-      let $players = state.currentWorld?.groups.map(g => g.players).flat();
-      if (state.currentWorld.admins !== undefined) {
-        $players = $players.concat(
-          state.currentWorld.admins.map(admin => ({
-            docRef: admin,
-            score: 0,
-            pendingScore: undefined,
-          })),
-        );
-      }
-      if (state.currentWorld.pendingUsers !== undefined) {
-        $players = $players.concat(state.currentWorld.pendingUsers);
-      }
-      return $players;
-    }
-    return [];
-  });
-
   const userProfileId = useProfile(state => state.userProfileId);
   const setUserProfileId = useProfile(state => state.setUserProfileId);
 
   const [userPreview, setUserPreview] = useState<UserPreview | undefined>(
     undefined,
   );
+
+  const currentWorld = useCurrentWorld(state => state.currentWorld);
+
+  const players = useMemo(() => {
+    if (isUndefined(currentWorld)) {
+      return [];
+    }
+    const {admins, pendingUsers, groups} = currentWorld;
+    let $players = groups.map(g => g.players).flat();
+    console.log('found it');
+    if (admins !== undefined) {
+      $players = $players.concat(
+        admins.map(admin => ({
+          docRef: admin,
+          score: 0,
+          pendingScore: undefined,
+        })),
+      );
+    }
+    if (pendingUsers !== undefined) {
+      $players = $players.concat(pendingUsers);
+    }
+    return $players;
+  }, [currentWorld]);
+
+  const userPlayer = useMemo(() => {
+    if (!isUndefined(userPreview)) {
+      return players.find(p => p.docRef.id === userPreview.ref.id);
+    }
+    return undefined;
+  }, [players, userPreview]);
 
   useEffect(() => {
     const subscriber = fb()
@@ -79,10 +113,6 @@ function ProfileTab() {
   >(undefined);
   const numHighlighted = useRef<number>(0);
 
-  const userPlayer = isUndefined(userPreview)
-    ? undefined
-    : players.find(p => p.docRef.id === userPreview.ref.id);
-
   const scrollRef = useRef<FlatList>(null);
 
   const scrollToPlayer = useCallback(() => {
@@ -103,6 +133,10 @@ function ProfileTab() {
       }, 270);
     }
   }, [userPlayer]);
+
+  const setCurrentUser = useCallback(() => {
+    setUserProfileId(curUserId);
+  }, [curUserId, setUserProfileId]);
 
   useEffect(() => {
     setUserProfileId(userIdFromParamRoute);
@@ -135,19 +169,15 @@ function ProfileTab() {
             </View>
           );
         }}
-        ListHeaderComponent={() => (
-          <View style={styles.header}>
-            <ProfileHeader
-              user={userPreview}
-              player={userPlayer}
-              jumpToPlayer={scrollToPlayer}
-              setCurrentUser={() => {
-                setUserProfileId(curUserId);
-              }}
-              isCurrentUser={curUserId === userProfileId}
-            />
-          </View>
-        )}
+        ListHeaderComponent={
+          <Header
+            userPreview={userPreview}
+            userPlayer={userPlayer}
+            scrollToPlayer={scrollToPlayer}
+            setCurrentUser={setCurrentUser}
+            isCurrentUser={curUserId === userProfileId}
+          />
+        }
         ListFooterComponent={() => <View style={styles.footer} />}
         keyboardShouldPersistTaps="always"
       />
