@@ -1,0 +1,8 @@
+{
+  "translation": {
+    "LOGIN_TITLE": "Login",
+    "REGISTER_TITLE": "Register",
+    "HOME_TITLE": "Home",
+    "NO_WORLDS_FOUND": "This user doesn't connected to any world"
+  }
+}

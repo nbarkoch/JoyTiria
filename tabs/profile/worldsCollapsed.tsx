@@ -11,6 +11,7 @@ import {
 import MIcon from 'react-native-vector-icons/MaterialCommunityIcons';
 import {useQuery} from 'react-query';
 import firestore from '@react-native-firebase/firestore';
+import useTranslate from '../../languages/translations';
 
 interface WorldsCollapsibleProps {
   userRef: DocRef;
@@ -45,6 +46,7 @@ const getWorlds = async (worldsPreview: WorldPreview[]) => {
 
 function WorldsCollapsible({userRef, worldsPreview}: WorldsCollapsibleProps) {
   const [open, setOpen] = useState<boolean>(false);
+  const {t} = useTranslate();
   const currentUserWorlds = useCurrentUser(state => state.user?.worlds);
   const launchWorld = useCurrentUser(state => state.setSelectedWorldHeader);
   const curUserRef = useCurrentUser(state => state.user?.ref);
@@ -140,9 +142,7 @@ function WorldsCollapsible({userRef, worldsPreview}: WorldsCollapsibleProps) {
           )}
         </Animated.View>
       ) : (
-        <Text style={styles.textNoData}>
-          {"This user doesn't connected to any world"}
-        </Text>
+        <Text style={styles.textNoData}>{t('NO_WORLDS_FOUND')}</Text>
       )}
     </View>
   );
