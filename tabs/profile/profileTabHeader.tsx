@@ -30,13 +30,16 @@ const ProfileTabHeader = (): BottomTabNavigationOptions => {
   );
 
   const handleBackButtonClick = useCallback(() => {
-    setSearchActive(false);
-    if (!isUndefined(curUserId)) {
-      searchFor(curUserId);
+    if (searchActive) {
+      setSearchActive(false);
+      if (!isUndefined(curUserId)) {
+        searchFor(curUserId);
+      }
+      setValue('');
+      return true;
     }
-    setValue('');
     return false;
-  }, [curUserId, searchFor]);
+  }, [curUserId, searchActive, searchFor]);
 
   useEffect(() => {
     BackHandler.addEventListener('hardwareBackPress', handleBackButtonClick);
@@ -113,8 +116,13 @@ const styles = StyleSheet.create({
   headerOptions: {
     padding: 10,
     flexDirection: 'row',
+    alignItems: 'center',
   },
-  textInput: {flex: 1, paddingHorizontal: 5, fontSize: 18},
+  textInput: {
+    flex: 1,
+    paddingHorizontal: 5,
+    fontSize: 18,
+  },
   icon: {paddingHorizontal: 5},
   headerRight: {justifyContent: 'center', alignItems: 'center', padding: 5},
 });

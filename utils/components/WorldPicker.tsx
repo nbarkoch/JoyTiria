@@ -17,7 +17,10 @@ import {
   View,
   ViewStyle,
 } from 'react-native';
+import {isUndefined} from 'lodash';
 import Icon from 'react-native-vector-icons/Ionicons';
+import Animated, {FadeInUp} from 'react-native-reanimated';
+
 import {useCurrentUser, WorldHeader} from '../store';
 import QueriedImage from './queriedImage';
 
@@ -174,7 +177,9 @@ function WorldPicker({
   const [visible, setVisible] = useState(false);
 
   useEffect(() => {
-    onSelect(selectedItem);
+    if (!isUndefined(selectedItem)) {
+      onSelect(selectedItem);
+    }
     setVisible(false);
   }, [onSelect, selectedItem, data]);
 
@@ -220,7 +225,8 @@ function WorldPicker({
         <TouchableOpacity
           style={styles.overlay}
           onPress={() => setVisible(false)}>
-          <View
+          <Animated.View
+            entering={FadeInUp}
             style={[
               styles.dropdown,
               {top: dropdownTop, width: dropdownWidth, left: dropdownX},
@@ -232,7 +238,7 @@ function WorldPicker({
               ItemSeparatorComponent={Separator}
               ListFooterComponent={Footer}
             />
-          </View>
+          </Animated.View>
         </TouchableOpacity>
       </Modal>
     );
@@ -274,8 +280,9 @@ const styles = StyleSheet.create({
     borderBottomRightRadius: 5,
     borderBottomLeftRadius: 5,
     shadowRadius: 4,
+    elevation: 5,
     shadowOffset: {height: 4, width: 0},
-    shadowOpacity: 0.5,
+    shadowOpacity: 0.3,
     left: 0,
   },
   overlay: {

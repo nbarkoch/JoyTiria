@@ -1,4 +1,3 @@
-import {isUndefined} from 'lodash';
 import React, {
   forwardRef,
   useCallback,
@@ -10,6 +9,7 @@ import {TouchableOpacity, Text, StyleSheet} from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import {useQuery} from 'react-query';
+import {isNil, isUndefined} from 'lodash';
 import {Group, User} from '../../../utils/store';
 import {LayoutProps} from '../types';
 
@@ -84,7 +84,7 @@ const GroupView = forwardRef<GroupViewRef, GroupViewProps>(
             {(players?.length.toString() ?? '0') + ' Players'}
           </Text>
           <Text numberOfLines={1} style={styles.groupLeader}>
-            {'Leader: ' + (!isUndefined(leader) ? leaderUser?.name : 'None')}
+            {`Leader: ${!isNil(leader) ? leaderUser?.name : 'None'}`}
           </Text>
         </LinearGradient>
       </TouchableOpacity>
@@ -105,7 +105,7 @@ const styles = StyleSheet.create({
     shadowOffset: {width: 0, height: 1},
     shadowOpacity: 0.5,
     shadowRadius: 2,
-    elevation: 5,
+    elevation: 10,
     padding: 5,
   },
   innerGroupContainer: {

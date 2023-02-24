@@ -66,6 +66,11 @@ const ProfileHeader = ({
   const isAdmin = useCurrentWorld(state =>
     state.currentWorld?.admins.find(admin => admin.id === user.ref.id),
   );
+  const isPendingUser = useCurrentWorld(state =>
+    state.currentWorld?.pendingUsers?.find(
+      pUser => pUser.docRef.id === user.ref.id,
+    ),
+  );
   const isLeader = useCurrentWorld(
     state =>
       !isUndefined(
@@ -225,6 +230,11 @@ const ProfileHeader = ({
                     <Text>{' ('}</Text>
                     <MIcon name={'flag'} size={16} color="red" />
                     <Text>{' Leader)'}</Text>
+                  </Text>
+                )}
+                {isPendingUser && (
+                  <Text style={userStyle.admin}>
+                    <Text>{' (Pending)'}</Text>
                   </Text>
                 )}
               </>

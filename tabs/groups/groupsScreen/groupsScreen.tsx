@@ -8,6 +8,7 @@ import {
   useDialog,
   useGroupInfo,
   usePendingUsersLayout,
+  UserPreview,
 } from '../../../utils/store';
 
 import {LayoutProps} from '../types';
@@ -17,6 +18,7 @@ import {gestureHandlerRootHOC} from 'react-native-gesture-handler';
 import PendingUsersContainer from './pendingUsersContainer';
 import TrashCan, {TrashCanRef} from './trashCan';
 import {firebase} from '@react-native-firebase/auth';
+import {isUndefined} from 'lodash';
 
 const {height: SCREEN_HEIGHT} = Dimensions.get('screen');
 
@@ -74,10 +76,22 @@ const GroupsScreen = gestureHandlerRootHOC(() => {
   );
 
   const deletePendingUser = useCallback(
-    (player: Player) => {
-      currentWorldRef?.update({
-        pendingUsers: firebase.firestore.FieldValue.arrayRemove(player),
-      });
+    async (player: Player) => {
+      const userPreview = (await player.docRef.get()).data() as UserPreview;
+      const currentPreviewWorld = userPreview.worlds?.find(
+        world => world.bigData.id === currentWorldRef?.id,
+      );
+      if (!isUndefined(currentPreviewWorld)) {
+        currentWorldRef?.update({
+          pendingUsers: firebase.firestore.FieldValue.arrayRemove(player),
+        });
+        player.docRef.update({
+          worlds:
+            firebase.firestore.FieldValue.arrayRemove(currentPreviewWorld),
+        });
+        return Promise.resolve(true);
+      }
+      return Promise.resolve(false);
     },
     [currentWorldRef],
   );

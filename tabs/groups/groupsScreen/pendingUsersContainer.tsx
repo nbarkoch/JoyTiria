@@ -11,7 +11,7 @@ interface PendingUsersContainerProps {
   onDragStart?: () => void;
   onDragEnd?: () => void;
   findIfInTrashCan: (pendingUserLayoutProps: LayoutProps) => boolean;
-  deletePendingUser: (player: Player) => void;
+  deletePendingUser: (player: Player) => Promise<boolean>;
 }
 
 const PendingUsersContainer = ({

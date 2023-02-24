@@ -28,7 +28,7 @@ const PendingUser = ({
   findIfInTrashCan: (layoutProps: LayoutProps) => boolean;
   onDragStart: () => void;
   onDragEnd: () => void;
-  deletePendingUser: (player: Player) => void;
+  deletePendingUser: (player: Player) => Promise<boolean>;
 }) => {
   const [shortName, setShortName] = useState<string | undefined>(undefined);
 
@@ -69,8 +69,13 @@ const PendingUser = ({
     if (group === undefined) {
       if (findIfInTrashCan(layoutProps)) {
         scale.value = withTiming(0, {duration: 400});
-        const timeout = setTimeout(() => {
-          deletePendingUser(player);
+        const timeout = setTimeout(async () => {
+          const deleted = await deletePendingUser(player);
+          if (!deleted) {
+            scale.value = withTiming(1, {duration: 100});
+            translateX.value = withSpring(0);
+            translateY.value = withSpring(0);
+          }
           onDragEnd();
           clearTimeout(timeout);
         }, 600);
