@@ -13,6 +13,7 @@ import Icon from 'react-native-vector-icons/Ionicons';
 
 import {useCurrentUser, useProfile} from '../../utils/store';
 import {isUndefined} from 'lodash';
+import {useTranslate} from '../../languages/translations';
 
 const ProfileTabHeader = (): BottomTabNavigationOptions => {
   const [searchActive, setSearchActive] = useState<boolean>(false);
@@ -21,7 +22,7 @@ const ProfileTabHeader = (): BottomTabNavigationOptions => {
   const curUserId = useCurrentUser(state => state.user?.ref.id);
   const userProfileId = useProfile(state => state.userProfileId);
   const setUserProfileId = useProfile(state => state.setUserProfileId);
-
+  const {t} = useTranslate();
   const searchFor = useCallback(
     (text: string) => {
       setUserProfileId(text);
@@ -109,7 +110,9 @@ const ProfileTabHeader = (): BottomTabNavigationOptions => {
       </TouchableOpacity>
     );
   };
-  return searchActive ? {header: header} : {headerRight: headerRight};
+  return searchActive
+    ? {header: header}
+    : {headerTitle: t('HOME.PROFILE'), headerRight: headerRight};
 };
 
 const styles = StyleSheet.create({
