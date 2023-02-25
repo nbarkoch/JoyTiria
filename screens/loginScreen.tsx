@@ -22,8 +22,10 @@ import {Error, getErrorMessage} from '../utils/firebase';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import BouncyCheckbox from 'react-native-bouncy-checkbox';
 import {useCurrentUser} from '../utils/store';
+import {useTranslate} from '../languages/translations';
 
 function LoginScreen() {
+  const {t} = useTranslate();
   const [email, setEmail] = useState<string>('');
   const [pass, setPass] = useState<string>('');
   const [checkbox, setCheckbox] = useState<boolean>(false);
@@ -74,7 +76,6 @@ function LoginScreen() {
   };
 
   const loginDisabled = email === '' || pass === '';
-
   return (
     <KeyboardAvoidingView
       behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
@@ -85,7 +86,7 @@ function LoginScreen() {
           <TextInput
             value={email}
             onChangeText={setEmail}
-            placeholder="Email Address"
+            placeholder={t('LOGIN.EMAIL_ADDRESS')}
             autoCorrect={false}
             style={!errorMessage ? styles.textInput : styles.invalidTextInput}
             placeholderTextColor={'#AAAA'}
@@ -95,7 +96,7 @@ function LoginScreen() {
           <TextInput
             value={pass}
             onChangeText={setPass}
-            placeholder="Password"
+            placeholder={t('LOGIN.PASSWORD')}
             secureTextEntry
             autoCorrect={false}
             style={!errorMessage ? styles.textInput : styles.invalidTextInput}
@@ -120,7 +121,7 @@ function LoginScreen() {
             fillColor="#03A9F4"
             onPress={() => setCheckbox(!checkbox)}
           />
-          <Text style={styles.CheckboxText}>remember me</Text>
+          <Text style={styles.CheckboxText}>{t('LOGIN.REMEMBER_ME')}</Text>
         </View>
 
         <View style={styles.buttonContainer}>
@@ -130,14 +131,16 @@ function LoginScreen() {
               loginDisabled ? styles.disabledButtonLogin : styles.buttonLogin
             }
             onPress={onPressLogin}>
-            <Text style={styles.loginText}>login</Text>
+            <Text style={styles.loginText}>{t('LOGIN.LOGIN_BUTTON')}</Text>
           </TouchableOpacity>
         </View>
         <View style={styles.buttonContainer}>
           <TouchableOpacity
             style={styles.buttonRegister}
             onPress={onPressRegister}>
-            <Text style={styles.registerText}>register</Text>
+            <Text style={styles.registerText}>
+              {t('LOGIN.REGISTER_BUTTON')}
+            </Text>
           </TouchableOpacity>
         </View>
       </ScrollView>

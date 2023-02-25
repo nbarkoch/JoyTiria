@@ -19,6 +19,7 @@ import PendingUsersContainer from './pendingUsersContainer';
 import TrashCan, {TrashCanRef} from './trashCan';
 import {firebase} from '@react-native-firebase/auth';
 import {isUndefined} from 'lodash';
+import {useTranslate} from '../../../languages/translations';
 
 const {height: SCREEN_HEIGHT} = Dimensions.get('screen');
 
@@ -37,6 +38,7 @@ const GroupsScreen = gestureHandlerRootHOC(() => {
   const pendingUsersLayoutHeight = usePendingUsersLayout(state => state.height);
   const setGroupId = useGroupInfo(state => state.setGroupId);
   const setGroupName = useGroupInfo(state => state.setGroupName);
+  const {t} = useTranslate();
 
   useEffect(() => {
     const showSubscription = Keyboard.addListener('keyboardDidShow', () => {
@@ -118,9 +120,8 @@ const GroupsScreen = gestureHandlerRootHOC(() => {
         };
         if (group.players.length > 0) {
           setDialog({
-            title: 'Are you sure?',
-            message:
-              'Are you sure you want to delete this group?\nAll players will lose the group reference',
+            title: t('DIALOG.ARE_YOU_SURE'),
+            message: t('DIALOG.DELETE_GROUP_DESCRIPTION'),
             onSubmit: $deleteGroup,
           });
         } else {
@@ -128,7 +129,7 @@ const GroupsScreen = gestureHandlerRootHOC(() => {
         }
       }
     },
-    [groups, currentWorldRef, pendingUsers, setDialog],
+    [groups, currentWorldRef, pendingUsers, setDialog, t],
   );
 
   const addUserToGroup = useCallback(

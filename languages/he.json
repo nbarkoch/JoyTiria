@@ -2,6 +2,98 @@
   "translation": {
     "LOGIN_TITLE": "התחברות",
     "REGISTER_TITLE": "הרשמה",
-    "HOME_TITLE": "דף הבית"
+    "HOME_TITLE": "דף הבית",
+    "LOGIN": {
+      "EMAIL_ADDRESS": "כתובת אימייל",
+      "PASSWORD": "סיסמה",
+      "REMEMBER_ME": "זכור אותי",
+      "LOGIN_BUTTON": "התחבר",
+      "REGISTER_BUTTON": "הרשמה"
+    },
+    "REGISTER": {
+      "NAME_TOO_SHORT": "השם קצר מידי",
+      "EMAIL_TOO_SHORT": "האימייל קצר מידי",
+      "PASSWORD_TOO_SHORT": "סיסמה קצרה מידי",
+      "PASSWORD_NOT_MATCH": "הסיסמאות לא תואמות",
+      "NAME": "שם",
+      "EMAIL": "אימייל",
+      "PASSWORD": "סיסמה",
+      "REPEAT_PASSWORD": "הזן את הסיסמה שוב",
+      "CREATE": "סיום",
+      "WELCOME": "שלום {{name}}, התחברת בהצלחה!"
+    },
+    "HOME": {
+      "PROFILE": "פרופיל",
+      "GROUPS": "קבוצות",
+      "ANNOUNCEMENTS": "הודעות",
+      "LOADING": "טוען.."
+    },
+    "DIALOG": {
+      "ARE_YOU_SURE": "האם אתה בטוח?",
+      "ADMIN_DELETE_DESCRIPTION": "האם אתה בטוח שברצונך למחוק את העולם?\nהעולם הזה ימחק לכל המשתתפים מאחר שאתה המנהל.",
+      "NO_ADMIN_DELETE_DESCRIPTION": "האם אתה בטוח שברצונך למחוק את העולם?\nאתה תאבד את הגישה אליו."
+    },
+    "SNACKBAR": {
+      "UPLOAD_PROGRESS": "מעלה את הקובץ {{progress}}",
+      "UPLOAD_PAUSED": "העלאה נעצרה {{progress}}",
+      "UPLOAD_CANCELED": "העלאה התבטלה",
+      "UPLOAD_ERROR": "תקלה קרתה במהלך ההעלאה.."
+    },
+    "FIREBASE": {
+      "INVALID_EMAIL": "כתובת אימייל לא חוקית",
+      "WRONG_EMAIL_OR_PASSWORD": "אחד מהפרטים שהוזנו אינם נכונים",
+      "EMAIL_DISABLED": "כתובת האימייל חסומה",
+      "EMAIL_IN_USE": "כתובת האימייל כבר בשימוש",
+      "AUTHENTICATION_DISABLED": "הזיהוי חסום",
+      "PASSWORD_TOO_WEAK": "הסיסמה חלשה מידי",
+      "UNKNOWN_ERROR": "אירעה תקלה, נא נסה שוב מאוחר יותר"
+    },
+    "ANNOUNCEMENTS": {
+      "LOADING": "טוען..",
+      "NO_DATA": "כרגע אין הודעות בעולם"
+    },
+    "GROUPS": {
+      "INVALID_EMAIL_ADDRESS": "כתובת אימייל לא חוקית",
+      "PENDING_USER_EXISTS": "המשתמש כבר קיים ברשימת התלויים",
+      "GROUP_NAME_EXISTS": "שם הקבוצה כבר תפוס",
+      "PLAYER_EXISTS": "המשתמש כבר משתתף באחת מהקבוצות",
+      "ADMIN_NOT_ALLOWED_TO_BE_IN_GROUP": "מנהל אינו יכול להשתתף האחת מהקבוצות",
+      "SOMETHING_WENT_WRONG": "משהו משתבש",
+      "GROUP_NAME_TOO_SHORT": "שם הקבוצה קצר מידי",
+      "ENTER_EMAIL_ADDRESS": "הזן כתובת אימייל",
+      "ENTER_GROUP_UNIQUE_NAME": "הזן שם קבוצה ייחודי",
+      "PENDING_USERS": "משתמשים תלויים",
+      "GROUP_INFO": {
+        "SET_SCORE_IN_BANK": "הזן ניקוד בבנק",
+        "NO_SCORE_IN_BANK": "כרגע אין ניקוד בבנק",
+        "SCORE_IN_BANK_TITLE": "ניקוד בבנק",
+        "SCORE_IN_BANK": "ניקוד שמור בבנק",
+        "UNTIL_DATE": "עד {{date}}",
+        "SUBMIT": "אישור",
+        "TOTAL_SCORE": "ניקוד לקבוצה"
+      }
+    },
+    "PROFILE": {
+      "IMAGE_UPLOAD_DONE": "התמונה הועלתה בהצלחה",
+      "IMAGE_ERROR": "אירעתה תקלה במהלך בחירת התמונה..",
+      "NAME": "$t(WITH_DOTS_AND_SPACE, {\"title\": \"שם\"})",
+      "EMAIL": "$t(WITH_DOTS_AND_SPACE, {\"title\": \"אימייל\"})",
+      "SCORE_CURRENT": "$t(WITH_DOTS_AND_SPACE, {\"title\": \"ניקוד נוכחי\"})",
+      "SCORE_PENDING": "$t(WITH_DOTS_AND_SPACE, {\"title\": \"ניקוד תלוי\"})",
+      "SEE_PLAYER_STATUS": "ראה סטטוס שחקן",
+      "SEE_YOUR_PROFILE": "ראה פרופיל שלך"
+    },
+    "NO_WORLDS_FOUND": "המשתמש לא מחובר לשום עולם כרגע",
+    "ADD_NEW_WORLD": "הוסף חדש",
+    "LAUNCH": "כנס",
+    "JOIN": "הצטרף",
+    "LOADING_WORLDS_FOR_USER": "טוען עולם עבור המשתמש..",
+    "WORLDS": "עולמות",
+    "ADMIN": "מנהל",
+    "LEADER": "לידר",
+    "PENDING": "תלוי",
+    "YOU": "אתה",
+    "WITH_DOTS_AND_SPACE": "{{title}}: ",
+    "PLAYERS": "שחקנים"
   }
 }

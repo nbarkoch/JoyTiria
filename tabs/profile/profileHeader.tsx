@@ -22,6 +22,7 @@ import Animated from 'react-native-reanimated';
 import storage from '@react-native-firebase/storage';
 import QueriedImage from '../../utils/components/queriedImage';
 import WorldsCollapsible from './worldsCollapsed';
+import {useTranslate} from '../../languages/translations';
 
 const IMAGE_PROFILE_PATH = 'image_profiles';
 
@@ -79,7 +80,7 @@ const ProfileHeader = ({
         ),
       ),
   );
-
+  const {t} = useTranslate();
   const setSnackbar = useSnackbar(state => state.setSnackbar);
 
   const [editMode, setEditMode] = useState<boolean>(false);
@@ -124,12 +125,12 @@ const ProfileHeader = ({
           switch (snapshot.state) {
             case storage.TaskState.PAUSED:
               setSnackbar({
-                text: `Upload is paused (${progress})`,
+                text: t('SNACKBAR.UPLOAD_PAUSED', {progress}),
               });
               break;
             case storage.TaskState.RUNNING:
               setSnackbar({
-                text: `Upload is running (${progress})`,
+                text: t('SNACKBAR.UPLOAD_PROGRESS', {progress}),
               });
               break;
           }
@@ -137,7 +138,7 @@ const ProfileHeader = ({
         error => {
           console.error(error as Error);
           setSnackbar({
-            text: 'An error occurred while uploading..',
+            text: t('SNACKBAR.UPLOAD_ERROR'),
           });
         },
       );
@@ -148,7 +149,7 @@ const ProfileHeader = ({
           const success = await setUserImage(downloadURL);
           if (success) {
             setSnackbar({
-              text: 'Image uploaded successfully',
+              text: t('PROFILE.IMAGE_UPLOAD_DONE'),
             });
           }
         }
@@ -174,7 +175,7 @@ const ProfileHeader = ({
     } catch (error) {
       console.error(error as Error);
       setSnackbar({
-        text: 'An error occurred while taking the photo..',
+        text: t('PROFILE.IMAGE_ERROR'),
       });
     }
   };
@@ -206,7 +207,7 @@ const ProfileHeader = ({
       <View style={userStyle.userInfo}>
         <View style={userStyle.section}>
           <View style={userStyle.text}>
-            <Text style={userStyle.key}>{'Name: '}</Text>
+            <Text style={userStyle.key}>{t('PROFILE.NAME')}</Text>
             {editMode ? (
               <TextInput
                 ref={textInputRef}
@@ -222,19 +223,19 @@ const ProfileHeader = ({
                   <Text style={userStyle.admin}>
                     <Text>{' ('}</Text>
                     <MIcon name={'crown'} size={16} color="#FFDE52" />
-                    <Text>{' Admin)'}</Text>
+                    <Text>{` ${t('ADMIN')})`}</Text>
                   </Text>
                 )}
                 {isLeader && (
                   <Text style={userStyle.admin}>
                     <Text>{' ('}</Text>
                     <MIcon name={'flag'} size={16} color="red" />
-                    <Text>{' Leader)'}</Text>
+                    <Text>{` ${t('LEADER')})`}</Text>
                   </Text>
                 )}
                 {isPendingUser && (
                   <Text style={userStyle.admin}>
-                    <Text>{' (Pending)'}</Text>
+                    <Text>{` (${t('PENDING')})`}</Text>
                   </Text>
                 )}
               </>
@@ -255,12 +256,12 @@ const ProfileHeader = ({
           )}
         </View>
         <Liner />
-        <TextSection title={'Email: '} value={ref.id} />
+        <TextSection title={t('PROFILE.EMAIL')} value={ref.id} />
         <Liner />
-        <TextSection title={'Current Score: '} value={score} />
+        <TextSection title={t('PROFILE.SCORE_CURRENT')} value={score} />
         <Liner />
         <TextSection
-          title={'Pending Score: '}
+          title={t('PROFILE.SCORE_PENDING')}
           value={!isNil(pendingScore) ? pendingScore.score : 0}
         />
       </View>
@@ -279,7 +280,9 @@ const ProfileHeader = ({
                 style={userStyle.arrowIcon}
                 color="white"
               />
-              <Text style={userStyle.buttonText}>{'See Player Status'}</Text>
+              <Text style={userStyle.buttonText}>
+                {t('PROFILE.SEE_PLAYER_STATUS')}
+              </Text>
             </LinearGradient>
           </TouchableOpacity>
         )}
@@ -296,7 +299,9 @@ const ProfileHeader = ({
                 style={userStyle.arrowIcon}
                 color="white"
               />
-              <Text style={userStyle.buttonText}>{'See Your Profile'}</Text>
+              <Text style={userStyle.buttonText}>
+                {t('PROFILE.SEE_YOUR_PROFILE')}
+              </Text>
             </LinearGradient>
           </TouchableOpacity>
         )}

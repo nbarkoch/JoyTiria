@@ -11,11 +11,12 @@ import Animated, {FadeInDown, FadeOutDown} from 'react-native-reanimated';
 import firestore from '@react-native-firebase/firestore';
 import AnimatedIcon from './animatedIcon';
 import {generateUUID} from '../../../utils/components/utils';
+import {useTranslate} from '../../../languages/translations';
 
 function BottomActions() {
   const keyboardOffset = useKeyboard(state => state.height);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
-
+  const {t} = useTranslate();
   const getCurrentWorldHeader = useCurrentUser(
     state => state.getCurrentWorldHeader,
   );
@@ -31,7 +32,7 @@ function BottomActions() {
           setErrorMessage(null);
           clearTimeout(timeout);
         }, 5000);
-        setErrorMessage('Invalid email address');
+        setErrorMessage(t('GROUPS.INVALID_EMAIL_ADDRESS'));
         return false;
       }
       try {
@@ -58,7 +59,7 @@ function BottomActions() {
               setErrorMessage(null);
               clearTimeout(timeout);
             }, 5000);
-            setErrorMessage('Pending user already exists');
+            setErrorMessage(t('GROUPS.PENDING_USER_EXISTS'));
             return false;
           } else if (
             allPlayers.find(player => player.docRef.id === userRef.id)
@@ -67,7 +68,7 @@ function BottomActions() {
               setErrorMessage(null);
               clearTimeout(timeout);
             }, 5000);
-            setErrorMessage('Player already exists in one of the groups');
+            setErrorMessage(t('GROUPS.PLAYER_EXISTS'));
             return false;
           } else if (
             currentWorldData.admins.find(adminRef => adminRef.id === userRef.id)
@@ -76,7 +77,7 @@ function BottomActions() {
               setErrorMessage(null);
               clearTimeout(timeout);
             }, 5000);
-            setErrorMessage("Admins can't be in any group");
+            setErrorMessage(t('GROUPS.ADMIN_NOT_ALLOWED_TO_BE_IN_GROUP'));
             return false;
           } else {
             currentWorldHeader.refData.update({
@@ -110,11 +111,11 @@ function BottomActions() {
           setErrorMessage(null);
           clearTimeout(timeout);
         }, 5000);
-        setErrorMessage('Something went wrong');
+        setErrorMessage(t('GROUPS.SOMETHING_WENT_WRONG'));
       }
       return false;
     },
-    [currentWorldData, getAllPlayers, getCurrentWorldHeader],
+    [currentWorldData, getAllPlayers, getCurrentWorldHeader, t],
   );
 
   const createNewGroup = useCallback(
@@ -124,7 +125,7 @@ function BottomActions() {
           setErrorMessage(null);
           clearTimeout(timeout);
         }, 5000);
-        setErrorMessage('Group name is too short');
+        setErrorMessage(t('GROUPS.GROUP_NAME_TOO_SHORT'));
         return false;
       }
       try {
@@ -154,7 +155,7 @@ function BottomActions() {
             setErrorMessage(null);
             clearTimeout(timeout);
           }, 5000);
-          setErrorMessage('Group name already exists');
+          setErrorMessage(t('GROUPS.GROUP_NAME_EXISTS'));
         }
       } catch (error) {
         console.error((error as Error).message);
@@ -162,12 +163,12 @@ function BottomActions() {
           setErrorMessage(null);
           clearTimeout(timeout);
         }, 5000);
-        setErrorMessage('Something went wrong');
+        setErrorMessage(t('GROUPS.SOMETHING_WENT_WRONG'));
       }
 
       return false;
     },
-    [currentWorldData, getCurrentWorldHeader],
+    [currentWorldData, getCurrentWorldHeader, t],
   );
 
   const [bottomActionsOffset, setBottomActionsOffset] = useState<number>(0);
@@ -200,14 +201,14 @@ function BottomActions() {
       )}
       <AnimatedIcon
         icon={'person-add-alt-1'}
-        placeHolder={'Enter email address'}
+        placeHolder={t('GROUPS.ENTER_EMAIL_ADDRESS')}
         onFocus={setBottomActionsOffset}
         keyboardOpened={keyboardOffset !== undefined}
         onSubmit={addNewPlayer}
       />
       <AnimatedIcon
         icon={'group-add'}
-        placeHolder={'Enter group unique name'}
+        placeHolder={t('GROUPS.ENTER_GROUP_UNIQUE_NAME')}
         onFocus={setBottomActionsOffset}
         keyboardOpened={keyboardOffset !== undefined}
         onSubmit={createNewGroup}

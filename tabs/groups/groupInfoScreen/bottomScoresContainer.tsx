@@ -15,6 +15,7 @@ import {
 } from '../../../utils/store';
 import ScoreInBankContainer from './scoreInBankContainer';
 import LinearGradient from 'react-native-linear-gradient';
+import {useTranslate} from '../../../languages/translations';
 
 interface BottomScoresContainerProps {
   totalScore: number;
@@ -43,7 +44,7 @@ const BottomScoresContainer = ({
   const removeSelection = useSelectionPlayerProgress(
     state => state.removeSelection,
   );
-
+  const {t} = useTranslate();
   const keyboardOffset = useKeyboard(state => state.height);
 
   return (
@@ -111,7 +112,7 @@ const BottomScoresContainer = ({
           end={{x: 1, y: 2}}>
           <View style={styles.scoreView}>
             <Text style={styles.scoreInBank}>
-              {'Total Score: ' + totalScore}
+              {`${t('GROUPS.GROUP_INFO.TOTAL_SCORE')}: ${totalScore}`}
             </Text>
             <Icon name={'star'} size={20} style={styles.icon} color="#FFDE52" />
           </View>

@@ -19,10 +19,12 @@ import firestore from '@react-native-firebase/firestore';
 
 import Icon from 'react-native-vector-icons/Ionicons';
 import Animated, {SlideInDown, SlideOutUp} from 'react-native-reanimated';
+import {useTranslate} from '../languages/translations';
 
 const Liner = () => <View style={styles.liner} />;
 
 function RegisterScreen() {
+  const {t} = useTranslate();
   const [name, setName] = useState<string>('');
   const [email, setEmail] = useState<string>('');
   const [pass, setPass] = useState<string>('');
@@ -54,25 +56,25 @@ function RegisterScreen() {
     setGeneralError(null);
     let fieldsAreValid: boolean = true;
     if (name.length < 2) {
-      setNameErrMsg('Name is too short');
+      setNameErrMsg(t('REGISTER.NAME_TOO_SHORT'));
       fieldsAreValid = false;
     } else {
       setNameErrMsg(null);
     }
     if (email.length < 4) {
-      setEmailErrMsg('Email is too short');
+      setEmailErrMsg(t('REGISTER.EMAIL_TOO_SHORT'));
       fieldsAreValid = false;
     } else {
       setEmailErrMsg(null);
     }
     if (pass.length < 3 || passRep.length < 3) {
-      setPassErrMsg('Password is too short');
+      setPassErrMsg(t('REGISTER.PASSWORD_TOO_SHORT'));
       fieldsAreValid = false;
     } else {
       setPassErrMsg(null);
     }
     if (pass !== passRep) {
-      setPassErrMsg2("Passwords doesn't match");
+      setPassErrMsg2(t('REGISTER.PASSWORD_NOT_MATCH'));
       fieldsAreValid = false;
     } else {
       setPassErrMsg2(null);
@@ -88,16 +90,17 @@ function RegisterScreen() {
       Keyboard.dismiss();
     } catch (error: any) {
       console.error(error);
+      const errorMassage = getErrorMessage(error.code);
       switch (error.code) {
         case 'auth/email-already-in-use':
         case 'auth/invalid-email':
-          setEmailErrMsg(getErrorMessage(error.code));
+          setEmailErrMsg(errorMassage);
           break;
         case 'auth/weak-password':
-          setPassErrMsg(getErrorMessage(error.code));
+          setPassErrMsg(errorMassage);
           break;
         case 'auth/internal-error':
-          setGeneralError(getErrorMessage(error.code));
+          setGeneralError(errorMassage);
       }
     }
   };
@@ -116,7 +119,7 @@ function RegisterScreen() {
                 style={
                   !nameErrMsg ? styles.textInputTop : styles.textInputTopError
                 }>
-                {'Name'}
+                {t('REGISTER.NAME')}
               </Text>
               <TextInput
                 style={!nameErrMsg ? styles.textInput : styles.invalidTextInput}
@@ -133,7 +136,7 @@ function RegisterScreen() {
                 style={
                   !emailErrMsg ? styles.textInputTop : styles.textInputTopError
                 }>
-                {'Email'}
+                {t('REGISTER.EMAIL')}
               </Text>
               <TextInput
                 style={
@@ -157,7 +160,7 @@ function RegisterScreen() {
                     ? styles.textInputTop
                     : styles.textInputTopError
                 }>
-                {'Password'}
+                {t('REGISTER.PASSWORD')}
               </Text>
               <TextInput
                 style={
@@ -182,7 +185,7 @@ function RegisterScreen() {
                     ? styles.textInputTop
                     : styles.textInputTopError
                 }>
-                {'Repeat Password'}
+                {t('REGISTER.REPEAT_PASSWORD')}
               </Text>
               <TextInput
                 style={
@@ -214,7 +217,7 @@ function RegisterScreen() {
               <TouchableOpacity
                 style={styles.buttonRegister}
                 onPress={onRegisterPress}>
-                <Text style={styles.registerText}>create</Text>
+                <Text style={styles.registerText}>{t('REGISTER.CREATE')}</Text>
               </TouchableOpacity>
             </View>
           </Animated.View>
@@ -235,7 +238,7 @@ function RegisterScreen() {
           </View>
           <View style={styles.welcomeContainer}>
             <Text style={styles.welcomeText}>
-              {'Hi ' + name + ', You have successfully registered!'}
+              {t('REGISTER.WELCOME', {name})}
             </Text>
             <TouchableOpacity
               style={styles.doneButton}

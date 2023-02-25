@@ -9,7 +9,7 @@ import {SafeAreaView, useColorScheme} from 'react-native';
 import {Colors} from 'react-native/Libraries/NewAppScreen';
 import Dialog from './dialogs/dialog';
 import {QueryClient, QueryClientProvider} from 'react-query';
-import useTranslate from './languages/translations';
+import {useTranslate} from './languages/translations';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 

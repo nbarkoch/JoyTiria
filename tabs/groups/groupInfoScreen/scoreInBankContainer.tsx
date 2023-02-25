@@ -13,6 +13,7 @@ import Animated, {
 } from 'react-native-reanimated';
 import dayjs from 'dayjs';
 import {isNil} from 'lodash';
+import {useTranslate} from '../../../languages/translations';
 
 const TRANSITION_DURATION = 200;
 
@@ -35,6 +36,7 @@ function ScoreInBankContainer({
   setScoreInBank,
   submitScoresToPlayers,
 }: ScoreInBankContainerProps) {
+  const {t} = useTranslate();
   const tomorrow = new Date();
   tomorrow.setDate(tomorrow.getDate() + 1);
   const [editMode, setEditMode] = useState<boolean>(false);
@@ -72,10 +74,10 @@ function ScoreInBankContainer({
         <>
           <Text style={styles.title}>
             {editMode
-              ? 'Set Score In Bank '
+              ? t('GROUPS.GROUP_INFO.SET_SCORE_IN_BANK')
               : scoreInBank === undefined
-              ? 'Currently, there is no score in bank '
-              : 'Score In Bank '}
+              ? t('GROUPS.GROUP_INFO.NO_SCORE_IN_BANK')
+              : t('GROUPS.GROUP_INFO.SCORE_IN_BANK_TITLE')}
           </Text>
           <Transitioning.View
             ref={ref}
@@ -114,22 +116,24 @@ function ScoreInBankContainer({
                         />
                       </View>
                       <Text style={styles.expireDateView}>
-                        {`(Until ${dayjs(expirationDate).format(
-                          'DD.MM.YYYY',
-                        )})`}
+                        {t('GROUPS.GROUP_INFO.UNTIL_DATE', {
+                          date: dayjs(expirationDate).format('DD.MM.YYYY'),
+                        })}
                       </Text>
                     </View>
                     <TouchableOpacity onPress={submitScoresToPlayers}>
                       <Animated.View
                         entering={ZoomIn.delay(80)}
                         style={styles.confirmScoresView}>
-                        <Text style={styles.confirmScoresText}>{'Submit'}</Text>
+                        <Text style={styles.confirmScoresText}>
+                          {t('GROUPS.GROUP_INFO.SUBMIT')}
+                        </Text>
                       </Animated.View>
                     </TouchableOpacity>
                   </View>
                 ) : (
                   <Text style={styles.setScoreInBank}>
-                    {'Set Score in Bank'}
+                    {t('GROUPS.GROUP_INFO.SET_SCORE_IN_BANK')}
                   </Text>
                 )}
               </TouchableOpacity>
@@ -167,7 +171,7 @@ function ScoreInBankContainer({
                     }
                     keyboardType={'numeric'}
                     selectionColor={'black'}
-                    placeholder={'score in bank'}
+                    placeholder={t('GROUPS.GROUP_INFO.SCORE_IN_BANK')}
                   />
                   <Animated.View
                     entering={ZoomIn.delay(80)}
@@ -206,12 +210,14 @@ function ScoreInBankContainer({
         <View style={styles.scoreView}>
           {scoreInBank === undefined || scoreInBank.score === 0 ? (
             <Text style={styles.title}>
-              {'Currently, there is no score in bank '}
+              {t('GROUPS.GROUP_INFO.NO_SCORE_IN_BANK')}
             </Text>
           ) : (
             <>
               <Text style={styles.title}>
-                {'Score in bank: ' + scoreInBank.score.toString()}
+                {`${t(
+                  'GROUPS.GROUP_INFO.SCORE_IN_BANK_TITLE',
+                )}: ${scoreInBank.score.toString()}`}
               </Text>
               <Icon
                 name={'star'}

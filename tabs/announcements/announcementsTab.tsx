@@ -24,6 +24,7 @@ import Message from './message';
 import {useNavigation} from '@react-navigation/native';
 import {TabsNavigationProp} from '../../navigation';
 import {isUndefined} from 'lodash';
+import {useTranslate} from '../../languages/translations';
 
 const ICON_SIZE = 35;
 
@@ -31,7 +32,7 @@ const AnnouncementsTab: FC = ({}) => {
   const worldExists = useCurrentWorld(
     state => !isUndefined(state.currentWorld),
   );
-
+  const {t} = useTranslate();
   const announcements = useCurrentWorld(
     state => state.currentWorld?.announcements,
   );
@@ -97,7 +98,7 @@ const AnnouncementsTab: FC = ({}) => {
   if (announcements === undefined) {
     return (
       <View style={styles.loadingState}>
-        <Text style={styles.loadingText}>Loading</Text>
+        <Text style={styles.loadingText}>{t('ANNOUNCEMENTS.LOADING')}</Text>
       </View>
     );
   }
@@ -105,9 +106,7 @@ const AnnouncementsTab: FC = ({}) => {
   if (announcements.length === 0) {
     return (
       <View style={styles.loadingState}>
-        <Text style={styles.loadingText}>
-          Currently, there are no announcements
-        </Text>
+        <Text style={styles.loadingText}>{t('ANNOUNCEMENTS.NO_DATA')}</Text>
       </View>
     );
   }

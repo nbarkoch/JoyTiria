@@ -23,6 +23,7 @@ import Animated, {FadeInUp} from 'react-native-reanimated';
 
 import {useCurrentUser, WorldHeader} from '../store';
 import QueriedImage from './queriedImage';
+import {useTranslate} from '../../languages/translations';
 
 interface Props {
   label?: string;
@@ -46,6 +47,7 @@ interface AddNewWorldProps {
 const AddNewWorldRow = ({onSubmit, style = {}}: AddNewWorldProps) => {
   const [newWorldState, setNewWorldState] = useState<boolean>(false);
   const [value, setValue] = useState<string>('');
+  const {t} = useTranslate();
 
   if (newWorldState) {
     return (
@@ -96,7 +98,7 @@ const AddNewWorldRow = ({onSubmit, style = {}}: AddNewWorldProps) => {
       onPress={() => {
         setNewWorldState(true);
       }}>
-      <Text style={styles.selectedTextStyle}>{'Add new'}</Text>
+      <Text style={styles.selectedTextStyle}>{t('ADD_NEW_WORLD')}</Text>
       <Icon
         name="add-circle-outline"
         size={30}

@@ -9,6 +9,7 @@ import Animated, {
   withTiming,
 } from 'react-native-reanimated';
 import QueriedImage from '../../utils/components/queriedImage';
+import {useTranslate} from '../../languages/translations';
 
 const BasicPlayerView = ({
   docRef,
@@ -21,6 +22,7 @@ const BasicPlayerView = ({
   highlight: boolean;
   onPress: () => void;
 }): JSX.Element => {
+  const {t} = useTranslate();
   const {data: user} = useQuery<User | undefined, Error>(
     ['USER', {id: docRef.id}],
     async () => {
@@ -53,7 +55,7 @@ const BasicPlayerView = ({
         <QueriedImage style={playerStyle.image} source={user.image} />
         <Text style={playerStyle.name}>
           <Text>{user.name}</Text>
-          {isUser && <Text>{' (You)'}</Text>}
+          {isUser && <Text>{` (${t('YOU')})`}</Text>}
         </Text>
         <Text style={playerStyle.score}>{score}</Text>
         <Icon

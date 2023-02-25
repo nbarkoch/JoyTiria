@@ -25,6 +25,7 @@ import {
 } from '../utils/store';
 import Snackbar from '../dialogs/snackbar';
 import ProfileTabHeader from '../tabs/profile/profileTabHeader';
+import {useTranslate} from '../languages/translations';
 
 interface HeaderProps {
   worlds: WorldHeader[];
@@ -70,6 +71,7 @@ const Header: FC<HeaderProps> = ({worlds, onCreateWorld, onDeleteWorld}) => {
 
 function HomeScreen() {
   const Tab = createBottomTabNavigator();
+  const {t} = useTranslate();
   const email = useRoute<RouteProp<RootStackParamList, 'Home'>>().params.email;
   const currentUser = useCurrentUser(state => state.user);
   const setCurrentUser = useCurrentUser(state => state.setUser);
@@ -142,18 +144,16 @@ function HomeScreen() {
       }
       return new Promise<boolean>(function (resolve) {
         setDialog({
-          title: 'Are you sure?',
+          title: t('DIALOG.ARE_YOU_SURE'),
           message: currentWorldData?.isAdmin
-            ? 'Are you sure you want to delete this world?\nThis world will be deleted for all the players since you are an admin.'
-            : 'Are you sure you want to delete this world?\nYou will lose the world reference',
-
+            ? t('DIALOG.ADMIN_DELETE_DESCRIPTION')
+            : t('DIALOG.NO_ADMIN_DELETE_DESCRIPTION'),
           onSubmit: async () => {
             try {
               if (currentWorldData?.isAdmin) {
                 await world.refData.delete();
                 await world.ref.delete();
               }
-
               await currentUser.ref.update({
                 worlds: firestore.FieldValue.arrayRemove({
                   smallData: world.ref,
@@ -172,7 +172,7 @@ function HomeScreen() {
         });
       });
     },
-    [currentUser, currentWorldData?.isAdmin, setDialog],
+    [currentUser, currentWorldData?.isAdmin, setDialog, t],
   );
 
   useEffect(() => {
@@ -247,7 +247,7 @@ function HomeScreen() {
   if (currentUser === undefined) {
     return (
       <View style={styles.loadingContainer}>
-        <Text style={styles.loadingStyle}>Loading</Text>
+        <Text style={styles.loadingStyle}>{t('HOME.LOADING')}</Text>
       </View>
     );
   }
@@ -277,6 +277,7 @@ function HomeScreen() {
           options={{
             headerLeft: AnnouncementsTabHeaderLeft,
             headerRight: AnnouncementsTabHeaderRight,
+            headerTitle: t('HOME.ANNOUNCEMENTS'),
           }}
           component={AnnouncementsTab}
         />
@@ -285,7 +286,7 @@ function HomeScreen() {
           component={GroupsTab}
           options={{
             headerLeft: GroupsTabHeaderLeft,
-            headerTitle: groupName ?? 'Groups',
+            headerTitle: groupName ?? t('HOME.GROUPS'),
           }}
         />
         <Tab.Screen

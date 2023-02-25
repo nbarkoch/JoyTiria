@@ -11,7 +11,7 @@ import {
 import MIcon from 'react-native-vector-icons/MaterialCommunityIcons';
 import {useQuery} from 'react-query';
 import firestore from '@react-native-firebase/firestore';
-import useTranslate from '../../languages/translations';
+import {useTranslate} from '../../languages/translations';
 
 interface WorldsCollapsibleProps {
   userRef: DocRef;
@@ -89,7 +89,7 @@ function WorldsCollapsible({userRef, worldsPreview}: WorldsCollapsibleProps) {
     return (
       <View style={styles.container}>
         <Text style={[styles.header, styles.textNoData]}>
-          {'Loading worlds for user..'}
+          {t('LOADING_WORLDS_FOR_USER')}
         </Text>
       </View>
     );
@@ -102,7 +102,7 @@ function WorldsCollapsible({userRef, worldsPreview}: WorldsCollapsibleProps) {
           <TouchableOpacity
             style={[styles.header, dynamicHeaderStyle]}
             onPress={() => setOpen(!open)}>
-            <Text style={styles.title}>{'Worlds'}</Text>
+            <Text style={styles.title}>{t('WORLDS')}</Text>
             <MIcon
               name={open ? 'chevron-up' : 'chevron-down'}
               size={20}
@@ -129,7 +129,7 @@ function WorldsCollapsible({userRef, worldsPreview}: WorldsCollapsibleProps) {
                           setOpen(false);
                         }}
                         style={{}}>
-                        <Text>{connected ? 'Launch' : 'Join'}</Text>
+                        <Text>{t(connected ? 'LAUNCH' : 'JOIN')}</Text>
                       </TouchableOpacity>
                     </View>
                     {worlds.length - 1 > index && (

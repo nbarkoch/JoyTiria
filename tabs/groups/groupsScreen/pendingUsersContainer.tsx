@@ -3,6 +3,7 @@ import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import {Group, Player, usePendingUsersLayout} from '../../../utils/store';
 import PendingUser from './pendingUser';
 import {LayoutProps} from '../types';
+import {useTranslate} from '../../../languages/translations';
 
 interface PendingUsersContainerProps {
   pendingUsers: Player[];
@@ -26,6 +27,7 @@ const PendingUsersContainer = ({
   const [open, setOpen] = useState<boolean>(false);
   const notifyLayoutHeight = usePendingUsersLayout(state => state.setHeight);
   const [isBusy, setIsBusy] = useState<boolean>(false);
+  const {t} = useTranslate();
 
   const $onDragStart = () => {
     setIsBusy(true);
@@ -48,7 +50,9 @@ const PendingUsersContainer = ({
         onPress={() => {
           setOpen(!open);
         }}>
-        <Text style={styles.pendingUsersTitle}>{'Pending Users'}</Text>
+        <Text style={styles.pendingUsersTitle}>
+          {t('GROUPS.PENDING_USERS')}
+        </Text>
       </TouchableOpacity>
       {open && (
         <View

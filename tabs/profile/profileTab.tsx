@@ -59,7 +59,6 @@ function ProfileTab() {
     }
     const {admins, pendingUsers, groups} = currentWorld;
     let $players = groups.map(g => g.players).flat();
-    console.log('found it');
     if (admins !== undefined) {
       $players = $players.concat(
         admins.map(admin => ({

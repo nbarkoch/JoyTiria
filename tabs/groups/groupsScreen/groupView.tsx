@@ -12,6 +12,7 @@ import {useQuery} from 'react-query';
 import {isNil, isUndefined} from 'lodash';
 import {Group, User} from '../../../utils/store';
 import {LayoutProps} from '../types';
+import {useTranslate} from '../../../languages/translations';
 
 type GroupViewProps = Group & {
   onPress: () => void;
@@ -28,6 +29,7 @@ const GroupView = forwardRef<GroupViewRef, GroupViewProps>(
       undefined,
     );
     const touchableRef = useRef<TouchableOpacity>(null);
+    const {t} = useTranslate();
 
     const {data: leaderUser} = useQuery<User | undefined, Error>(
       ['USER', {id: leader?.docRef.id}],
@@ -81,10 +83,10 @@ const GroupView = forwardRef<GroupViewRef, GroupViewProps>(
           </Text>
           <Icon name="group" size={45} color="#555555" style={styles.icon} />
           <Text style={styles.numPlayers}>
-            {(players?.length.toString() ?? '0') + ' Players'}
+            {`${players?.length.toString() ?? '0'} ${t('PLAYERS')}`}
           </Text>
           <Text numberOfLines={1} style={styles.groupLeader}>
-            {`Leader: ${!isNil(leader) ? leaderUser?.name : 'None'}`}
+            {`${t('LEADER')}: ${!isNil(leader) ? leaderUser?.name : 'None'}`}
           </Text>
         </LinearGradient>
       </TouchableOpacity>

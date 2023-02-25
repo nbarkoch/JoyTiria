@@ -3,6 +3,98 @@
     "LOGIN_TITLE": "Login",
     "REGISTER_TITLE": "Register",
     "HOME_TITLE": "Home",
-    "NO_WORLDS_FOUND": "This user doesn't connected to any world"
+    "LOGIN": {
+      "EMAIL_ADDRESS": "Email Address",
+      "PASSWORD": "Password",
+      "REMEMBER_ME": "remember me",
+      "LOGIN_BUTTON": "login",
+      "REGISTER_BUTTON": "Register"
+    },
+    "REGISTER": {
+      "NAME_TOO_SHORT": "Name is too short",
+      "EMAIL_TOO_SHORT": "Email is too short",
+      "PASSWORD_TOO_SHORT": "Password is too short",
+      "PASSWORD_NOT_MATCH": "Passwords doesn't match",
+      "NAME": "Name",
+      "EMAIL": "Email",
+      "PASSWORD": "Password",
+      "REPEAT_PASSWORD": "Repeat Password",
+      "CREATE": "create",
+      "WELCOME": "Hi {{name}}, You have successfully registered!"
+    },
+    "HOME": {
+      "PROFILE": "Profile",
+      "GROUPS": "Groups",
+      "ANNOUNCEMENTS": "Announcements",
+      "LOADING": "Loading.."
+    },
+    "DIALOG": {
+      "ARE_YOU_SURE": "Are you sure?",
+      "ADMIN_DELETE_DESCRIPTION": "Are you sure you want to delete this world?\nThis world will be deleted for all the players since you are an admin.",
+      "NO_ADMIN_DELETE_DESCRIPTION": "Are you sure you want to delete this world?\nYou will lose the world reference.",
+      "DELETE_GROUP_DESCRIPTION": "Are you sure you want to delete this group?\nAll players will lose the group reference"
+    },
+    "SNACKBAR": {
+      "UPLOAD_PROGRESS": "Upload is running {{progress}}",
+      "UPLOAD_PAUSED": "Upload is paused {{progress}}",
+      "UPLOAD_CANCELED": "Upload canceled",
+      "UPLOAD_ERROR": "An error occurred while uploading.."
+    },
+    "FIREBASE": {
+      "INVALID_EMAIL": "Invalid email address",
+      "WRONG_EMAIL_OR_PASSWORD": "Wrong email or password",
+      "EMAIL_DISABLED": "Email address is disabled",
+      "EMAIL_IN_USE": "Email address already in use",
+      "AUTHENTICATION_DISABLED": "This authentication is disabled",
+      "PASSWORD_TOO_WEAK": "Password is too weak",
+      "UNKNOWN_ERROR": "An error has occurred, please try again later"
+    },
+    "ANNOUNCEMENTS": {
+      "LOADING": "Loading..",
+      "NO_DATA": "Currently, there are no announcements"
+    },
+    "GROUPS": {
+      "INVALID_EMAIL_ADDRESS": "Invalid email address",
+      "PENDING_USER_EXISTS": "Pending user already exists",
+      "GROUP_NAME_EXISTS": "Group name already exists",
+      "PLAYER_EXISTS": "Player already exists in one of the groups",
+      "ADMIN_NOT_ALLOWED_TO_BE_IN_GROUP": "Admins can't be in any group",
+      "SOMETHING_WENT_WRONG": "Something went wrong",
+      "GROUP_NAME_TOO_SHORT": "Group name is too short",
+      "ENTER_EMAIL_ADDRESS": "Enter email address",
+      "ENTER_GROUP_UNIQUE_NAME": "Enter group unique name",
+      "PENDING_USERS": "Pending Users",
+      "GROUP_INFO": {
+        "SET_SCORE_IN_BANK": "Set Score In Bank",
+        "NO_SCORE_IN_BANK": "Currently, there is no score in bank",
+        "SCORE_IN_BANK_TITLE": "Score In Bank",
+        "SCORE_IN_BANK": "score in bank",
+        "UNTIL_DATE": "Until {{date}}",
+        "SUBMIT": "Submit",
+        "TOTAL_SCORE": "Total Score"
+      }
+    },
+    "PROFILE": {
+      "IMAGE_UPLOAD_DONE": "Image uploaded successfully",
+      "IMAGE_ERROR": "An error occurred while taking the photo..",
+      "NAME": "$t(WITH_DOTS_AND_SPACE, {\"title\": \"Name\"})",
+      "EMAIL": "$t(WITH_DOTS_AND_SPACE, {\"title\": \"Email\"})",
+      "SCORE_CURRENT": "$t(WITH_DOTS_AND_SPACE, {\"title\": \"Current Score\"})",
+      "SCORE_PENDING": "$t(WITH_DOTS_AND_SPACE, {\"title\": \"Pending Score\"})",
+      "SEE_PLAYER_STATUS": "See Player Status",
+      "SEE_YOUR_PROFILE": "See Your Profile"
+    },
+    "NO_WORLDS_FOUND": "This user doesn't connected to any world",
+    "ADD_NEW_WORLD": "Add new",
+    "LAUNCH": "Launch",
+    "JOIN": "Join",
+    "LOADING_WORLDS_FOR_USER": "Loading worlds for user..",
+    "WORLDS": "Worlds",
+    "ADMIN": "Admin",
+    "LEADER": "Leader",
+    "PENDING": "Pending",
+    "YOU": "You",
+    "WITH_DOTS_AND_SPACE": "{{title}}: ",
+    "PLAYERS": "Players"
   }
 }
