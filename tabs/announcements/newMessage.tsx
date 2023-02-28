@@ -1,5 +1,6 @@
 import React, {FC, useRef, useState} from 'react';
 import {
+  I18nManager,
   StyleProp,
   StyleSheet,
   TextInput,
@@ -68,7 +69,10 @@ const NewMessage: FC<NewMessageProps> = ({scrollToBottom = () => {}}) => {
             name="send"
             size={ICON_SIZE}
             color={sendDisabled ? '#55555555' : '#555555'}
-            style={styles.iconButton}
+            style={[
+              styles.iconButton,
+              I18nManager.isRTL ? {transform: [{rotateY: '180deg'}]} : {},
+            ]}
           />
         </TouchableOpacity>
       </View>

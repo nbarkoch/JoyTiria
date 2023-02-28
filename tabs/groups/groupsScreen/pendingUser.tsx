@@ -193,7 +193,7 @@ const styles = StyleSheet.create({
     paddingEnd: 16,
     maxWidth: 130,
     height: 20,
-    textAlign: 'center',
+    textAlign: 'left',
   },
   PendingUserImage: {
     width: 35,

@@ -86,6 +86,7 @@
     },
     "NO_WORLDS_FOUND": "This user doesn't connected to any world",
     "ADD_NEW_WORLD": "Add new",
+    "TYPE_WORLD_NAME": "Type name of world",
     "LAUNCH": "Launch",
     "JOIN": "Join",
     "LOADING_WORLDS_FOR_USER": "Loading worlds for user..",
@@ -95,6 +96,13 @@
     "PENDING": "Pending",
     "YOU": "You",
     "WITH_DOTS_AND_SPACE": "{{title}}: ",
-    "PLAYERS": "Players"
+    "PLAYERS": "Players",
+    "LANGUAGE": "language",
+    "LANGUAGES": {
+      "EN": "English",
+      "HE": "Hebrew"
+    },
+    "DARK_MODE": "Dark mode",
+    "isRTL": false
   }
 }

@@ -1,9 +1,9 @@
-import React, {FC, useCallback, useEffect} from 'react';
+import React, {useCallback, useEffect} from 'react';
 import {Keyboard, StyleSheet, Text, View} from 'react-native';
 
-import {RouteProp, useNavigation, useRoute} from '@react-navigation/native';
+import {RouteProp, useRoute} from '@react-navigation/native';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
-import {ProfileScreenNavigationProp, RootStackParamList} from '../navigation';
+import {RootStackParamList} from '../navigation';
 import ProfileTab from '../tabs/profile/profileTab';
 import GroupsTab, {GroupsTabHeaderLeft} from '../tabs/groups/groupsTab';
 import AnnouncementsTab, {
@@ -12,7 +12,6 @@ import AnnouncementsTab, {
 } from '../tabs/announcements/announcementsTab';
 import Icon from 'react-native-vector-icons/Ionicons';
 import MIcon from 'react-native-vector-icons/MaterialIcons';
-import WorldPicker from '../utils/components/WorldPicker';
 import firestore from '@react-native-firebase/firestore';
 import {
   useCurrentUser,
@@ -26,48 +25,7 @@ import {
 import Snackbar from '../dialogs/snackbar';
 import ProfileTabHeader from '../tabs/profile/profileTabHeader';
 import {useTranslate} from '../languages/translations';
-
-interface HeaderProps {
-  worlds: WorldHeader[];
-  onCreateWorld: (name: string) => Promise<boolean>;
-  onDeleteWorld: (world: WorldHeader) => Promise<boolean>;
-}
-
-const Header: FC<HeaderProps> = ({worlds, onCreateWorld, onDeleteWorld}) => {
-  const setCurrentWorld = useCurrentUser(state => state.setWorldRef);
-  const onSelectWorldRef = useCallback(
-    (world: WorldHeader) => {
-      setCurrentWorld(world.refData);
-    },
-    [setCurrentWorld],
-  );
-
-  const navigation = useNavigation<ProfileScreenNavigationProp>();
-  return (
-    <View style={styles.header}>
-      <WorldPicker
-        data={worlds}
-        onSelect={onSelectWorldRef}
-        onCreateNewWorld={onCreateWorld}
-        onDeleteWorld={onDeleteWorld}
-      />
-      <Icon
-        onPress={() => {}}
-        name="settings-outline"
-        size={35}
-        color="#555555"
-        style={styles.iconButton}
-      />
-      <Icon
-        onPress={() => navigation.navigate('Login')}
-        name="exit-outline"
-        size={35}
-        color="#555555"
-        style={styles.iconButton}
-      />
-    </View>
-  );
-};
+import HomeHeader from '../headers/homeHeader';
 
 function HomeScreen() {
   const Tab = createBottomTabNavigator();
@@ -296,7 +254,7 @@ function HomeScreen() {
           options={ProfileTabHeader}
         />
       </Tab.Navigator>
-      <Header
+      <HomeHeader
         worlds={worlds}
         onCreateWorld={createNewWorld}
         onDeleteWorld={onDeleteWorld}
@@ -308,20 +266,6 @@ function HomeScreen() {
 
 const styles = StyleSheet.create({
   container: {flex: 1},
-  header: {
-    flexDirection: 'row',
-    padding: 10,
-    alignItems: 'center',
-    position: 'absolute',
-  },
-  iconButton: {paddingVertical: 5, paddingHorizontal: 10},
-  dropdown: {
-    height: 50,
-    flex: 1,
-    backgroundColor: '#EEEEEE',
-    borderRadius: 22,
-    paddingHorizontal: 8,
-  },
   imageStyle: {
     width: 24,
     height: 24,

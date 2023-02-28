@@ -85,6 +85,7 @@
     },
     "NO_WORLDS_FOUND": "המשתמש לא מחובר לשום עולם כרגע",
     "ADD_NEW_WORLD": "הוסף חדש",
+    "TYPE_WORLD_NAME": "רשום שם של עולם",
     "LAUNCH": "כנס",
     "JOIN": "הצטרף",
     "LOADING_WORLDS_FOR_USER": "טוען עולם עבור המשתמש..",
@@ -94,6 +95,13 @@
     "PENDING": "תלוי",
     "YOU": "אתה",
     "WITH_DOTS_AND_SPACE": "{{title}}: ",
-    "PLAYERS": "שחקנים"
+    "PLAYERS": "שחקנים",
+    "LANGUAGE": "שפה",
+    "LANGUAGES": {
+      "EN": "אנגלית",
+      "HE": "עברית"
+    },
+    "DARK_MODE": "מצב חשוך",
+    "isRTL": true
   }
 }

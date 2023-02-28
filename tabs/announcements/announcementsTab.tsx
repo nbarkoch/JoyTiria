@@ -2,6 +2,7 @@ import React, {FC, memo, useCallback, useEffect, useRef} from 'react';
 import {
   BackHandler,
   FlatList,
+  I18nManager,
   KeyboardAvoidingView,
   Platform,
   StyleSheet,
@@ -215,7 +216,12 @@ export const AnnouncementsTabHeaderLeft = () => {
   if (isSelectionProgress) {
     return (
       <TouchableOpacity onPress={() => setSelectionProgress(false)}>
-        <Icon name={'chevron-back'} size={30} color={'grey'} />
+        <Icon
+          name={'chevron-back'}
+          size={30}
+          color={'grey'}
+          style={[I18nManager.isRTL ? {transform: [{rotateY: '180deg'}]} : {}]}
+        />
       </TouchableOpacity>
     );
   }

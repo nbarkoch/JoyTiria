@@ -272,14 +272,22 @@ const styles = StyleSheet.create({
     borderColor: '#900',
     borderWidth: 0.5,
   },
-  textInputTop: {padding: 3, color: 'grey', fontWeight: '400'},
+  textInputTop: {
+    padding: 3,
+    color: 'grey',
+    fontWeight: '400',
+    textAlign: 'left',
+  },
   textInputTopError: {padding: 3, color: '#900', fontWeight: '400'},
   container: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
   },
-  textInputContainer: {padding: 5, width: '80%'},
+  textInputContainer: {
+    padding: 5,
+    width: '80%',
+  },
   buttonContainer: {padding: 5, width: '55%'},
   buttonLogin: {
     backgroundColor: '#03A9F4',

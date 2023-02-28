@@ -1,5 +1,11 @@
 import React, {useCallback, useEffect} from 'react';
-import {BackHandler, StyleSheet, TouchableOpacity, View} from 'react-native';
+import {
+  BackHandler,
+  I18nManager,
+  StyleSheet,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 import {
   useCurrentWorld,
   useGroupInfo,
@@ -86,7 +92,12 @@ export const GroupsTabHeaderLeft = () => {
   if (groupId !== undefined) {
     return (
       <TouchableOpacity onPress={handleBackButtonClick}>
-        <Icon name={'chevron-back'} size={30} color={'grey'} />
+        <Icon
+          name={'chevron-back'}
+          size={30}
+          color={'grey'}
+          style={[I18nManager.isRTL ? {transform: [{rotateY: '180deg'}]} : {}]}
+        />
       </TouchableOpacity>
     );
   }

@@ -5,6 +5,7 @@ import {
   TouchableOpacity,
   StyleSheet,
   BackHandler,
+  I18nManager,
 } from 'react-native';
 
 import {BottomTabNavigationOptions} from '@react-navigation/bottom-tabs';
@@ -78,7 +79,14 @@ const ProfileTabHeader = (): BottomTabNavigationOptions => {
     return (
       <View style={styles.headerOptions}>
         <TouchableOpacity onPress={handleBackButtonClick} style={styles.icon}>
-          <Icon name={'arrow-back'} size={30} color="grey" />
+          <Icon
+            name={'arrow-back'}
+            size={30}
+            color="grey"
+            style={[
+              I18nManager.isRTL ? {transform: [{rotateY: '180deg'}]} : {},
+            ]}
+          />
         </TouchableOpacity>
         <TextInput
           ref={textInputRef}

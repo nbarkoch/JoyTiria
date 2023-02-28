@@ -110,7 +110,7 @@ function WorldsCollapsible({userRef, worldsPreview}: WorldsCollapsibleProps) {
             />
           </TouchableOpacity>
           {open && (
-            <View style={styles.bodyContainer}>
+            <Animated.View style={styles.bodyContainer}>
               {worlds.map((item, index) => {
                 const connected = currentUserWorlds?.find(
                   w => w.ref.id === item.ref.id,
@@ -129,7 +129,9 @@ function WorldsCollapsible({userRef, worldsPreview}: WorldsCollapsibleProps) {
                           setOpen(false);
                         }}
                         style={{}}>
-                        <Text>{t(connected ? 'LAUNCH' : 'JOIN')}</Text>
+                        <Text style={worldStyle.textButton}>
+                          {t(connected ? 'LAUNCH' : 'JOIN')}
+                        </Text>
                       </TouchableOpacity>
                     </View>
                     {worlds.length - 1 > index && (
@@ -138,7 +140,7 @@ function WorldsCollapsible({userRef, worldsPreview}: WorldsCollapsibleProps) {
                   </View>
                 );
               })}
-            </View>
+            </Animated.View>
           )}
         </Animated.View>
       ) : (
@@ -190,5 +192,9 @@ const worldStyle = StyleSheet.create({
     flex: 1,
     backgroundColor: 'grey',
     margin: 3,
+  },
+  textButton: {
+    color: '#03a9f4',
+    fontWeight: 'bold',
   },
 });

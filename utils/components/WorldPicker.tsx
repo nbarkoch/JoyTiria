@@ -7,7 +7,9 @@ import React, {
   useState,
 } from 'react';
 import {
+  Dimensions,
   FlatList,
+  I18nManager,
   Modal,
   StyleProp,
   StyleSheet,
@@ -24,6 +26,8 @@ import Animated, {FadeInUp} from 'react-native-reanimated';
 import {useCurrentUser, WorldHeader} from '../store';
 import QueriedImage from './queriedImage';
 import {useTranslate} from '../../languages/translations';
+
+const {width: windowWidth} = Dimensions.get('window');
 
 interface Props {
   label?: string;
@@ -64,7 +68,7 @@ const AddNewWorldRow = ({onSubmit, style = {}}: AddNewWorldProps) => {
         <View style={styles.TextInputContainer}>
           <TextInput
             autoFocus={true}
-            placeholder="Type name of world"
+            placeholder={t('TYPE_WORLD_NAME')}
             placeholderTextColor={'#AAAA'}
             value={value}
             onChangeText={setValue}
@@ -209,7 +213,7 @@ function WorldPicker({
     DropdownButton.current?.measure((_fx, _fy, _w, h, _px, py) => {
       setDropdownTop(py + h);
       setDropdownWidth(_w);
-      setDropdownX(_px);
+      setDropdownX(I18nManager.isRTL ? windowWidth - _px - _w : _px);
     });
     setVisible(true);
   };
@@ -318,10 +322,11 @@ const styles = StyleSheet.create({
   },
   selectedTextStyle: {
     fontSize: 16,
-    marginLeft: 8,
+    marginEnd: 8,
     flex: 1,
     flexWrap: 'wrap',
     color: '#555555',
+    textAlign: 'left',
   },
   TextInputContainer: {
     flex: 1,

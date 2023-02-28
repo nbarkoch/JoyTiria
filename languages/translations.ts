@@ -1,3 +1,4 @@
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import i18n from 'i18next';
 import {initReactI18next, useTranslation} from 'react-i18next';
 import english from './en.json';
@@ -15,17 +16,24 @@ export const resources = {
   he: hebrew,
 } as const;
 
+const getDefaultLanguage = async () => {
+  const res = await AsyncStorage.getItem('@language');
+  return res ?? 'en';
+};
+
 i18n
-  .use(initReactI18next) // passes i18n down to react-i18next
+  .use(initReactI18next)
   .init({
     compatibilityJSON: 'v3',
     resources,
-    lng: 'en',
     fallbackLng: 'en',
     interpolation: {
       escapeValue: false,
       skipOnVariables: false,
     },
+  })
+  .then(async () => {
+    await i18n.changeLanguage(await getDefaultLanguage());
   });
 
 export const useTranslate = useTranslation;

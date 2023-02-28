@@ -89,7 +89,7 @@ const styles = StyleSheet.create({
     padding: 10,
     borderRadius: 10,
   },
-  sender: {fontSize: 14, fontWeight: 'bold', color: '#222f'},
-  content: {padding: 5, fontSize: 20, color: '#333f'},
-  date: {fontSize: 14, textAlign: 'right', color: '#222f'},
+  sender: {fontSize: 14, fontWeight: 'bold', color: '#222f', textAlign: 'left'},
+  content: {padding: 5, fontSize: 20, color: '#333f', textAlign: 'left'},
+  date: {fontSize: 14, color: '#222f', textAlign: 'right'},
 });
