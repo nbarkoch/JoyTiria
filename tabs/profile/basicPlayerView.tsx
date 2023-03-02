@@ -86,7 +86,12 @@ const playerStyle = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
   },
-  name: {paddingHorizontal: 10, flex: 1, color: 'black'},
+  name: {
+    paddingHorizontal: 10,
+    flex: 1,
+    color: 'black',
+    textAlign: 'left',
+  },
   score: {paddingHorizontal: 3, color: 'black'},
   icon: {},
 });

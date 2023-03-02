@@ -76,10 +76,10 @@
     "PROFILE": {
       "IMAGE_UPLOAD_DONE": "התמונה הועלתה בהצלחה",
       "IMAGE_ERROR": "אירעתה תקלה במהלך בחירת התמונה..",
-      "NAME": "$t(WITH_DOTS_AND_SPACE, {\"title\": \"שם\"})",
-      "EMAIL": "$t(WITH_DOTS_AND_SPACE, {\"title\": \"אימייל\"})",
-      "SCORE_CURRENT": "$t(WITH_DOTS_AND_SPACE, {\"title\": \"ניקוד נוכחי\"})",
-      "SCORE_PENDING": "$t(WITH_DOTS_AND_SPACE, {\"title\": \"ניקוד תלוי\"})",
+      "NAME": "שם",
+      "EMAIL": "אימייל",
+      "SCORE_CURRENT": "ניקוד נוכחי",
+      "SCORE_PENDING": "ניקוד תלוי",
       "SEE_PLAYER_STATUS": "ראה סטטוס שחקן",
       "SEE_YOUR_PROFILE": "ראה פרופיל שלך"
     },

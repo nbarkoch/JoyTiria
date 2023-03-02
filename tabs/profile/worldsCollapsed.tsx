@@ -169,9 +169,9 @@ const styles = StyleSheet.create({
     borderTopEndRadius: HEADER_RADIUS,
     alignItems: 'center',
   },
-  title: {flex: 1},
+  title: {flex: 1, textAlign: 'left', color: 'black'},
   bodyContainer: {padding: 5},
-  textNoData: {padding: 10},
+  textNoData: {padding: 10, textAlign: 'left', color: 'black'},
 });
 
 const worldStyle = StyleSheet.create({
@@ -180,7 +180,7 @@ const worldStyle = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
   },
-  title: {flex: 1},
+  title: {flex: 1, textAlign: 'left', color: 'black'},
   image: {
     height: 30,
     borderRadius: 30,

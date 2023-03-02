@@ -77,10 +77,10 @@
     "PROFILE": {
       "IMAGE_UPLOAD_DONE": "Image uploaded successfully",
       "IMAGE_ERROR": "An error occurred while taking the photo..",
-      "NAME": "$t(WITH_DOTS_AND_SPACE, {\"title\": \"Name\"})",
-      "EMAIL": "$t(WITH_DOTS_AND_SPACE, {\"title\": \"Email\"})",
-      "SCORE_CURRENT": "$t(WITH_DOTS_AND_SPACE, {\"title\": \"Current Score\"})",
-      "SCORE_PENDING": "$t(WITH_DOTS_AND_SPACE, {\"title\": \"Pending Score\"})",
+      "NAME": "Name",
+      "EMAIL": "Email",
+      "SCORE_CURRENT": "Current Score",
+      "SCORE_PENDING": "Pending Score",
       "SEE_PLAYER_STATUS": "See Player Status",
       "SEE_YOUR_PROFILE": "See Your Profile"
     },

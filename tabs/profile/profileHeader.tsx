@@ -47,8 +47,23 @@ interface TextSectionProps {
 const TextSection = ({title, value}: TextSectionProps): JSX.Element => {
   return (
     <Text style={userStyle.text}>
-      <Text style={userStyle.key}>{title}</Text>
+      <Text style={userStyle.key}>{`${title}: `}</Text>
       <Text style={userStyle.value}>{value}</Text>
+    </Text>
+  );
+};
+
+interface RoleTextProps {
+  text: string;
+  icon?: {name: string; color: string};
+}
+
+const RoleText = ({text, icon}: RoleTextProps): JSX.Element => {
+  return (
+    <Text style={userStyle.role}>
+      <Text style={userStyle.role}>{' ('}</Text>
+      {icon && <MIcon name={icon.name} size={16} color={icon.color} />}
+      <Text style={userStyle.role}>{`${icon ? ' ' : ''}${text})`}</Text>
     </Text>
   );
 };
@@ -206,9 +221,9 @@ const ProfileHeader = ({
 
       <View style={userStyle.userInfo}>
         <View style={userStyle.section}>
-          <View style={userStyle.text}>
-            <Text style={userStyle.key}>{t('PROFILE.NAME')}</Text>
-            {editMode ? (
+          {editMode ? (
+            <>
+              <Text style={userStyle.key}>{`${t('PROFILE.NAME')}: `}</Text>
               <TextInput
                 ref={textInputRef}
                 style={userStyle.textInput}
@@ -216,31 +231,25 @@ const ProfileHeader = ({
                 autoCorrect={false}
                 onChangeText={setTextInput}
               />
-            ) : (
-              <>
-                <Text style={userStyle.value}>{name}</Text>
-                {isAdmin && (
-                  <Text style={userStyle.admin}>
-                    <Text>{' ('}</Text>
-                    <MIcon name={'crown'} size={16} color="#FFDE52" />
-                    <Text>{` ${t('ADMIN')})`}</Text>
-                  </Text>
-                )}
-                {isLeader && (
-                  <Text style={userStyle.admin}>
-                    <Text>{' ('}</Text>
-                    <MIcon name={'flag'} size={16} color="red" />
-                    <Text>{` ${t('LEADER')})`}</Text>
-                  </Text>
-                )}
-                {isPendingUser && (
-                  <Text style={userStyle.admin}>
-                    <Text>{` (${t('PENDING')})`}</Text>
-                  </Text>
-                )}
-              </>
-            )}
-          </View>
+            </>
+          ) : (
+            <Text style={userStyle.section}>
+              <TextSection title={t('PROFILE.NAME')} value={name} />
+              {isAdmin && (
+                <RoleText
+                  text={t('ADMIN')}
+                  icon={{name: 'crown', color: '#FFDE52'}}
+                />
+              )}
+              {isLeader && (
+                <RoleText
+                  text={t('LEADER')}
+                  icon={{name: 'flag', color: 'red'}}
+                />
+              )}
+              {isPendingUser && <RoleText text={t('PENDING')} />}
+            </Text>
+          )}
           {isCurrentUser && (
             <TouchableOpacity
               onPress={() => {
@@ -255,6 +264,7 @@ const ProfileHeader = ({
             </TouchableOpacity>
           )}
         </View>
+
         <Liner />
         <TextSection title={t('PROFILE.EMAIL')} value={ref.id} />
         <Liner />
@@ -314,9 +324,9 @@ export default ProfileHeader;
 
 const userStyle = StyleSheet.create({
   container: {flex: 1, backgroundColor: 'white', padding: 5},
-  value: {color: 'black', fontWeight: 'bold'},
-  key: {color: 'grey'},
-  admin: {color: 'black'},
+  value: {color: 'black', fontWeight: 'bold', textAlign: 'left'},
+  key: {color: 'grey', textAlign: 'left'},
+  role: {color: 'black', textAlign: 'left'},
   imageContainer: {
     alignSelf: 'center',
     padding: 20,
@@ -350,9 +360,16 @@ const userStyle = StyleSheet.create({
   },
   arrowIcon: {paddingHorizontal: 5},
   buttonText: {textAlign: 'center', color: 'white', fontWeight: 'bold'},
-  text: {flex: 1, padding: 5, flexDirection: 'row', flexWrap: 'wrap'},
-  section: {flexDirection: 'row', alignItems: 'center'},
-  textInput: {color: 'black', flex: 1},
+  text: {
+    flex: 1,
+    padding: 5,
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    textAlign: 'left',
+    alignItems: 'center',
+  },
+  section: {flexDirection: 'row', alignItems: 'center', flex: 1},
+  textInput: {color: 'black', flex: 1, textAlign: 'left'},
   toMyProfile: {
     borderRadius: 25,
     padding: 10,
