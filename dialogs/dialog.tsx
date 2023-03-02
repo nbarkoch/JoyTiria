@@ -10,6 +10,7 @@ import {
 } from 'react-native';
 import Animated, {FadeInDown, FadeOutDown} from 'react-native-reanimated';
 import Icon from 'react-native-vector-icons/Ionicons';
+import {useTranslate} from '../languages/translations';
 import {useDialog} from '../utils/store';
 
 const {width} = Dimensions.get('screen');
@@ -23,6 +24,8 @@ function Dialog() {
     }
     setDialog(undefined);
   }, [dialog, setDialog]);
+
+  const {t} = useTranslate();
 
   const submit = useCallback(() => {
     if (dialog && dialog.onSubmit) {
@@ -56,10 +59,14 @@ function Dialog() {
             {!isUndefined(dialog.onSubmit) && (
               <View style={styles.rowStyle}>
                 <TouchableOpacity style={styles.cancelButton} onPress={decline}>
-                  <Text style={styles.cancelButtonText}>Cancel</Text>
+                  <Text style={styles.cancelButtonText}>
+                    {t('DIALOG.CANCEL')}
+                  </Text>
                 </TouchableOpacity>
                 <TouchableOpacity style={styles.submitButton} onPress={submit}>
-                  <Text style={styles.submitButtonText}>Submit</Text>
+                  <Text style={styles.submitButtonText}>
+                    {t('DIALOG.SUBMIT')}
+                  </Text>
                 </TouchableOpacity>
               </View>
             )}

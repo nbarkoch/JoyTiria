@@ -261,3 +261,12 @@ export const useKeyboard = create<KeyboardState>(set => ({
   height: undefined,
   setHeight: h => set(() => ({height: h})),
 }));
+
+export const clearStore = () => {
+  useCurrentUser.setState(() => ({}));
+  useCurrentWorld.setState(() => ({}));
+  useSelectionProgress.setState(() => ({}));
+  useSelectionPlayerProgress.setState(() => ({}));
+  useGroupInfo.setState(() => ({}));
+  useProfile.setState(() => ({}));
+};

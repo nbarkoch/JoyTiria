@@ -31,7 +31,9 @@
     "DIALOG": {
       "ARE_YOU_SURE": "האם אתה בטוח?",
       "ADMIN_DELETE_DESCRIPTION": "האם אתה בטוח שברצונך למחוק את העולם?\nהעולם הזה ימחק לכל המשתתפים מאחר שאתה המנהל.",
-      "NO_ADMIN_DELETE_DESCRIPTION": "האם אתה בטוח שברצונך למחוק את העולם?\nאתה תאבד את הגישה אליו."
+      "NO_ADMIN_DELETE_DESCRIPTION": "האם אתה בטוח שברצונך למחוק את העולם?\nאתה תאבד את הגישה אליו.",
+      "SUBMIT": "אישור",
+      "CANCEL": "ביטול"
     },
     "SNACKBAR": {
       "UPLOAD_PROGRESS": "מעלה את הקובץ {{progress}}",

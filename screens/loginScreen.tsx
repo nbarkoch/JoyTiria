@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
 import {
   KeyboardAvoidingView,
   Platform,
@@ -15,13 +15,13 @@ import Animated, {FadeInDown, FadeOutDown} from 'react-native-reanimated';
 import Icon from 'react-native-vector-icons/Ionicons';
 
 import auth from '@react-native-firebase/auth';
-import {useNavigation} from '@react-navigation/native';
+import {useFocusEffect, useNavigation} from '@react-navigation/native';
 import {ProfileScreenNavigationProp} from '../navigation';
 import {Error, getErrorMessage} from '../utils/firebase';
 
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import BouncyCheckbox from 'react-native-bouncy-checkbox';
-import {useCurrentUser} from '../utils/store';
+import {clearStore, useCurrentUser} from '../utils/store';
 import {useTranslate} from '../languages/translations';
 
 function LoginScreen() {
@@ -46,6 +46,13 @@ function LoginScreen() {
       }
     });
   }, [removeCurrentUser]);
+
+  useFocusEffect(
+    useCallback(() => {
+      clearStore();
+      console.log('store clear');
+    }, []),
+  );
 
   const onPressLogin = async () => {
     try {
