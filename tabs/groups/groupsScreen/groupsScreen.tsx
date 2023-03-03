@@ -1,5 +1,12 @@
 import React, {useCallback, useEffect, useRef, useState} from 'react';
-import {Dimensions, Keyboard, ScrollView, StyleSheet, View} from 'react-native';
+import {
+  Dimensions,
+  Keyboard,
+  ScrollView,
+  StyleSheet,
+  Text,
+  View,
+} from 'react-native';
 import {
   Group,
   Player,
@@ -27,6 +34,7 @@ const GroupsScreen = gestureHandlerRootHOC(() => {
   const groups = useCurrentWorld(state => state.currentWorld?.groups);
   const isAdmin = useCurrentWorld(state => state.currentWorld?.isAdmin);
   const setDialog = useDialog(state => state.setDialog);
+  const currentUserId = useCurrentUser(state => state.user?.ref.id);
   const currentWorldRef = useCurrentUser(state => state.user?.currentWorldRef);
   const [keyboardOpen, setKeyboardOpen] = useState<boolean>(false);
   const [trash, setTrash] = useState<boolean>(false);
@@ -39,6 +47,8 @@ const GroupsScreen = gestureHandlerRootHOC(() => {
   const setGroupId = useGroupInfo(state => state.setGroupId);
   const setGroupName = useGroupInfo(state => state.setGroupName);
   const {t} = useTranslate();
+
+  const isPending = pendingUsers?.find(e => e.docRef.id === currentUserId);
 
   useEffect(() => {
     const showSubscription = Keyboard.addListener('keyboardDidShow', () => {
@@ -201,6 +211,13 @@ const GroupsScreen = gestureHandlerRootHOC(() => {
             )}
         </View>
       )}
+      {isPending && (
+        <View style={styles.pendingNotifyContainer}>
+          <Text style={styles.pendingNotifyText}>
+            {t('GROUPS.PENDING_USER_DESCRIPTION')}
+          </Text>
+        </View>
+      )}
     </View>
   );
 });
@@ -233,4 +250,16 @@ const styles = StyleSheet.create({
   },
 
   line: {marginTop: 5},
+
+  pendingNotifyContainer: {
+    backgroundColor: '#111111aa',
+    padding: 10,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  pendingNotifyText: {
+    color: 'white',
+    textAlign: 'center',
+    fontSize: 18,
+  },
 });

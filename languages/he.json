@@ -3,6 +3,7 @@
     "LOGIN_TITLE": "התחברות",
     "REGISTER_TITLE": "הרשמה",
     "HOME_TITLE": "דף הבית",
+    "ERROR": "שגיאה",
     "LOGIN": {
       "EMAIL_ADDRESS": "כתובת אימייל",
       "PASSWORD": "סיסמה",
@@ -20,7 +21,7 @@
       "PASSWORD": "סיסמה",
       "REPEAT_PASSWORD": "הזן את הסיסמה שוב",
       "CREATE": "סיום",
-      "WELCOME": "שלום {{name}}, התחברת בהצלחה!"
+      "WELCOME": "שלום {{name}}, נרשמת בהצלחה!"
     },
     "HOME": {
       "PROFILE": "פרופיל",
@@ -48,7 +49,8 @@
       "EMAIL_IN_USE": "כתובת האימייל כבר בשימוש",
       "AUTHENTICATION_DISABLED": "הזיהוי חסום",
       "PASSWORD_TOO_WEAK": "הסיסמה חלשה מידי",
-      "UNKNOWN_ERROR": "אירעה תקלה, נא נסה שוב מאוחר יותר"
+      "UNKNOWN_ERROR": "אירעה תקלה, נא נסה שוב מאוחר יותר",
+      "CONNECT_FAILED": "החיבור נכשל, נא ודא שאתה מחובר לאינטרנט"
     },
     "ANNOUNCEMENTS": {
       "LOADING": "טוען..",
@@ -56,7 +58,7 @@
     },
     "GROUPS": {
       "INVALID_EMAIL_ADDRESS": "כתובת אימייל לא חוקית",
-      "PENDING_USER_EXISTS": "המשתמש כבר קיים ברשימת התלויים",
+      "PENDING_USER_EXISTS": "המשתמש כבר קיים ברשימת הממתינים",
       "GROUP_NAME_EXISTS": "שם הקבוצה כבר תפוס",
       "PLAYER_EXISTS": "המשתמש כבר משתתף באחת מהקבוצות",
       "ADMIN_NOT_ALLOWED_TO_BE_IN_GROUP": "מנהל אינו יכול להשתתף האחת מהקבוצות",
@@ -64,7 +66,8 @@
       "GROUP_NAME_TOO_SHORT": "שם הקבוצה קצר מידי",
       "ENTER_EMAIL_ADDRESS": "הזן כתובת אימייל",
       "ENTER_GROUP_UNIQUE_NAME": "הזן שם קבוצה ייחודי",
-      "PENDING_USERS": "משתמשים תלויים",
+      "PENDING_USERS": "משתמשים ממתינים",
+      "PENDING_USER_DESCRIPTION": "אתה מופיע ברשימת המשתמשים הממתינים להיכנס לעולם",
       "GROUP_INFO": {
         "SET_SCORE_IN_BANK": "הזן ניקוד בבנק",
         "NO_SCORE_IN_BANK": "כרגע אין ניקוד בבנק",
@@ -81,7 +84,7 @@
       "NAME": "שם",
       "EMAIL": "אימייל",
       "SCORE_CURRENT": "ניקוד נוכחי",
-      "SCORE_PENDING": "ניקוד תלוי",
+      "SCORE_PENDING": "ניקוד ממתין",
       "SEE_PLAYER_STATUS": "ראה סטטוס שחקן",
       "SEE_YOUR_PROFILE": "ראה פרופיל שלך"
     },
@@ -94,7 +97,7 @@
     "WORLDS": "עולמות",
     "ADMIN": "מנהל",
     "LEADER": "לידר",
-    "PENDING": "תלוי",
+    "PENDING": "ממתין",
     "YOU": "אתה",
     "WITH_DOTS_AND_SPACE": "{{title}}: ",
     "PLAYERS": "שחקנים",

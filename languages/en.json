@@ -3,6 +3,7 @@
     "LOGIN_TITLE": "Login",
     "REGISTER_TITLE": "Register",
     "HOME_TITLE": "Home",
+    "ERROR": "Error",
     "LOGIN": {
       "EMAIL_ADDRESS": "Email Address",
       "PASSWORD": "Password",
@@ -49,7 +50,8 @@
       "EMAIL_IN_USE": "Email address already in use",
       "AUTHENTICATION_DISABLED": "This authentication is disabled",
       "PASSWORD_TOO_WEAK": "Password is too weak",
-      "UNKNOWN_ERROR": "An error has occurred, please try again later"
+      "UNKNOWN_ERROR": "An error has occurred, please try again later",
+      "CONNECT_FAILED": "Connection failed, please make sure you are connected to the internet"
     },
     "ANNOUNCEMENTS": {
       "LOADING": "Loading..",
@@ -66,6 +68,7 @@
       "ENTER_EMAIL_ADDRESS": "Enter email address",
       "ENTER_GROUP_UNIQUE_NAME": "Enter group unique name",
       "PENDING_USERS": "Pending Users",
+      "PENDING_USER_DESCRIPTION": "You appear on the list of pending users to enter this world",
       "GROUP_INFO": {
         "SET_SCORE_IN_BANK": "Set Score In Bank",
         "NO_SCORE_IN_BANK": "Currently, there is no score in bank",

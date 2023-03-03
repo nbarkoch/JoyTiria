@@ -24,6 +24,7 @@ export function getErrorMessage(code: string): string {
 
     case 'auth/internal-error':
       return t('FIREBASE.UNKNOWN_ERROR');
+
     default:
       return '';
   }

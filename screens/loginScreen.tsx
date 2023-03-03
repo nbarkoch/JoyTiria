@@ -1,5 +1,6 @@
 import React, {useCallback, useEffect, useState} from 'react';
 import {
+  ActivityIndicator,
   KeyboardAvoidingView,
   Platform,
   ScrollView,
@@ -10,7 +11,12 @@ import {
   View,
 } from 'react-native';
 
-import Animated, {FadeInDown, FadeOutDown} from 'react-native-reanimated';
+import Animated, {
+  FadeIn,
+  FadeInDown,
+  FadeOut,
+  FadeOutDown,
+} from 'react-native-reanimated';
 
 import Icon from 'react-native-vector-icons/Ionicons';
 
@@ -21,8 +27,10 @@ import {Error, getErrorMessage} from '../utils/firebase';
 
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import BouncyCheckbox from 'react-native-bouncy-checkbox';
-import {clearStore, useCurrentUser} from '../utils/store';
+import {clearStore, useCurrentUser, useDialog} from '../utils/store';
 import {useTranslate} from '../languages/translations';
+
+const TIMEOUT = 8000;
 
 function LoginScreen() {
   const {t} = useTranslate();
@@ -32,6 +40,8 @@ function LoginScreen() {
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const navigation = useNavigation<ProfileScreenNavigationProp>();
   const removeCurrentUser = useCurrentUser(state => state.removeUser);
+  const setDialog = useDialog(state => state.setDialog);
+  const [waitingAnimation, setWaitingAnimation] = useState<boolean>(false);
   const onPressRegister = () => {
     navigation.navigate('Register');
   };
@@ -56,29 +66,57 @@ function LoginScreen() {
 
   const onPressLogin = async () => {
     try {
+      // If the Request takes too long we need to give up for the user
+      let timeoutRequest: number | null = setTimeout(() => {
+        if (timeoutRequest !== null) {
+          clearTimeout(timeoutRequest);
+          setWaitingAnimation(false);
+          setDialog({
+            title: t('ERROR'),
+            message: t('FIREBASE.CONNECT_FAILED'),
+          });
+          timeoutRequest = null;
+        }
+      }, TIMEOUT);
+
+      setWaitingAnimation(true);
       const userCredentials = await auth().signInWithEmailAndPassword(
         email,
         pass,
       );
-
-      const user = userCredentials.user;
-      console.info('login pressed');
-      if (user.email) {
-        if (checkbox) {
-          const jsonValue = JSON.stringify({email: email, pass: pass});
-          await AsyncStorage.setItem('@login_user', jsonValue);
-        } else {
-          await AsyncStorage.removeItem('@login_user');
+      // if the request doesn't reach the timeout
+      if (timeoutRequest !== null) {
+        clearTimeout(timeoutRequest);
+        setWaitingAnimation(false);
+        const user = userCredentials.user;
+        if (user.email) {
+          if (checkbox) {
+            const jsonValue = JSON.stringify({email: email, pass: pass});
+            await AsyncStorage.setItem('@login_user', jsonValue);
+          } else {
+            await AsyncStorage.removeItem('@login_user');
+          }
+          navigation.navigate('Home', {email: user.email});
         }
-        console.info('login successfully');
-        navigation.navigate('Home', {email: user.email});
       }
     } catch (error) {
-      const timeout = setTimeout(() => {
-        setErrorMessage(null);
-        clearTimeout(timeout);
-      }, 5000);
-      setErrorMessage(getErrorMessage((error as Error).code));
+      const $error = error as Error;
+      setWaitingAnimation(false);
+      switch ($error.code) {
+        case 'auth/network-request-failed':
+        case 'connection/timeout':
+          setDialog({
+            title: t('ERROR'),
+            message: t('FIREBASE.CONNECT_FAILED'),
+          });
+          break;
+        default:
+          const timeout = setTimeout(() => {
+            setErrorMessage(null);
+            clearTimeout(timeout);
+          }, 5000);
+          setErrorMessage(getErrorMessage($error.code));
+      }
     }
   };
 
@@ -151,6 +189,18 @@ function LoginScreen() {
           </TouchableOpacity>
         </View>
       </ScrollView>
+      {waitingAnimation && (
+        <Animated.View
+          entering={FadeIn}
+          exiting={FadeOut}
+          style={styles.waitingAnimationContainer}>
+          <ActivityIndicator
+            style={styles.waitingAnimationIndicator}
+            color={'white'}
+            size="large"
+          />
+        </Animated.View>
+      )}
     </KeyboardAvoidingView>
   );
 }
@@ -232,6 +282,17 @@ const styles = StyleSheet.create({
     width: '45%',
   },
   CheckboxText: {color: '#555555', fontWeight: '500'},
+  waitingAnimationContainer: {
+    position: 'absolute',
+    height: '100%',
+    width: '100%',
+    backgroundColor: '#6acad899',
+  },
+  waitingAnimationIndicator: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
 });
 
 export default LoginScreen;
