@@ -1,4 +1,4 @@
-import React, {useEffect, useRef, useState} from 'react';
+import React, {memo, useEffect, useRef, useState} from 'react';
 import {Platform, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import {TextInput} from 'react-native-gesture-handler';
 import Icon from 'react-native-vector-icons/MaterialIcons';
@@ -233,7 +233,7 @@ function ScoreInBankContainer({
   );
 }
 
-export default ScoreInBankContainer;
+export default memo(ScoreInBankContainer);
 
 const styles = StyleSheet.create({
   container: {
@@ -241,7 +241,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
-  title: {fontSize: 17, color: 'white', fontWeight: 'bold'},
+  title: {fontSize: 17, color: 'white', fontWeight: 'bold', textAlign: 'left'},
   scoreSubview: {
     flexDirection: 'row',
     alignItems: 'center',

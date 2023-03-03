@@ -104,7 +104,7 @@ const AnnouncementsTab: FC = ({}) => {
     );
   }
 
-  if (announcements.length === 0) {
+  if (announcements.length === 0 && !isAdmin) {
     return (
       <View style={styles.loadingState}>
         <Text style={styles.loadingText}>{t('ANNOUNCEMENTS.NO_DATA')}</Text>

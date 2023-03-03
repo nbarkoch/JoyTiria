@@ -100,30 +100,36 @@ const BottomScoresContainer = ({
           </TouchableOpacity>
         </View>
       )}
-
-      <Animated.View
-        entering={SlideInDown.delay(100).duration(500)}
-        exiting={SlideOutDown.duration(500)}
-        style={styles.bottomContainer}>
-        <LinearGradient
-          style={styles.bottomGradient}
-          colors={['white', '#5773a5', '#5773a5', '#b6a2a1']}
-          start={{x: 0, y: -1}}
-          end={{x: 1, y: 2}}>
-          <View style={styles.scoreView}>
-            <Text style={styles.scoreInBank}>
-              {`${t('GROUPS.GROUP_INFO.TOTAL_SCORE')}: ${totalScore}`}
-            </Text>
-            <Icon name={'star'} size={20} style={styles.icon} color="#FFDE52" />
-          </View>
-          <Line />
-          <ScoreInBankContainer
-            scoreInBank={scoreInBank}
-            setScoreInBank={setScoreInBank}
-            submitScoresToPlayers={setBankScoreToPlayers}
-          />
-        </LinearGradient>
-      </Animated.View>
+      {selectedPlayerId === undefined && (
+        <Animated.View
+          entering={SlideInDown.delay(100).duration(500)}
+          exiting={SlideOutDown.duration(500)}
+          style={styles.bottomContainer}>
+          <LinearGradient
+            style={styles.bottomGradient}
+            colors={['white', '#5773a5', '#5773a5', '#b6a2a1']}
+            start={{x: 0, y: -1}}
+            end={{x: 1, y: 2}}>
+            <View style={styles.scoreView}>
+              <Text style={styles.scoreInBank}>
+                {`${t('GROUPS.GROUP_INFO.TOTAL_SCORE')}: ${totalScore}`}
+              </Text>
+              <Icon
+                name={'star'}
+                size={20}
+                style={styles.icon}
+                color="#FFDE52"
+              />
+            </View>
+            <Line />
+            <ScoreInBankContainer
+              scoreInBank={scoreInBank}
+              setScoreInBank={setScoreInBank}
+              submitScoresToPlayers={setBankScoreToPlayers}
+            />
+          </LinearGradient>
+        </Animated.View>
+      )}
     </Animated.View>
   );
 };
@@ -132,13 +138,15 @@ const Line = () => <View style={styles.line} />;
 
 const styles = StyleSheet.create({
   container: {position: 'absolute', width: '100%', bottom: 0},
-  header: {justifyContent: 'space-between', flexDirection: 'row'},
+  header: {
+    justifyContent: 'space-between',
+    flexDirection: 'row',
+    marginBottom: 5,
+  },
   bottomContainer: {
     backgroundColor: 'white',
-
     borderTopLeftRadius: 30,
     borderTopRightRadius: 30,
-
     shadowColor: '#222aff',
     shadowOffset: {width: 0, height: 1},
     shadowOpacity: 0.5,

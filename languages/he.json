@@ -61,7 +61,7 @@
       "PENDING_USER_EXISTS": "המשתמש כבר קיים ברשימת הממתינים",
       "GROUP_NAME_EXISTS": "שם הקבוצה כבר תפוס",
       "PLAYER_EXISTS": "המשתמש כבר משתתף באחת מהקבוצות",
-      "ADMIN_NOT_ALLOWED_TO_BE_IN_GROUP": "מנהל אינו יכול להשתתף האחת מהקבוצות",
+      "ADMIN_NOT_ALLOWED_TO_BE_IN_GROUP": "מנהל אינו יכול להשתתף באחת מהקבוצות",
       "SOMETHING_WENT_WRONG": "משהו משתבש",
       "GROUP_NAME_TOO_SHORT": "שם הקבוצה קצר מידי",
       "ENTER_EMAIL_ADDRESS": "הזן כתובת אימייל",

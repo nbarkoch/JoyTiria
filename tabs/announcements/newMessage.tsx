@@ -59,7 +59,9 @@ const NewMessage: FC<NewMessageProps> = ({scrollToBottom = () => {}}) => {
         <TextInput
           ref={textInputRef}
           style={styles.textInput}
-          onChangeText={setMessage}>
+          onChangeText={setMessage}
+          multiline={true}
+          numberOfLines={1}>
           {message}
         </TextInput>
         <TouchableOpacity>
@@ -99,6 +101,8 @@ const styles = StyleSheet.create({
     blurOnSubmit: false,
     color: '#333f',
     fontSize: 18,
+    backgroundColor: '#F9FAFA',
+    borderRadius: 20,
   },
   iconButton: {paddingVertical: 5, paddingHorizontal: 10},
 });

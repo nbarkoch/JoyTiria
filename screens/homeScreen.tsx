@@ -226,9 +226,10 @@ function HomeScreen() {
               return <Icon name={'reader'} size={30} color={color} />;
             }
           },
-          tabBarActiveTintColor: 'tomato',
+          tabBarActiveTintColor: '#6acad8',
           tabBarInactiveTintColor: 'gray',
           tabBarHideOnKeyboard: true,
+          tabBarShowLabel: false,
         })}>
         <Tab.Screen
           name="Announcements"
