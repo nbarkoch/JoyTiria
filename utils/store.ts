@@ -263,10 +263,24 @@ export const useKeyboard = create<KeyboardState>(set => ({
 }));
 
 export const clearStore = () => {
-  useCurrentUser.setState(() => ({}));
-  useCurrentWorld.setState(() => ({}));
-  useSelectionProgress.setState(() => ({}));
-  useSelectionPlayerProgress.setState(() => ({}));
-  useGroupInfo.setState(() => ({}));
-  useProfile.setState(() => ({}));
+  useCurrentUser.setState(() => ({
+    user: undefined,
+    selectedWorldHeader: undefined,
+  }));
+  useCurrentWorld.setState(() => ({
+    currentWorld: undefined,
+  }));
+  useSelectionProgress.setState(() => ({
+    inProgress: false,
+    deleteActivated: false,
+  }));
+  useSelectionPlayerProgress.setState(() => ({
+    selectedPlayer: undefined,
+  }));
+  useGroupInfo.setState(() => ({
+    groupId: undefined,
+  }));
+  useProfile.setState(() => ({
+    userProfileId: undefined,
+  }));
 };
