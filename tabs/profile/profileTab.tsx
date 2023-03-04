@@ -162,7 +162,15 @@ function ProfileTab() {
                 {...item}
                 highlight={highlightedPlayer === item.docRef.id}
                 onPress={() => {
-                  setUserProfileId(item.docRef.id);
+                  if (userProfileId === item.docRef.id) {
+                    scrollRef.current?.scrollToOffset({
+                      offset: 0,
+                      animated: true,
+                    });
+                  } else {
+                    // only if succeed getting user profile then scroll
+                    setUserProfileId(item.docRef.id);
+                  }
                 }}
               />
             </View>
