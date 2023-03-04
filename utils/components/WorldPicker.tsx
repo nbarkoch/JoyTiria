@@ -225,7 +225,7 @@ function WorldPicker({
     </>
   );
 
-  const renderDropdown = (): ReactElement<any, any> => {
+  const renderDropdown = (): JSX.Element => {
     return (
       <Modal visible={visible} transparent animationType="none">
         <TouchableOpacity
