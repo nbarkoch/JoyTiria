@@ -10,7 +10,6 @@ import Settings from './settings';
 import Animated, {
   useAnimatedStyle,
   useSharedValue,
-  withRepeat,
   withTiming,
 } from 'react-native-reanimated';
 import WorldPicker from '../utils/components/WorldPicker';
