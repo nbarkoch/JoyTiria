@@ -1,5 +1,10 @@
 import React, {useState, useRef, useEffect} from 'react';
-import {StyleSheet, TextInput, TouchableOpacity} from 'react-native';
+import {
+  I18nManager,
+  StyleSheet,
+  TextInput,
+  TouchableOpacity,
+} from 'react-native';
 import {
   Transition,
   TransitioningView,
@@ -41,7 +46,7 @@ function AnimatedIcon({
       const timeout = setTimeout(() => {
         textInputRef.current?.focus();
         clearTimeout(timeout);
-      }, TRANSITION_DURATION);
+      }, TRANSITION_DURATION + 50);
     } else {
       textInputRef.current?.blur();
     }
@@ -77,20 +82,22 @@ function AnimatedIcon({
           setOpen(true);
         }}>
         <Icon name={icon} size={35} color="#555555" style={styles.icon} />
-        <TextInput
-          ref={textInputRef}
-          style={styles.textInput}
-          placeholderTextColor={'#AAAA'}
-          onFocus={() => {
-            if (!keyboardOpened) {
-              onFocus(offset.current ?? 0);
-            }
-          }}
-          textContentType={'emailAddress'}
-          placeholder={placeHolder}
-          value={value}
-          onChangeText={setValue}
-        />
+        {open && (
+          <TextInput
+            ref={textInputRef}
+            style={styles.textInput}
+            placeholderTextColor={'#AAAA'}
+            onFocus={() => {
+              if (!keyboardOpened) {
+                onFocus(offset.current !== undefined ? offset.current + 5 : 0);
+              }
+            }}
+            textContentType={'emailAddress'}
+            placeholder={placeHolder}
+            value={value}
+            onChangeText={setValue}
+          />
+        )}
         {open && (
           <>
             <TouchableOpacity
@@ -138,6 +145,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
     paddingVertical: 0,
     color: 'black',
+    textAlign: I18nManager.isRTL ? 'right' : 'left',
   },
 
   icon: {},

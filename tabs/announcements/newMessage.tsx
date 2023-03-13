@@ -1,12 +1,10 @@
 import React, {FC, useRef, useState} from 'react';
 import {
   I18nManager,
-  StyleProp,
   StyleSheet,
   TextInput,
   TouchableOpacity,
   TouchableWithoutFeedback,
-  ViewStyle,
 } from 'react-native';
 import {View} from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
@@ -18,10 +16,13 @@ const ICON_SIZE = 35;
 
 interface NewMessageProps {
   scrollToBottom?: () => void;
-  style?: StyleProp<ViewStyle>;
+  style?: any;
 }
 
-const NewMessage: FC<NewMessageProps> = ({scrollToBottom = () => {}}) => {
+const NewMessage: FC<NewMessageProps> = ({
+  scrollToBottom = () => {},
+  style,
+}) => {
   const [message, setMessage] = useState<string>('');
   const sendDisabled = message === '';
   const announcements = useCurrentWorld(
@@ -55,16 +56,20 @@ const NewMessage: FC<NewMessageProps> = ({scrollToBottom = () => {}}) => {
       onPress={() => {
         textInputRef.current?.focus();
       }}>
-      <View style={[styles.newMessageContainer]}>
-        <TextInput
-          ref={textInputRef}
-          style={styles.textInput}
-          onChangeText={setMessage}
-          multiline={true}
-          numberOfLines={1}>
-          {message}
-        </TextInput>
-        <TouchableOpacity>
+      <View style={[styles.newMessageContainer, style]}>
+        <View style={styles.inputContainer}>
+          <TextInput
+            ref={textInputRef}
+            style={styles.textInput}
+            onChangeText={setMessage}
+            multiline={true}
+            textAlignVertical={'center'}
+            numberOfLines={1}>
+            {message}
+          </TextInput>
+        </View>
+
+        <TouchableOpacity style={styles.buttonContainer}>
           <Icon
             disabled={sendDisabled}
             onPress={sendMessage}
@@ -88,9 +93,16 @@ const styles = StyleSheet.create({
   newMessageContainer: {
     backgroundColor: 'white',
     flexDirection: 'row',
-    alignItems: 'center',
     paddingHorizontal: 10,
     paddingVertical: 10,
+  },
+  inputContainer: {
+    flex: 1,
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: '#F9FAFA',
+    borderRadius: 20,
+    maxHeight: 150,
   },
   textInput: {
     flex: 1,
@@ -101,8 +113,13 @@ const styles = StyleSheet.create({
     blurOnSubmit: false,
     color: '#333f',
     fontSize: 18,
-    backgroundColor: '#F9FAFA',
-    borderRadius: 20,
   },
-  iconButton: {paddingVertical: 5, paddingHorizontal: 10},
+  iconButton: {
+    alignSelf: 'flex-end',
+    paddingVertical: 5,
+    paddingHorizontal: 10,
+  },
+  buttonContainer: {
+    justifyContent: 'flex-end',
+  },
 });

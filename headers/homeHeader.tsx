@@ -1,13 +1,19 @@
-import React, {FC, useCallback, useState} from 'react';
-import {StyleSheet, View} from 'react-native';
+import React, {FC, useCallback, useEffect, useState} from 'react';
+import {StyleSheet, TouchableOpacity, View} from 'react-native';
 
 import {useNavigation} from '@react-navigation/native';
 import {ProfileScreenNavigationProp} from '../navigation';
 
 import Icon from 'react-native-vector-icons/Ionicons';
-import WorldPicker from '../utils/components/worldPicker';
 import {useCurrentUser, WorldHeader} from '../utils/store';
 import Settings from './settings';
+import Animated, {
+  useAnimatedStyle,
+  useSharedValue,
+  withRepeat,
+  withTiming,
+} from 'react-native-reanimated';
+import WorldPicker from '../utils/components/WorldPicker';
 
 interface HeaderProps {
   worlds: WorldHeader[];
@@ -28,8 +34,19 @@ const HomeHeader: FC<HeaderProps> = ({
     [setCurrentWorld],
   );
 
+  const rotation = useSharedValue(0);
+
+  const animatedStyle = useAnimatedStyle(() => {
+    return {
+      transform: [{rotateZ: `${rotation.value}deg`}],
+    };
+  });
+
   const [showSettings, setShowSettings] = useState<boolean>(false);
 
+  useEffect(() => {
+    rotation.value = withTiming(showSettings ? 90 : 0);
+  });
   const navigation = useNavigation<ProfileScreenNavigationProp>();
   return (
     <View style={styles.headerContainer}>
@@ -40,15 +57,20 @@ const HomeHeader: FC<HeaderProps> = ({
           onCreateNewWorld={onCreateWorld}
           onDeleteWorld={onDeleteWorld}
         />
-        <Icon
+        <TouchableOpacity
           onPress={() => {
             setShowSettings(!showSettings);
-          }}
-          name="settings-outline"
-          size={35}
-          color="#555555"
-          style={styles.iconButton}
-        />
+          }}>
+          <Animated.View style={animatedStyle}>
+            <Icon
+              name="settings-outline"
+              size={35}
+              color="#555555"
+              style={styles.iconButton}
+            />
+          </Animated.View>
+        </TouchableOpacity>
+
         <Icon
           onPress={() => navigation.navigate('Login')}
           name="exit-outline"

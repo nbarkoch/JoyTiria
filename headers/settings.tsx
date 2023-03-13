@@ -41,7 +41,6 @@ function Settings({onClose}: SettingsProps) {
   const languages: Array<Language> = useMemo(() => {
     const langs = i18n.options.resources;
     const langNames = [];
-    console.log(i18n.t('LANGUAGE'));
     for (const lang in langs) {
       langNames.push({
         key: lang,

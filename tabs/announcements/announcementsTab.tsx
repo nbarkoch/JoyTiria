@@ -147,12 +147,22 @@ const AnnouncementsTab: FC = ({}) => {
       ? {
           height:
             (flatListHeight.current ?? 0) +
-            ICON_SIZE +
-            (Platform.OS === 'ios' ? -20 : -50) -
+            ICON_SIZE -
+            (Platform.OS === 'ios' ? 20 : 50) -
             keyboardOffset,
           flexGrow: 0,
         }
       : {flex: 1}),
+  };
+
+  const messageStyle = {
+    position: 'absolute',
+    bottom:
+      keyboardOffset !== undefined
+        ? Platform.OS === 'ios'
+          ? keyboardOffset - 35
+          : 22
+        : 0,
   };
 
   const containerStyle =
@@ -181,7 +191,7 @@ const AnnouncementsTab: FC = ({}) => {
             80;
         }}
       />
-      {Boolean(isAdmin) && <NewMessage />}
+      {Boolean(isAdmin) && <NewMessage style={messageStyle} />}
     </KeyboardAvoidingView>
   );
 };
