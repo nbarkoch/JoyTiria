@@ -58,19 +58,20 @@ function ProfileTab() {
       return [];
     }
     const {admins, pendingUsers, groups} = currentWorld;
-    let $players = groups.map(g => g.players).flat();
-    if (admins !== undefined) {
-      $players = $players.concat(
-        admins.map(admin => ({
-          docRef: admin,
-          score: 0,
-          pendingScore: undefined,
-        })),
-      );
-    }
-    if (pendingUsers !== undefined) {
-      $players = $players.concat(pendingUsers);
-    }
+
+    // players
+    const $players = groups.map(g => g.players).flat();
+    // admins
+    $players.push(
+      ...admins.map(admin => ({
+        docRef: admin,
+        score: 0,
+        pendingScore: undefined,
+      })),
+    );
+    // pending
+    $players.push(...(pendingUsers ?? []));
+
     return $players;
   }, [currentWorld]);
 
