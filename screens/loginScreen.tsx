@@ -65,20 +65,19 @@ function LoginScreen() {
   );
 
   const onPressLogin = async () => {
+    let timeoutRequest: number | null = setTimeout(() => {
+      if (timeoutRequest !== null) {
+        clearTimeout(timeoutRequest);
+        setWaitingAnimation(false);
+        setDialog({
+          title: t('ERROR'),
+          message: t('FIREBASE.CONNECT_FAILED'),
+        });
+        timeoutRequest = null;
+      }
+    }, TIMEOUT);
     try {
       // If the Request takes too long we need to give up for the user
-      let timeoutRequest: number | null = setTimeout(() => {
-        if (timeoutRequest !== null) {
-          clearTimeout(timeoutRequest);
-          setWaitingAnimation(false);
-          setDialog({
-            title: t('ERROR'),
-            message: t('FIREBASE.CONNECT_FAILED'),
-          });
-          timeoutRequest = null;
-        }
-      }, TIMEOUT);
-
       setWaitingAnimation(true);
       const userCredentials = await auth().signInWithEmailAndPassword(
         email,
@@ -101,6 +100,7 @@ function LoginScreen() {
       }
     } catch (error) {
       const $error = error as Error;
+      clearTimeout(timeoutRequest);
       setWaitingAnimation(false);
       switch ($error.code) {
         case 'auth/network-request-failed':
@@ -108,6 +108,12 @@ function LoginScreen() {
           setDialog({
             title: t('ERROR'),
             message: t('FIREBASE.CONNECT_FAILED'),
+          });
+          break;
+        case 'auth/unknown':
+          setDialog({
+            title: t('ERROR'),
+            message: t('FIREBASE.UNKNOWN_ERROR'),
           });
           break;
         default:

@@ -23,6 +23,7 @@ export function getErrorMessage(code: string): string {
       return t('FIREBASE.PASSWORD_TOO_WEAK');
 
     case 'auth/internal-error':
+    case 'auth/unknown':
       return t('FIREBASE.UNKNOWN_ERROR');
 
     default:

@@ -241,7 +241,7 @@ function RegisterScreen() {
               {t('REGISTER.WELCOME', {name})}
             </Text>
             <TouchableOpacity
-              style={styles.doneButton}
+              style={[styles.doneButton]}
               onPress={() => {
                 navigation.goBack();
               }}>
