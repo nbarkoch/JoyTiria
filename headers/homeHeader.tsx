@@ -1,9 +1,6 @@
 import React, {FC, useCallback, useEffect, useState} from 'react';
 import {StyleSheet, TouchableOpacity, View} from 'react-native';
 
-import {useNavigation} from '@react-navigation/native';
-import {ProfileScreenNavigationProp} from '../navigation';
-
 import Icon from 'react-native-vector-icons/Ionicons';
 import {useCurrentUser, WorldHeader} from '../utils/store';
 import Settings from './settings';
@@ -18,12 +15,14 @@ interface HeaderProps {
   worlds: WorldHeader[];
   onCreateWorld: (name: string) => Promise<boolean>;
   onDeleteWorld: (world: WorldHeader) => Promise<boolean>;
+  onLogOut: () => void;
 }
 
 const HomeHeader: FC<HeaderProps> = ({
   worlds,
   onCreateWorld,
   onDeleteWorld,
+  onLogOut,
 }) => {
   const setCurrentWorld = useCurrentUser(state => state.setWorldRef);
   const onSelectWorldRef = useCallback(
@@ -46,7 +45,7 @@ const HomeHeader: FC<HeaderProps> = ({
   useEffect(() => {
     rotation.value = withTiming(showSettings ? 90 : 0);
   });
-  const navigation = useNavigation<ProfileScreenNavigationProp>();
+
   return (
     <View style={styles.headerContainer}>
       <View style={styles.header}>
@@ -71,7 +70,7 @@ const HomeHeader: FC<HeaderProps> = ({
         </TouchableOpacity>
 
         <Icon
-          onPress={() => navigation.navigate('Login')}
+          onPress={onLogOut}
           name="exit-outline"
           size={35}
           color="#555555"

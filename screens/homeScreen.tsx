@@ -1,9 +1,16 @@
-import React, {useCallback, useEffect} from 'react';
-import {Keyboard, StyleSheet, Text, View} from 'react-native';
+import React, {useCallback, useEffect, useState} from 'react';
+import {
+  ActivityIndicator,
+  Keyboard,
+  StyleSheet,
+  Text,
+  View,
+} from 'react-native';
 
-import {RouteProp, useRoute} from '@react-navigation/native';
+import auth from '@react-native-firebase/auth';
+import {RouteProp, useNavigation, useRoute} from '@react-navigation/native';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
-import {RootStackParamList} from '../navigation';
+import {ProfileScreenNavigationProp, RootStackParamList} from '../navigation';
 import ProfileTab from '../tabs/profile/profileTab';
 import GroupsTab, {GroupsTabHeaderLeft} from '../tabs/groups/groupsTab';
 import AnnouncementsTab, {
@@ -26,6 +33,7 @@ import Snackbar from '../dialogs/snackbar';
 import ProfileTabHeader from '../tabs/profile/profileTabHeader';
 import {useTranslate} from '../languages/translations';
 import HomeHeader from '../headers/homeHeader';
+import Animated, {FadeIn, FadeOut} from 'react-native-reanimated';
 
 function HomeScreen() {
   const Tab = createBottomTabNavigator();
@@ -41,6 +49,8 @@ function HomeScreen() {
   const currentWorldData = useCurrentWorld(state => state.currentWorld);
   const groupName = useGroupInfo(state => state.groupName);
   const setDialog = useDialog(state => state.setDialog);
+  const [waitingAnimation, setWaitingAnimation] = useState<boolean>(false);
+  const navigation = useNavigation<ProfileScreenNavigationProp>();
 
   const createNewWorld = useCallback(
     async (name: string) => {
@@ -80,6 +90,31 @@ function HomeScreen() {
   );
 
   const setKeyboardHeight = useKeyboard(state => state.setHeight);
+
+  const onLogOut = useCallback(async () => {
+    try {
+      setWaitingAnimation(true);
+      await auth().signOut();
+      navigation.navigate('Login');
+    } catch (error) {
+      const $error = error as {code: string};
+      setWaitingAnimation(false);
+      switch ($error.code) {
+        case 'auth/network-request-failed':
+        case 'connection/timeout':
+          setDialog({
+            title: t('ERROR'),
+            message: t('FIREBASE.CONNECT_FAILED'),
+          });
+          break;
+        default:
+          setDialog({
+            title: t('ERROR'),
+            message: t('FIREBASE.UNKNOWN_ERROR'),
+          });
+      }
+    }
+  }, [navigation, setDialog, t]);
 
   useEffect(() => {
     const showSubscription = Keyboard.addListener('keyboardDidShow', event => {
@@ -259,8 +294,21 @@ function HomeScreen() {
         worlds={worlds}
         onCreateWorld={createNewWorld}
         onDeleteWorld={onDeleteWorld}
+        onLogOut={onLogOut}
       />
       <Snackbar />
+      {waitingAnimation && (
+        <Animated.View
+          entering={FadeIn}
+          exiting={FadeOut}
+          style={styles.waitingAnimationContainer}>
+          <ActivityIndicator
+            style={styles.waitingAnimationIndicator}
+            color={'white'}
+            size="large"
+          />
+        </Animated.View>
+      )}
     </View>
   );
 }
@@ -291,6 +339,17 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   loadingStyle: {color: 'black', fontSize: 25, textAlign: 'center'},
+  waitingAnimationContainer: {
+    position: 'absolute',
+    height: '100%',
+    width: '100%',
+    backgroundColor: '#6acad899',
+  },
+  waitingAnimationIndicator: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
 });
 
 export default HomeScreen;
