@@ -15,6 +15,7 @@ import ProfileHeader from './profileHeader';
 import {RouteProp, useRoute} from '@react-navigation/native';
 import {TabsStackParamList} from '../../navigation';
 import fb from '@react-native-firebase/firestore';
+import {useTranslate} from '../../languages/translations';
 
 const Header = ({
   userPreview,
@@ -46,6 +47,10 @@ function ProfileTab() {
     useRoute<RouteProp<TabsStackParamList, 'Profile'>>().params.userId;
   const userProfileId = useProfile(state => state.userProfileId);
   const setUserProfileId = useProfile(state => state.setUserProfileId);
+  const userProfileIdLookup = useProfile(state => state.userProfileIdLookup);
+  const setUserProfileIdLookup = useProfile(
+    state => state.setUserProfileIdLookup,
+  );
 
   const [userPreview, setUserPreview] = useState<UserPreview | undefined>(
     undefined,
@@ -85,7 +90,7 @@ function ProfileTab() {
   useEffect(() => {
     const subscriber = fb()
       .collection('Users')
-      .doc(userProfileId)
+      .doc(userProfileIdLookup)
       .onSnapshot(async userDoc => {
         const usr = userDoc.data();
         if (!isUndefined(usr)) {
@@ -95,6 +100,7 @@ function ProfileTab() {
             worlds: usr.worlds as WorldPreview[] | undefined,
             image: usr.image as ImageType | undefined,
           });
+          setUserProfileId(userProfileIdLookup);
         } else {
           setUserPreview(undefined);
         }
@@ -106,13 +112,13 @@ function ProfileTab() {
         subscriber();
       }
     };
-  }, [userProfileId]);
+  }, [setUserProfileId, userProfileIdLookup]);
 
   const [highlightedPlayer, setHighlightedPlayer] = useState<
     string | undefined
   >(undefined);
   const numHighlighted = useRef<number>(0);
-
+  const {t} = useTranslate();
   const scrollRef = useRef<FlatList>(null);
 
   const scrollToPlayer = useCallback(() => {
@@ -135,17 +141,21 @@ function ProfileTab() {
   }, [userPlayer]);
 
   const setCurrentUser = useCallback(() => {
-    setUserProfileId(curUserId);
-  }, [curUserId, setUserProfileId]);
+    if (!isUndefined(curUserId)) {
+      setUserProfileIdLookup(curUserId);
+    }
+  }, [curUserId, setUserProfileIdLookup]);
 
   useEffect(() => {
-    setUserProfileId(userIdFromParamRoute);
-  }, [setUserProfileId, userIdFromParamRoute]);
+    if (!isUndefined(userIdFromParamRoute)) {
+      setUserProfileIdLookup(userIdFromParamRoute);
+    }
+  }, [setUserProfileIdLookup, userIdFromParamRoute]);
 
   if (userPreview === undefined) {
     return (
       <View style={styles.notFound}>
-        <Text style={styles.textNotFound}>{'User not found'}</Text>
+        <Text style={styles.textNotFound}>{t('PROFILE.USER_NOT_FOUND')}</Text>
       </View>
     );
   }
@@ -170,7 +180,7 @@ function ProfileTab() {
                     });
                   } else {
                     // only if succeed getting user profile then scroll
-                    setUserProfileId(item.docRef.id);
+                    setUserProfileIdLookup(item.docRef.id);
                   }
                 }}
               />

@@ -22,26 +22,23 @@ const ProfileTabHeader = (): BottomTabNavigationOptions => {
   const textInputRef = useRef<TextInput>(null);
   const curUserId = useCurrentUser(state => state.user?.ref.id);
   const userProfileId = useProfile(state => state.userProfileId);
-  const setUserProfileId = useProfile(state => state.setUserProfileId);
+  const userProfileIdLookup = useProfile(state => state.userProfileIdLookup);
+  const searchFor = useProfile(state => state.setUserProfileIdLookup);
   const {t} = useTranslate();
-  const searchFor = useCallback(
-    (text: string) => {
-      setUserProfileId(text);
-    },
-    [setUserProfileId],
-  );
 
   const handleBackButtonClick = useCallback(() => {
     if (searchActive) {
       setSearchActive(false);
-      if (!isUndefined(curUserId)) {
+      if (!isUndefined(userProfileId)) {
+        searchFor(userProfileId);
+      } else if (!isUndefined(curUserId)) {
         searchFor(curUserId);
       }
       setValue('');
       return true;
     }
     return false;
-  }, [curUserId, searchActive, searchFor]);
+  }, [searchActive, userProfileId, curUserId, searchFor]);
 
   useEffect(() => {
     BackHandler.addEventListener('hardwareBackPress', handleBackButtonClick);
@@ -56,13 +53,13 @@ const ProfileTabHeader = (): BottomTabNavigationOptions => {
   useEffect(() => {
     if (
       searchActive &&
-      userProfileId !== undefined &&
-      userProfileId.length > 0 &&
+      userProfileIdLookup !== undefined &&
+      userProfileIdLookup.length > 0 &&
       !textInputRef.current?.isFocused()
     ) {
-      setValue(userProfileId);
+      setValue(userProfileIdLookup);
     }
-  }, [searchActive, userProfileId]);
+  }, [searchActive, userProfileIdLookup]);
 
   useEffect(() => {
     if (searchActive) {

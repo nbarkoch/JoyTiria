@@ -146,22 +146,19 @@ const AnnouncementsTab: FC = ({}) => {
     ...(keyboardOffset !== undefined
       ? {
           height:
-            (flatListHeight.current ?? 0) +
-            ICON_SIZE -
-            (Platform.OS === 'ios' ? 20 : 50) -
-            keyboardOffset,
+            (flatListHeight.current ?? 0) + ICON_SIZE - keyboardOffset + 50,
           flexGrow: 0,
         }
       : {flex: 1}),
   };
 
   const messageStyle = {
-    position: 'absolute',
+    position: keyboardOffset !== undefined ? 'absolute' : 'relative',
     bottom:
       keyboardOffset !== undefined
         ? Platform.OS === 'ios'
-          ? keyboardOffset - 35
-          : 22
+          ? keyboardOffset - ICON_SIZE
+          : 60
         : 0,
   };
 

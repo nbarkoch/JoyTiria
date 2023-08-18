@@ -86,7 +86,8 @@
       "SCORE_CURRENT": "ניקוד נוכחי",
       "SCORE_PENDING": "ניקוד ממתין",
       "SEE_PLAYER_STATUS": "ראה סטטוס שחקן",
-      "SEE_YOUR_PROFILE": "ראה פרופיל שלך"
+      "SEE_YOUR_PROFILE": "ראה פרופיל שלך",
+      "USER_NOT_FOUND": "משתמש לא נמצא"
     },
     "NO_WORLDS_FOUND": "המשתמש לא מחובר לשום עולם כרגע",
     "ADD_NEW_WORLD": "הוסף חדש",

@@ -87,7 +87,8 @@
       "SCORE_CURRENT": "Current Score",
       "SCORE_PENDING": "Pending Score",
       "SEE_PLAYER_STATUS": "See Player Status",
-      "SEE_YOUR_PROFILE": "See Your Profile"
+      "SEE_YOUR_PROFILE": "See Your Profile",
+      "USER_NOT_FOUND": "User not found"
     },
     "NO_WORLDS_FOUND": "This user doesn't connected to any world",
     "ADD_NEW_WORLD": "Add new",

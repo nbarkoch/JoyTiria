@@ -244,12 +244,16 @@ export const useGroupInfo = create<GroupInfoState>(set => ({
 interface ProfileState {
   userProfileId?: string;
   setUserProfileId: (userId: string | undefined) => void;
+  userProfileIdLookup: string;
+  setUserProfileIdLookup: (userId: string) => void;
 }
 
 export const useProfile = create<ProfileState>(set => ({
   userProfileId: undefined,
   setUserProfileId: userId =>
     set(state => ({userProfileId: userId ?? state.userProfileId})),
+  userProfileIdLookup: '',
+  setUserProfileIdLookup: userId => set(() => ({userProfileIdLookup: userId})),
 }));
 
 interface KeyboardState {
