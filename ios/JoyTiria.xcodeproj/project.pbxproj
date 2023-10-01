@@ -13,7 +13,7 @@
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
 		5BB96282C68FCF9E46F4EB88 /* Pods_JoyTiria_JoyTiriaTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 87E91D6E38B05A2B37456905 /* Pods_JoyTiria_JoyTiriaTests.framework */; };
 		615222B1293E90A700BF613D /* fonts in Resources */ = {isa = PBXBuildFile; fileRef = 615222B0293E90A700BF613D /* fonts */; };
-		615702BC294071F5004111D7 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 615702BB294071F5004111D7 /* GoogleService-Info.plist */; };
+		61722D862AC99C4500025B3F /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 61722D852AC99C4500025B3F /* GoogleService-Info.plist */; };
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
 		ED8D61F114BD372429401319 /* Pods_JoyTiria.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3F9C164616F8EA0BF35C58A8 /* Pods_JoyTiria.framework */; };
 /* End PBXBuildFile section */
@@ -44,6 +44,7 @@
 		5B7EB9410499542E8C5724F5 /* Pods-JoyTiria-JoyTiriaTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-JoyTiria-JoyTiriaTests.debug.xcconfig"; path = "Target Support Files/Pods-JoyTiria-JoyTiriaTests/Pods-JoyTiria-JoyTiriaTests.debug.xcconfig"; sourceTree = "<group>"; };
 		615222B0293E90A700BF613D /* fonts */ = {isa = PBXFileReference; lastKnownFileType = folder; path = fonts; sourceTree = "<group>"; };
 		615702BB294071F5004111D7 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../../Downloads/GoogleService-Info.plist"; sourceTree = "<group>"; };
+		61722D852AC99C4500025B3F /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = JoyTiria/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		87E91D6E38B05A2B37456905 /* Pods_JoyTiria_JoyTiriaTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_JoyTiria_JoyTiriaTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		89C6BE57DB24E9ADA2F236DE /* Pods-JoyTiria-JoyTiriaTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-JoyTiria-JoyTiriaTests.release.xcconfig"; path = "Target Support Files/Pods-JoyTiria-JoyTiriaTests/Pods-JoyTiria-JoyTiriaTests.release.xcconfig"; sourceTree = "<group>"; };
@@ -121,6 +122,7 @@
 		83CBB9F61A601CBA00E9B192 = {
 			isa = PBXGroup;
 			children = (
+				61722D852AC99C4500025B3F /* GoogleService-Info.plist */,
 				615222B0293E90A700BF613D /* fonts */,
 				13B07FAE1A68108700A75B9A /* JoyTiria */,
 				832341AE1AAA6A7D00B99B32 /* Libraries */,
@@ -248,7 +250,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */,
-				615702BC294071F5004111D7 /* GoogleService-Info.plist in Resources */,
+				61722D862AC99C4500025B3F /* GoogleService-Info.plist in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
 				615222B1293E90A700BF613D /* fonts in Resources */,
 			);
