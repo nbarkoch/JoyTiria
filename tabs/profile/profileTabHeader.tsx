@@ -130,6 +130,7 @@ const styles = StyleSheet.create({
     flex: 1,
     paddingHorizontal: 5,
     fontSize: 18,
+    color: '#555555',
   },
   icon: {paddingHorizontal: 5},
   headerRight: {justifyContent: 'center', alignItems: 'center', padding: 5},

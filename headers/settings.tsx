@@ -33,7 +33,12 @@ function Settings({onClose}: SettingsProps) {
 
   const onLangSelect = useCallback(async (lang: Language) => {
     await i18n.changeLanguage(lang.key);
-    I18nManager.forceRTL(i18n.t('isRTL'));
+    if (i18n.t('isRTL')) {
+      I18nManager.forceRTL(true);
+    } else {
+      I18nManager.forceRTL(false);
+      I18nManager.allowRTL(false);
+    }
     await AsyncStorage.setItem('@language', lang.key);
     // RNRestart.Restart();
   }, []);
@@ -102,6 +107,7 @@ const styles = StyleSheet.create({
     flex: 1,
     paddingVertical: 5,
     textAlign: 'left',
+    color: '#555555',
   },
 });
 
